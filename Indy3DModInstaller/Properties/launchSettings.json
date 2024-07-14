@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Indy3DModInstaller": {
+      "commandName": "Project",
+      "commandLineArgs": "mod=sed"
+    }
+  }
+}
