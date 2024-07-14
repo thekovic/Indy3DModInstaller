@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
 using System.Diagnostics;
-using System.Text;
 
 internal class Program
 {
@@ -256,5 +255,8 @@ internal class Program
         {
             Indy3D_Uninstall();
         }
+
+        Console.WriteLine("Installer finished successfully. Press any key to exit.");
+        Console.ReadKey();
     }
 }
