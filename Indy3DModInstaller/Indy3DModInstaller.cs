@@ -2,6 +2,13 @@
 
 namespace Indy3DModInstaller;
 
+internal class Indy3DRegistryEntry(string gameVersionId, string registryKey)
+{
+    public string GameVersionId { get; set; } = gameVersionId;
+
+    public string RegistryKey { get; set; } = registryKey;
+}
+
 internal class Indy3DModInstaller
 {
     public static void Unpack()
@@ -64,29 +71,26 @@ internal class Indy3DModInstaller
             return;
         }
 
-        string[] registryKeys = [
-            // Steam
-            "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0",
-            // GOG
-            "HKEY_CURRENT_USER\\SOFTWARE\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0",
-            // CD
-            "HKEY_LOCAL_MACHINE\\Software\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"
+        Indy3DRegistryEntry[] registryEntries = [
+            new Indy3DRegistryEntry("Steam", "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
+            new Indy3DRegistryEntry("GOG", "HKEY_CURRENT_USER\\SOFTWARE\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
+            new Indy3DRegistryEntry("CD", "HKEY_LOCAL_MACHINE\\Software\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0")
         ];
 
-        foreach (string gameVersionKey in registryKeys)
+        foreach (Indy3DRegistryEntry registryEntry in registryEntries)
         {
-            object? registryKey = Registry.GetValue(gameVersionKey, "Start Mode", 42);
+            object? registryKey = Registry.GetValue(registryEntry.RegistryKey, "Start Mode", 42);
             if (registryKey == null)
             {
                 continue;
             }
 
-            Console.WriteLine($"Found {gameVersionKey}");
+            Console.WriteLine($"Found entry for {registryEntry.GameVersionId} version.");
             int startMode = (int) registryKey;
             if (startMode != 2)
             {
                 Console.WriteLine("Enabling Dev Mode for Indy3D.exe...");
-                Registry.SetValue(gameVersionKey, "Start Mode", 2, RegistryValueKind.DWord);
+                Registry.SetValue(registryEntry.RegistryKey, "Start Mode", 2, RegistryValueKind.DWord);
             }
             else
             {
