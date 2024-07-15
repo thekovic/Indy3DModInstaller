@@ -1,6 +1,6 @@
 # Prerequisites
 
-- .NET 8.0 runtime
+- .NET 8.0 runtime (if you don't have it already, you should get a pop-up when you open `Indy3DModInstaller.exe` that will offer to install it automatically).
 
 # Usage
 
