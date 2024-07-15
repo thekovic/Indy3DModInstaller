@@ -94,7 +94,7 @@ partial class ModInstallerGui
         this.richTextBoxGamePath.Size = new Size(600, 35);
         this.richTextBoxGamePath.TabIndex = 1;
         this.richTextBoxGamePath.Text = "";
-        this.richTextBoxGamePath.TextChanged += this.richTextBoxGamePath_TextChanged;
+        this.richTextBoxGamePath.TextChanged += this.Gui_richTextBoxGamePath_TextChanged;
         // 
         // buttonBrowseGamePath
         // 
@@ -104,7 +104,7 @@ partial class ModInstallerGui
         this.buttonBrowseGamePath.TabIndex = 0;
         this.buttonBrowseGamePath.Text = "Browse...";
         this.buttonBrowseGamePath.UseVisualStyleBackColor = true;
-        this.buttonBrowseGamePath.Click += this.buttonBrowseGamePath_Click;
+        this.buttonBrowseGamePath.Click += this.Gui_buttonBrowseGamePath_Click;
         // 
         // labelGamePath
         // 
@@ -142,7 +142,7 @@ partial class ModInstallerGui
         this.richTextBoxModPath.Size = new Size(600, 35);
         this.richTextBoxModPath.TabIndex = 5;
         this.richTextBoxModPath.Text = "";
-        this.richTextBoxModPath.TextChanged += this.richTextBoxModPath_TextChanged;
+        this.richTextBoxModPath.TextChanged += this.Gui_richTextBoxModPath_TextChanged;
         // 
         // buttonBrowseModPath
         // 
@@ -152,7 +152,7 @@ partial class ModInstallerGui
         this.buttonBrowseModPath.TabIndex = 6;
         this.buttonBrowseModPath.Text = "Browse...";
         this.buttonBrowseModPath.UseVisualStyleBackColor = true;
-        this.buttonBrowseModPath.Click += this.buttonBrowseModPath_Click;
+        this.buttonBrowseModPath.Click += this.Gui_buttonBrowseModPath_Click;
         // 
         // flowLayoutFeedbackArea
         // 
@@ -204,7 +204,7 @@ partial class ModInstallerGui
         this.buttonUnpack.TabIndex = 0;
         this.buttonUnpack.Text = "Unpack Game Files";
         this.buttonUnpack.UseVisualStyleBackColor = true;
-        this.buttonUnpack.Click += this.buttonUnpack_Click;
+        this.buttonUnpack.Click += this.Gui_buttonUnpack_Click;
         // 
         // buttonInstall
         // 
@@ -215,7 +215,7 @@ partial class ModInstallerGui
         this.buttonInstall.TabIndex = 1;
         this.buttonInstall.Text = "Install Mod";
         this.buttonInstall.UseVisualStyleBackColor = true;
-        this.buttonInstall.Click += this.buttonInstall_Click;
+        this.buttonInstall.Click += this.Gui_buttonInstall_Click;
         // 
         // buttonSetDevMode
         // 
@@ -226,7 +226,7 @@ partial class ModInstallerGui
         this.buttonSetDevMode.TabIndex = 2;
         this.buttonSetDevMode.Text = "Toggle Dev Mode";
         this.buttonSetDevMode.UseVisualStyleBackColor = true;
-        this.buttonSetDevMode.Click += this.buttonSetDevMode_Click;
+        this.buttonSetDevMode.Click += this.Gui_buttonSetDevMode_Click;
         // 
         // buttonUninstall
         // 
@@ -237,7 +237,7 @@ partial class ModInstallerGui
         this.buttonUninstall.TabIndex = 3;
         this.buttonUninstall.Text = "Uninstall All Mods";
         this.buttonUninstall.UseVisualStyleBackColor = true;
-        this.buttonUninstall.Click += this.buttonUninstall_Click;
+        this.buttonUninstall.Click += this.Gui_buttonUninstall_Click;
         // 
         // folderBrowserDialogGamePath
         // 

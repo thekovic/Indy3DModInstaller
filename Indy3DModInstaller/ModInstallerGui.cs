@@ -62,7 +62,7 @@ public partial class ModInstallerGui : Form
         buttonUninstall.Enabled = false;
     }
 
-    private void buttonBrowseGamePath_Click(object sender, EventArgs e)
+    private void Gui_buttonBrowseGamePath_Click(object sender, EventArgs e)
     {
         if (folderBrowserDialogGamePath.ShowDialog() == DialogResult.OK)
         {
@@ -71,12 +71,12 @@ public partial class ModInstallerGui : Form
         }
     }
 
-    private void richTextBoxGamePath_TextChanged(object sender, EventArgs e)
+    private void Gui_richTextBoxGamePath_TextChanged(object sender, EventArgs e)
     {
         Program._installPath = richTextBoxGamePath.Text;
     }
 
-    private void buttonBrowseModPath_Click(object sender, EventArgs e)
+    private void Gui_buttonBrowseModPath_Click(object sender, EventArgs e)
     {
         if (folderBrowserDialogModPath.ShowDialog() == DialogResult.OK)
         {
@@ -85,12 +85,12 @@ public partial class ModInstallerGui : Form
         }
     }
 
-    private void richTextBoxModPath_TextChanged(object sender, EventArgs e)
+    private void Gui_richTextBoxModPath_TextChanged(object sender, EventArgs e)
     {
         Program._modPath = richTextBoxModPath.Text;
     }
 
-    private async void buttonUnpack_Click(object sender, EventArgs e)
+    private async void Gui_buttonUnpack_Click(object sender, EventArgs e)
     {
         if (Program._installPath == null)
         {
@@ -130,12 +130,12 @@ public partial class ModInstallerGui : Form
         }
     }
 
-    private void buttonSetDevMode_Click(object sender, EventArgs e)
+    private void Gui_buttonSetDevMode_Click(object sender, EventArgs e)
     {
         Indy3DModInstaller.SetDevMode();
     }
 
-    private async void buttonInstall_Click(object sender, EventArgs e)
+    private async void Gui_buttonInstall_Click(object sender, EventArgs e)
     {
         if (Program._installPath == null)
         {
@@ -175,7 +175,7 @@ public partial class ModInstallerGui : Form
         }
     }
 
-    private async void buttonUninstall_Click(object sender, EventArgs e)
+    private async void Gui_buttonUninstall_Click(object sender, EventArgs e)
     {
         if (Program._installPath == null)
         {
