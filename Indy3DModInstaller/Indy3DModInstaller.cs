@@ -102,7 +102,10 @@ internal class Indy3DModInstaller
 
         foreach (string folderName in folderNames)
         {
-            Directory.Delete(folderName, true);
+            if (Directory.Exists(folderName))
+            {
+                Directory.Delete(folderName, true);
+            }
         }
 
         if (File.Exists("CD1_backup.GOB"))
