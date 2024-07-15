@@ -8,8 +8,17 @@ internal class Program
     public static bool _devMode = false;
     public static bool _uninstall = false;
 
+    [STAThread]
     public static void Main(string[] args)
     {
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        Application.SetHighDpiMode(HighDpiMode.SystemAware);
+
+        Application.Run(new ModInstallerGui());
+
+        return;
+
         if (args.Length == 0)
         {
             _unpack = true;
