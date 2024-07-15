@@ -123,6 +123,12 @@ internal class Indy3DModInstaller
         }
     }
 
+    public static void Install(string installPath, string modPath)
+    {
+        Program.WriteLine($"Installing mod from {modPath}...");
+        OsUtils.CopyDirectoryContent(modPath, installPath, true);
+    }
+
     public static void Uninstall()
     {
         Program.WriteLine("Uninstalling mods, reverting to vanilla state from backups...");

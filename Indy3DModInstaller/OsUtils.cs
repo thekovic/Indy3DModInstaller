@@ -67,9 +67,12 @@ internal class OsUtils
         }
     }
 
-    public static void CopyDirectoryContent(string sourceDir, string destDir)
+    public static void CopyDirectoryContent(string sourceDir, string destDir, bool verbose = false)
     {
-        Program.WriteLine($"Moving \"{sourceDir}\" to \"{destDir}\"...");
+        if (verbose)
+        {
+            Program.WriteLine($"Moving \"{sourceDir}\" to \"{destDir}\"...");
+        }
 
         // Check if the source directory exists
         if (!Directory.Exists(sourceDir))

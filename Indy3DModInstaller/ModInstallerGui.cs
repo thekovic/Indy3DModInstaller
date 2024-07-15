@@ -67,6 +67,7 @@ public partial class ModInstallerGui : Form
         if (folderBrowserDialogGamePath.ShowDialog() == DialogResult.OK)
         {
             richTextBoxGamePath.Text = folderBrowserDialogGamePath.SelectedPath;
+            Program._installPath = folderBrowserDialogGamePath.SelectedPath;
         }
     }
 
@@ -80,6 +81,7 @@ public partial class ModInstallerGui : Form
         if (folderBrowserDialogModPath.ShowDialog() == DialogResult.OK)
         {
             richTextBoxModPath.Text = folderBrowserDialogModPath.SelectedPath;
+            Program._modPath = folderBrowserDialogModPath.SelectedPath;
         }
     }
 
@@ -108,16 +110,16 @@ public partial class ModInstallerGui : Form
             try
             {
                 await Task.Run(() =>
+                {
+                    try
                     {
-                        try
-                        {
-                            Indy3DModInstaller.Unpack(Program._installPath);
-                        }
-                        catch (Exception ex)
-                        {
-                            Program.WriteLine(ex.Message);
-                        }
-                    });
+                        Indy3DModInstaller.Unpack(Program._installPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Program.WriteLine(ex.Message);
+                    }
+                });
             }
             finally
             {
@@ -131,5 +133,45 @@ public partial class ModInstallerGui : Form
     private void buttonSetDevMode_Click(object sender, EventArgs e)
     {
         Indy3DModInstaller.SetDevMode();
+    }
+
+    private async void buttonInstall_Click(object sender, EventArgs e)
+    {
+        if (Program._installPath == null)
+        {
+            Program.WriteLine("ERROR: Path empty. Cannot unpack game files.");
+            Program.WriteLine("Please select path to Resource folder.");
+            return;
+        }
+        else if (Path.GetFileName(Program._installPath) != "Resource")
+        {
+            Program.WriteLine("ERROR: Path doesn't lead to Resource folder. Cannot unpack game files.");
+            Program.WriteLine("Please select path to Resource folder.");
+            return;
+        }
+
+        if (Program._modPath == null)
+        {
+            Program.WriteLine("ERROR: Path empty. Cannot install mod.");
+            Program.WriteLine("Please select path to mod folder.");
+            return;
+        }
+
+        StartProgressBar(progressBar1);
+        this.DisableButtons();
+
+        try
+        {
+            await Task.Run(() =>
+            {
+                Indy3DModInstaller.Install(Program._installPath, Program._modPath);
+            });
+        }
+        finally
+        {
+            StopProgressBar(progressBar1);
+            this.EnableButtons();
+            Program.WriteLine("Mod installation successfully finished.");
+        }
     }
 }
