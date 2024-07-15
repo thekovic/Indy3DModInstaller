@@ -92,14 +92,15 @@ partial class ModInstallerGui
         // 
         this.richTextBoxGamePath.Location = new Point(3, 3);
         this.richTextBoxGamePath.Name = "richTextBoxGamePath";
-        this.richTextBoxGamePath.Size = new Size(600, 35);
+        this.richTextBoxGamePath.Size = new Size(590, 35);
         this.richTextBoxGamePath.TabIndex = 1;
         this.richTextBoxGamePath.Text = "";
         this.richTextBoxGamePath.TextChanged += this.Gui_richTextBoxGamePath_TextChanged;
         // 
         // buttonBrowseGamePath
         // 
-        this.buttonBrowseGamePath.Location = new Point(609, 3);
+        this.buttonBrowseGamePath.AutoSize = true;
+        this.buttonBrowseGamePath.Location = new Point(599, 3);
         this.buttonBrowseGamePath.Name = "buttonBrowseGamePath";
         this.buttonBrowseGamePath.Size = new Size(84, 35);
         this.buttonBrowseGamePath.TabIndex = 0;
@@ -140,14 +141,15 @@ partial class ModInstallerGui
         // 
         this.richTextBoxModPath.Location = new Point(3, 3);
         this.richTextBoxModPath.Name = "richTextBoxModPath";
-        this.richTextBoxModPath.Size = new Size(600, 35);
+        this.richTextBoxModPath.Size = new Size(590, 35);
         this.richTextBoxModPath.TabIndex = 5;
         this.richTextBoxModPath.Text = "";
         this.richTextBoxModPath.TextChanged += this.Gui_richTextBoxModPath_TextChanged;
         // 
         // buttonBrowseModPath
         // 
-        this.buttonBrowseModPath.Location = new Point(609, 3);
+        this.buttonBrowseModPath.AutoSize = true;
+        this.buttonBrowseModPath.Location = new Point(599, 3);
         this.buttonBrowseModPath.Name = "buttonBrowseModPath";
         this.buttonBrowseModPath.Size = new Size(84, 35);
         this.buttonBrowseModPath.TabIndex = 6;
@@ -256,7 +258,9 @@ partial class ModInstallerGui
         this.tableLayoutPanel1.ResumeLayout(false);
         this.tableLayoutPanel1.PerformLayout();
         this.flowLayoutGamePath.ResumeLayout(false);
+        this.flowLayoutGamePath.PerformLayout();
         this.flowLayoutModPath.ResumeLayout(false);
+        this.flowLayoutModPath.PerformLayout();
         this.flowLayoutFeedbackArea.ResumeLayout(false);
         this.flowLayoutButtonPane.ResumeLayout(false);
         this.flowLayoutButtonPane.PerformLayout();
