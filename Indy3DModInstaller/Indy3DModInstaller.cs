@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace Indy3DModInstaller;
 
@@ -11,6 +12,12 @@ internal class Indy3DRegistryEntry(string gameVersionId, string registryKey)
 
 internal class Indy3DModInstaller
 {
+    private static readonly Indy3DRegistryEntry[] registryEntries = [
+        new Indy3DRegistryEntry("Steam", "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
+        new Indy3DRegistryEntry("GOG", "HKEY_CURRENT_USER\\SOFTWARE\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
+        new Indy3DRegistryEntry("CD", "HKEY_LOCAL_MACHINE\\Software\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0")
+    ];
+
     public static void Unpack()
     {
         // Backup existing cog override (important for Steam version)
@@ -63,14 +70,25 @@ internal class Indy3DModInstaller
         }
     }
 
+    public static string? GetInstallPathFromRegistry()
+    {
+        foreach (Indy3DRegistryEntry registryEntry in registryEntries)
+        {
+            object? registryKey = Registry.GetValue(registryEntry.RegistryKey, "Install Path", null);
+            if (registryKey == null)
+            {
+                continue;
+            }
+
+            Debug.WriteLine($"Install Path: Found entry for {registryEntry.GameVersionId} version.");
+            return (string) registryKey;
+        }
+
+        return null;
+    }
+
     public static void SetDevMode()
     {
-        Indy3DRegistryEntry[] registryEntries = [
-            new Indy3DRegistryEntry("Steam", "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
-            new Indy3DRegistryEntry("GOG", "HKEY_CURRENT_USER\\SOFTWARE\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
-            new Indy3DRegistryEntry("CD", "HKEY_LOCAL_MACHINE\\Software\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0")
-        ];
-
         foreach (Indy3DRegistryEntry registryEntry in registryEntries)
         {
             object? registryKey = Registry.GetValue(registryEntry.RegistryKey, "Start Mode", 42);
@@ -79,7 +97,7 @@ internal class Indy3DModInstaller
                 continue;
             }
 
-            Console.WriteLine($"Found entry for {registryEntry.GameVersionId} version.");
+            Console.WriteLine($"Dev Mode: Found entry for {registryEntry.GameVersionId} version.");
             int startMode = (int) registryKey;
             if (startMode != 2)
             {

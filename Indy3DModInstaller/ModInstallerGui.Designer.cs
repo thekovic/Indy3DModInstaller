@@ -94,6 +94,7 @@ partial class ModInstallerGui
         this.richTextBoxGamePath.Size = new Size(600, 35);
         this.richTextBoxGamePath.TabIndex = 1;
         this.richTextBoxGamePath.Text = "";
+        this.richTextBoxGamePath.TextChanged += this.richTextBoxGamePath_TextChanged;
         // 
         // buttonBrowseGamePath
         // 
@@ -103,6 +104,7 @@ partial class ModInstallerGui
         this.buttonBrowseGamePath.TabIndex = 0;
         this.buttonBrowseGamePath.Text = "Browse...";
         this.buttonBrowseGamePath.UseVisualStyleBackColor = true;
+        this.buttonBrowseGamePath.Click += this.buttonBrowseGamePath_Click;
         // 
         // labelGamePath
         // 
@@ -110,9 +112,9 @@ partial class ModInstallerGui
         this.labelGamePath.Location = new Point(3, 3);
         this.labelGamePath.Margin = new Padding(3);
         this.labelGamePath.Name = "labelGamePath";
-        this.labelGamePath.Size = new Size(328, 20);
+        this.labelGamePath.Size = new Size(452, 20);
         this.labelGamePath.TabIndex = 3;
-        this.labelGamePath.Text = "Select path to your Infernal Machine installation:";
+        this.labelGamePath.Text = "Select path to Resource folder in your Infernal Machine installation:";
         // 
         // labelModPath
         // 
@@ -140,6 +142,7 @@ partial class ModInstallerGui
         this.richTextBoxModPath.Size = new Size(600, 35);
         this.richTextBoxModPath.TabIndex = 5;
         this.richTextBoxModPath.Text = "";
+        this.richTextBoxModPath.TextChanged += this.richTextBoxModPath_TextChanged;
         // 
         // buttonBrowseModPath
         // 
@@ -149,6 +152,7 @@ partial class ModInstallerGui
         this.buttonBrowseModPath.TabIndex = 6;
         this.buttonBrowseModPath.Text = "Browse...";
         this.buttonBrowseModPath.UseVisualStyleBackColor = true;
+        this.buttonBrowseModPath.Click += this.buttonBrowseModPath_Click;
         // 
         // flowLayoutFeedbackArea
         // 
@@ -200,6 +204,7 @@ partial class ModInstallerGui
         this.buttonUnpack.TabIndex = 0;
         this.buttonUnpack.Text = "Unpack Game Files";
         this.buttonUnpack.UseVisualStyleBackColor = true;
+        this.buttonUnpack.Click += this.buttonUnpack_Click;
         // 
         // buttonInstall
         // 
