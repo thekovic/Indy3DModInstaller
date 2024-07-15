@@ -116,7 +116,9 @@ internal class Indy3DModInstaller
             }
             else
             {
-                Program.WriteLine("Dev Mode was already enabled!");
+                Registry.SetValue(registryEntry.RegistryKey, "Start Mode", 1, RegistryValueKind.DWord);
+                Program.WriteLine("Dev Mode was already enabled.");
+                Program.WriteLine("Dev Mode for Indy3D.exe disabled.");
             }
         }
     }

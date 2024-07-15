@@ -215,22 +215,23 @@ partial class ModInstallerGui
         this.buttonInstall.TabIndex = 1;
         this.buttonInstall.Text = "Install Mod";
         this.buttonInstall.UseVisualStyleBackColor = true;
+        this.buttonInstall.Click += this.buttonInstall_Click;
         // 
         // buttonSetDevMode
         // 
         this.buttonSetDevMode.AutoSize = true;
         this.buttonSetDevMode.Location = new Point(351, 3);
         this.buttonSetDevMode.Name = "buttonSetDevMode";
-        this.buttonSetDevMode.Size = new Size(113, 30);
+        this.buttonSetDevMode.Size = new Size(138, 30);
         this.buttonSetDevMode.TabIndex = 2;
-        this.buttonSetDevMode.Text = "Set Dev Mode";
+        this.buttonSetDevMode.Text = "Toggle Dev Mode";
         this.buttonSetDevMode.UseVisualStyleBackColor = true;
         this.buttonSetDevMode.Click += this.buttonSetDevMode_Click;
         // 
         // buttonUninstall
         // 
         this.buttonUninstall.AutoSize = true;
-        this.buttonUninstall.Location = new Point(470, 3);
+        this.buttonUninstall.Location = new Point(495, 3);
         this.buttonUninstall.Name = "buttonUninstall";
         this.buttonUninstall.Size = new Size(111, 30);
         this.buttonUninstall.TabIndex = 3;
