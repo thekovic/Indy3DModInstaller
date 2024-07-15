@@ -18,37 +18,45 @@ internal class Indy3DModInstaller
         new Indy3DRegistryEntry("CD", "HKEY_LOCAL_MACHINE\\Software\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0")
     ];
 
-    public static void Unpack()
+    public static void Unpack(string installPath)
     {
+        string cogPath = Path.Combine(installPath, "cog");
+        string cogBackupPath = Path.Combine(installPath, "cog_backup");
+
         // Backup existing cog override (important for Steam version)
-        if (Directory.Exists("cog"))
+        if (Directory.Exists(cogPath))
         {
-            Directory.Move("cog", "cog_backup");
+            Directory.Move(cogPath, cogBackupPath);
         }
 
         try
         {
             Program.WriteLine("Extracting archive CD1.GOB...");
-            OsUtils.LaunchProcess("gobext.exe", ["CD1.GOB", "-o=."]);
+            OsUtils.LaunchProcess("gobext.exe", ["CD1.GOB", "-o=."], installPath);
             Program.WriteLine("Extracting archive CD2.GOB...");
-            OsUtils.LaunchProcess("gobext.exe", ["CD2.GOB", "-o=."]);
+            OsUtils.LaunchProcess("gobext.exe", ["CD2.GOB", "-o=."], installPath);
         }
         catch (Exception)
         {
             throw;
         }
 
-        // rename/backup GOB files so that the game is running solely from extracted files
-        File.Move("CD1.GOB", "CD1_backup.GOB");
-        File.Move("CD2.GOB", "CD2_backup.GOB");
+        string cd1Path = Path.Combine(installPath, "CD1.GOB");
+        string cd2Path = Path.Combine(installPath, "CD2.GOB");
+        string cd1BackupPath = Path.Combine(installPath, "CD1_backup.GOB");
+        string cd2BackupPath = Path.Combine(installPath, "CD2_backup.GOB");
 
-        string[] cnd_files = Directory.GetFiles("ndy", "*.cnd");
+        // rename/backup GOB files so that the game is running solely from extracted files
+        File.Move(cd1Path, cd1BackupPath);
+        File.Move(cd2Path, cd2BackupPath);
+
+        string[] cnd_files = Directory.GetFiles(Path.Combine(installPath, "ndy"), "*.cnd");
         try
         {
             foreach (string file in cnd_files)
             {
                 Program.WriteLine($"Extracting level {Path.GetFileName(file)}...");
-                OsUtils.LaunchProcess("cndtool.exe", ["extract", "--no-template", "-o=.", $"{file}"]);
+                OsUtils.LaunchProcess("cndtool.exe", ["extract", "--no-template", $"-o=.", $"{Path.Combine("ndy", Path.GetFileName(file))}"], installPath);
             }
         }
         catch (Exception)
@@ -56,17 +64,19 @@ internal class Indy3DModInstaller
             throw;
         }
 
+        string keyPath = Path.Combine(installPath, "key");
+
         // move extracted "key" folder to "3do" folder
-        if (Directory.Exists("key"))
+        if (Directory.Exists(keyPath))
         {
-            OsUtils.CopyDirectoryContent("key", Path.Combine("3do", "key"));
-            Directory.Delete("key", true);
+            OsUtils.CopyDirectoryContent(keyPath, Path.Combine(installPath, "3do", "key"));
+            Directory.Delete(keyPath, true);
         }
 
         // copy cog_backup content into cog
-        if (Directory.Exists("cog_backup"))
+        if (Directory.Exists(cogBackupPath))
         {
-            OsUtils.CopyDirectoryContent("cog_backup", "cog");
+            OsUtils.CopyDirectoryContent(cogBackupPath, cogPath);
         }
     }
 

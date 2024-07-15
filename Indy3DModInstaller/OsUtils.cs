@@ -1,11 +1,15 @@
 ﻿using System.Diagnostics;
+using System.Text;
 
 namespace Indy3DModInstaller;
 
 internal class OsUtils
 {
-    public static void LaunchProcess(string processName, string[] args, bool verbose = false)
+    public static void LaunchProcess(string processName, string[] args, string workingDirectory)
     {
+        StringBuilder sbArgs = new StringBuilder();
+        StringBuilder sbStderr = new StringBuilder();
+
         try
         {
             using (var process = new Process())
@@ -15,6 +19,7 @@ internal class OsUtils
                 // Pass arguments to the process
                 foreach (string arg in args)
                 {
+                    sbArgs.Append($"{arg} ");
                     process.StartInfo.ArgumentList.Add(arg);
                 }
 
@@ -23,22 +28,16 @@ internal class OsUtils
                 // stdout of the launched process from showing up in our
                 // terminal.
                 process.StartInfo.CreateNoWindow = true;
-                // Enable capture of stdout of the process
-                process.StartInfo.RedirectStandardOutput = true;
-                process.OutputDataReceived += new DataReceivedEventHandler((sender, output) =>
-                {
-                    if (!string.IsNullOrEmpty(output.Data) && verbose)
-                    {
-                        Debug.WriteLine(output.Data);
-                    }
-                });
+                // Set process working directory to the Resource folder
+                process.StartInfo.WorkingDirectory = workingDirectory;
+
                 // Enable capture of stderr of the process
                 process.StartInfo.RedirectStandardError = true;
                 process.ErrorDataReceived += new DataReceivedEventHandler((sender, output) =>
                 {
-                    if (!string.IsNullOrEmpty(output.Data) && verbose)
+                    if (!string.IsNullOrEmpty(output.Data))
                     {
-                        Debug.WriteLine(output.Data);
+                        sbStderr.AppendLine(output.Data);
                     }
                 });
 
@@ -48,20 +47,17 @@ internal class OsUtils
                 // on the desktop, it must terminate itself or you can do it programmatically
                 // from this application using the Kill method.
                 process.Start();
-                // Start capturing stdout
-                process.BeginOutputReadLine();
                 // Start capturing stderr
                 process.BeginErrorReadLine();
+
                 // Blocking wait for the process to finish
                 process.WaitForExit();
 
-                Program.WriteLine($"Process {process.StartInfo.FileName} exited with {process.ExitCode}.");
-
                 if (process.ExitCode != 0)
                 {
-                    throw new Exception(
-                        $"Subprocess {process.StartInfo.FileName} failed during execution.{Environment.NewLine}" +
-                        $"Execution: {processName} {args}{Environment.NewLine}");
+                    Program.WriteLine("ERROR:");
+                    Program.WriteLine(sbStderr.ToString());
+                    throw new Exception($"Subprocess {process.StartInfo.FileName} failed during execution.{Environment.NewLine}");
                 }
             }
         }
