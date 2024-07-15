@@ -97,16 +97,16 @@ internal class Indy3DModInstaller
                 continue;
             }
 
-            Console.WriteLine($"Dev Mode: Found entry for {registryEntry.GameVersionId} version.");
+            Debug.WriteLine($"Dev Mode: Found entry for {registryEntry.GameVersionId} version.");
             int startMode = (int) registryKey;
             if (startMode != 2)
             {
-                Console.WriteLine("Enabling Dev Mode for Indy3D.exe...");
+                Debug.WriteLine("Enabling Dev Mode for Indy3D.exe...");
                 Registry.SetValue(registryEntry.RegistryKey, "Start Mode", 2, RegistryValueKind.DWord);
             }
             else
             {
-                Console.WriteLine("Dev Mode was already enabled!");
+                Debug.WriteLine("Dev Mode was already enabled!");
             }
         }
     }

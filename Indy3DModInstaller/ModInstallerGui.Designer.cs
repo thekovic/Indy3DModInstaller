@@ -225,6 +225,7 @@ partial class ModInstallerGui
         this.buttonSetDevMode.TabIndex = 2;
         this.buttonSetDevMode.Text = "Set Dev Mode";
         this.buttonSetDevMode.UseVisualStyleBackColor = true;
+        this.buttonSetDevMode.Click += this.buttonSetDevMode_Click;
         // 
         // buttonUninstall
         // 

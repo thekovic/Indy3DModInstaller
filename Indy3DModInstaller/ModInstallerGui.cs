@@ -21,6 +21,20 @@ public partial class ModInstallerGui : Form
         {
             richTextBoxGamePath.Text = Path.Combine(installPath, "Resource");
         }
+
+        StopProgressBar(progressBar1);
+    }
+
+    private static void StartProgressBar(ProgressBar progressBar)
+    {
+        progressBar.Style = ProgressBarStyle.Marquee;
+        progressBar.MarqueeAnimationSpeed = 30;
+    }
+
+    private static void StopProgressBar(ProgressBar progressBar)
+    {
+        progressBar.Style = ProgressBarStyle.Continuous;
+        progressBar.MarqueeAnimationSpeed = 0;
     }
 
     private void buttonBrowseGamePath_Click(object sender, EventArgs e)
@@ -52,5 +66,10 @@ public partial class ModInstallerGui : Form
     private void richTextBoxModPath_TextChanged(object sender, EventArgs e)
     {
         Program._modPath = richTextBoxModPath.Text;
+    }
+
+    private void buttonSetDevMode_Click(object sender, EventArgs e)
+    {
+        Indy3DModInstaller.SetDevMode();
     }
 }
