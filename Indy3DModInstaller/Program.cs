@@ -8,6 +8,13 @@ internal class Program
     public static bool _devMode = false;
     public static bool _uninstall = false;
 
+    public static RichTextBox? messageBox = null;
+
+    public static void WriteLine(string message)
+    {
+        messageBox!.AppendText($"{message}{Environment.NewLine}");
+    }
+
     [STAThread]
     public static void Main(string[] args)
     {
@@ -15,7 +22,9 @@ internal class Program
         Application.SetCompatibleTextRenderingDefault(false);
         Application.SetHighDpiMode(HighDpiMode.SystemAware);
 
-        Application.Run(new ModInstallerGui());
+        var gui = new ModInstallerGui();
+        messageBox = gui.GetMessageBox();
+        Application.Run(gui);
 
         return;
 

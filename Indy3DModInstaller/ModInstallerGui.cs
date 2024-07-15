@@ -16,6 +16,7 @@ public partial class ModInstallerGui : Form
     public ModInstallerGui()
     {
         this.InitializeComponent();
+
         string? installPath = Indy3DModInstaller.GetInstallPathFromRegistry();
         if (installPath != null)
         {
@@ -23,6 +24,11 @@ public partial class ModInstallerGui : Form
         }
 
         StopProgressBar(progressBar1);
+    }
+
+    public RichTextBox GetMessageBox()
+    {
+        return richTextFeedback;
     }
 
     private static void StartProgressBar(ProgressBar progressBar)

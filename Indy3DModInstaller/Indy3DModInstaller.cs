@@ -28,9 +28,9 @@ internal class Indy3DModInstaller
 
         try
         {
-            Console.WriteLine("Extracting archive CD1.GOB...");
+            Program.WriteLine("Extracting archive CD1.GOB...");
             OsUtils.LaunchProcess("gobext.exe", ["CD1.GOB", "-o=."]);
-            Console.WriteLine("Extracting archive CD2.GOB...");
+            Program.WriteLine("Extracting archive CD2.GOB...");
             OsUtils.LaunchProcess("gobext.exe", ["CD2.GOB", "-o=."]);
         }
         catch (Exception)
@@ -47,7 +47,7 @@ internal class Indy3DModInstaller
         {
             foreach (string file in cnd_files)
             {
-                Console.WriteLine($"Extracting level {Path.GetFileName(file)}...");
+                Program.WriteLine($"Extracting level {Path.GetFileName(file)}...");
                 OsUtils.LaunchProcess("cndtool.exe", ["extract", "--no-template", "-o=.", $"{file}"]);
             }
         }
@@ -97,23 +97,23 @@ internal class Indy3DModInstaller
                 continue;
             }
 
-            Debug.WriteLine($"Dev Mode: Found entry for {registryEntry.GameVersionId} version.");
+            Program.WriteLine($"Dev Mode: Found entry for {registryEntry.GameVersionId} version.");
             int startMode = (int) registryKey;
             if (startMode != 2)
             {
-                Debug.WriteLine("Enabling Dev Mode for Indy3D.exe...");
                 Registry.SetValue(registryEntry.RegistryKey, "Start Mode", 2, RegistryValueKind.DWord);
+                Program.WriteLine("Dev Mode for Indy3D.exe enabled.");
             }
             else
             {
-                Debug.WriteLine("Dev Mode was already enabled!");
+                Program.WriteLine("Dev Mode was already enabled!");
             }
         }
     }
 
     public static void Uninstall()
     {
-        Console.WriteLine("Uninstalling mods, reverting to vanilla state from backups...");
+        Program.WriteLine("Uninstalling mods, reverting to vanilla state from backups...");
         string[] folderNames = ["3do", "cog", "hi3do", "mat", "misc", "ndy", "sound"];
 
         foreach (string folderName in folderNames)

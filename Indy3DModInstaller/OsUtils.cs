@@ -29,7 +29,7 @@ internal class OsUtils
                 {
                     if (!string.IsNullOrEmpty(output.Data) && verbose)
                     {
-                        Console.WriteLine(output.Data);
+                        Debug.WriteLine(output.Data);
                     }
                 });
                 // Enable capture of stderr of the process
@@ -38,7 +38,7 @@ internal class OsUtils
                 {
                     if (!string.IsNullOrEmpty(output.Data) && verbose)
                     {
-                        Console.WriteLine(output.Data);
+                        Debug.WriteLine(output.Data);
                     }
                 });
 
@@ -55,12 +55,12 @@ internal class OsUtils
                 // Blocking wait for the process to finish
                 process.WaitForExit();
 
-                Console.WriteLine($"Process {process.StartInfo.FileName} ({process.Id}) exited with {process.ExitCode}.");
+                Program.WriteLine($"Process {process.StartInfo.FileName} exited with {process.ExitCode}.");
 
                 if (process.ExitCode != 0)
                 {
                     throw new Exception(
-                        $"Subprocess {process.StartInfo.FileName} ({process.Id}) failed during execution.{Environment.NewLine}" +
+                        $"Subprocess {process.StartInfo.FileName} failed during execution.{Environment.NewLine}" +
                         $"Execution: {processName} {args}{Environment.NewLine}");
                 }
             }
@@ -73,7 +73,7 @@ internal class OsUtils
 
     public static void CopyDirectoryContent(string sourceDir, string destDir)
     {
-        Console.WriteLine($"Moving \"{sourceDir}\" to \"{destDir}\"...");
+        Program.WriteLine($"Moving \"{sourceDir}\" to \"{destDir}\"...");
 
         // Check if the source directory exists
         if (!Directory.Exists(sourceDir))
