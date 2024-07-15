@@ -2,6 +2,11 @@
 
 internal class Program
 {
+    public static bool _unpack = false;
+    public static string? _mod = null;
+    public static bool _devMode = false;
+    public static bool _uninstall = false;
+
     public static void Main(string[] args)
     {
         if (!OperatingSystem.IsWindows())
@@ -10,16 +15,11 @@ internal class Program
             return;
         }
 
-        bool unpack = false;
-        string? mod = null;
-        bool devMode = false;
-        bool uninstall = false;
-
         if (args.Length == 0)
         {
-            unpack = true;
-            devMode = true;
-            mod = "sed";
+            _unpack = true;
+            _devMode = true;
+            _mod = "sed";
         }
         else
         {
@@ -39,22 +39,22 @@ internal class Program
                         Console.WriteLine("    devmode: Uninstall all mods and restore original files from backups.");
                         break;
                     case "unpack":
-                        unpack = true;
+                        _unpack = true;
                         break;
                     case "devmode":
-                        devMode = true;
+                        _devMode = true;
                         break;
                     case "uninstall":
-                        uninstall = true;
+                        _uninstall = true;
                         break;
                     case "mod":
-                        mod = value;
+                        _mod = value;
                         break;
                 }
             }
         }
 
-        if (unpack)
+        if (_unpack)
         {
             try
             {
@@ -69,18 +69,18 @@ internal class Program
             }
         }
 
-        if (devMode)
+        if (_devMode)
         {
             Indy3DModInstaller.SetDevMode();
         }
 
-        if (mod != null)
+        if (_mod != null)
         {
-            Console.WriteLine($"Installing {mod}...");
-            OsUtils.CopyDirectoryContent(mod, ".");
+            Console.WriteLine($"Installing {_mod}...");
+            OsUtils.CopyDirectoryContent(_mod, ".");
         }
 
-        if (uninstall)
+        if (_uninstall)
         {
             Indy3DModInstaller.Uninstall();
         }
