@@ -9,12 +9,6 @@ internal class Program
 
     public static void Main(string[] args)
     {
-        if (!OperatingSystem.IsWindows())
-        {
-            Console.WriteLine("ERROR: This app requires access to Windows Registry.");
-            return;
-        }
-
         if (args.Length == 0)
         {
             _unpack = true;

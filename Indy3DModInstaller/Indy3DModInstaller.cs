@@ -65,12 +65,6 @@ internal class Indy3DModInstaller
 
     public static void SetDevMode()
     {
-        if (!OperatingSystem.IsWindows())
-        {
-            Console.WriteLine("ERROR: This app requires access to Windows Registry.");
-            return;
-        }
-
         Indy3DRegistryEntry[] registryEntries = [
             new Indy3DRegistryEntry("Steam", "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
             new Indy3DRegistryEntry("GOG", "HKEY_CURRENT_USER\\SOFTWARE\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),

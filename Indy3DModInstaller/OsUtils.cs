@@ -17,6 +17,7 @@ internal class OsUtils
                 {
                     process.StartInfo.ArgumentList.Add(arg);
                 }
+
                 process.StartInfo.UseShellExecute = false;
                 // Despite its name, the following setting also prevents
                 // stdout of the launched process from showing up in our
