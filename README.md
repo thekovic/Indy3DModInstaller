@@ -1,11 +1,15 @@
+# Prerequisites
+
+- .NET 8.0 runtime
+
 # Usage
 
-Extract into your `Indiana Jones and the Infernal Machine\Resource` folder. Copy the mod folder (eg. `sed`) there too (not attached). Double-click `Indy3DModInstaller.exe` to install.
+Extract anywhere and run `Indy3DModInstaller.exe`.
 
-# Options
+Common usage:
 
-You specify options by running `Indy3DModInstaller.exe` with arguments (no GUI yet).
-- unpack: Unpack assets from game files using gobext.exe and cndtool.exe. Creates backups of original files.
-- devmode: Edit registry entry for the game to activate devmode (needed to launch custom levels).
-- mod=name: Install mod from folder called "name" (eg. "sed").
-- uninstall: Uninstall all mods and restore original files from backups.
+1. Unpack your game files by clicking on `Unpack`.
+2. Install a mod by setting up a path to your mod by using the `Browse...` button and then clicking on `Install Mod`.
+3. Enable Dev Mode for Indy3D.exe by clicking on `Toggle Dev Mode`.
+
+![Image showing the GUI of Indy3D Mod Installer](example.png)
