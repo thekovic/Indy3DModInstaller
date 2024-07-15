@@ -191,14 +191,14 @@ partial class ModInstallerGui
         this.flowLayoutButtonPane.Dock = DockStyle.Fill;
         this.flowLayoutButtonPane.Location = new Point(3, 606);
         this.flowLayoutButtonPane.Name = "flowLayoutButtonPane";
-        this.flowLayoutButtonPane.Padding = new Padding(90, 0, 0, 0);
+        this.flowLayoutButtonPane.Padding = new Padding(80, 0, 0, 0);
         this.flowLayoutButtonPane.Size = new Size(696, 64);
         this.flowLayoutButtonPane.TabIndex = 7;
         // 
         // buttonUnpack
         // 
         this.buttonUnpack.AutoSize = true;
-        this.buttonUnpack.Location = new Point(93, 3);
+        this.buttonUnpack.Location = new Point(83, 3);
         this.buttonUnpack.Name = "buttonUnpack";
         this.buttonUnpack.Size = new Size(152, 30);
         this.buttonUnpack.TabIndex = 0;
@@ -209,7 +209,7 @@ partial class ModInstallerGui
         // buttonInstall
         // 
         this.buttonInstall.AutoSize = true;
-        this.buttonInstall.Location = new Point(251, 3);
+        this.buttonInstall.Location = new Point(241, 3);
         this.buttonInstall.Name = "buttonInstall";
         this.buttonInstall.Size = new Size(94, 30);
         this.buttonInstall.TabIndex = 1;
@@ -220,7 +220,7 @@ partial class ModInstallerGui
         // buttonSetDevMode
         // 
         this.buttonSetDevMode.AutoSize = true;
-        this.buttonSetDevMode.Location = new Point(351, 3);
+        this.buttonSetDevMode.Location = new Point(341, 3);
         this.buttonSetDevMode.Name = "buttonSetDevMode";
         this.buttonSetDevMode.Size = new Size(138, 30);
         this.buttonSetDevMode.TabIndex = 2;
@@ -231,12 +231,13 @@ partial class ModInstallerGui
         // buttonUninstall
         // 
         this.buttonUninstall.AutoSize = true;
-        this.buttonUninstall.Location = new Point(495, 3);
+        this.buttonUninstall.Location = new Point(485, 3);
         this.buttonUninstall.Name = "buttonUninstall";
-        this.buttonUninstall.Size = new Size(111, 30);
+        this.buttonUninstall.Size = new Size(139, 30);
         this.buttonUninstall.TabIndex = 3;
-        this.buttonUninstall.Text = "Uninstall Mod";
+        this.buttonUninstall.Text = "Uninstall All Mods";
         this.buttonUninstall.UseVisualStyleBackColor = true;
+        this.buttonUninstall.Click += this.buttonUninstall_Click;
         // 
         // folderBrowserDialogGamePath
         // 

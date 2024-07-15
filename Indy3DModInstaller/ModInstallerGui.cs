@@ -174,4 +174,37 @@ public partial class ModInstallerGui : Form
             Program.WriteLine("Mod installation successfully finished.");
         }
     }
+
+    private async void buttonUninstall_Click(object sender, EventArgs e)
+    {
+        if (Program._installPath == null)
+        {
+            Program.WriteLine("ERROR: Path empty. Cannot unpack game files.");
+            Program.WriteLine("Please select path to Resource folder.");
+        }
+        else if (Path.GetFileName(Program._installPath) != "Resource")
+        {
+            Program.WriteLine("ERROR: Path doesn't lead to Resource folder. Cannot unpack game files.");
+            Program.WriteLine("Please select path to Resource folder.");
+        }
+        else
+        {
+            StartProgressBar(progressBar1);
+            this.DisableButtons();
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    Indy3DModInstaller.Uninstall(Program._installPath);
+                });
+            }
+            finally
+            {
+                StopProgressBar(progressBar1);
+                this.EnableButtons();
+                Program.WriteLine("Mod uninstallation successfully finished.");
+            }
+        }
+    }
 }

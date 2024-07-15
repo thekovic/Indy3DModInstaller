@@ -129,32 +129,41 @@ internal class Indy3DModInstaller
         OsUtils.CopyDirectoryContent(modPath, installPath, true);
     }
 
-    public static void Uninstall()
+    public static void Uninstall(string installPath)
     {
         Program.WriteLine("Uninstalling mods, reverting to vanilla state from backups...");
         string[] folderNames = ["3do", "cog", "hi3do", "mat", "misc", "ndy", "sound"];
 
         foreach (string folderName in folderNames)
         {
-            if (Directory.Exists(folderName))
+            string folderInInstallPath = Path.Combine(installPath, folderName);
+            if (Directory.Exists(folderInInstallPath))
             {
-                Directory.Delete(folderName, true);
+                Directory.Delete(folderInInstallPath, true);
             }
         }
 
-        if (File.Exists("CD1_backup.GOB"))
+        string cd1Path = Path.Combine(installPath, "CD1.GOB");
+        string cd2Path = Path.Combine(installPath, "CD2.GOB");
+        string cd1BackupPath = Path.Combine(installPath, "CD1_backup.GOB");
+        string cd2BackupPath = Path.Combine(installPath, "CD2_backup.GOB");
+
+        if (File.Exists(cd1BackupPath))
         {
-            File.Move("CD1_backup.GOB", "CD1.GOB");
+            File.Move(cd1BackupPath, cd1Path);
         }
 
-        if (File.Exists("CD2_backup.GOB"))
+        if (File.Exists(cd2BackupPath))
         {
-            File.Move("CD2_backup.GOB", "CD2.GOB");
+            File.Move(cd2BackupPath, cd2Path);
         }
 
-        if (Directory.Exists("cog_backup"))
+        string cogPath = Path.Combine(installPath, "cog");
+        string cogBackupPath = Path.Combine(installPath, "cog_backup");
+
+        if (Directory.Exists(cogBackupPath))
         {
-            Directory.Move("cog_backup", "cog");
+            Directory.Move(cogBackupPath, cogPath);
         }
     }
 }
