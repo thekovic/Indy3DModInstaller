@@ -28,6 +28,7 @@ partial class ModInstallerGui
     /// </summary>
     private void InitializeComponent()
     {
+        var resources = new System.ComponentModel.ComponentResourceManager(typeof(ModInstallerGui));
         this.tableLayoutPanel1 = new TableLayoutPanel();
         this.flowLayoutGamePath = new FlowLayoutPanel();
         this.richTextBoxGamePath = new RichTextBox();
@@ -249,6 +250,7 @@ partial class ModInstallerGui
         this.AutoScaleMode = AutoScaleMode.Font;
         this.ClientSize = new Size(702, 673);
         this.Controls.Add(this.tableLayoutPanel1);
+        this.Icon = (Icon) resources.GetObject("$this.Icon");
         this.Name = "ModInstallerGui";
         this.Text = "Indy3D Mod Installer GUI";
         this.tableLayoutPanel1.ResumeLayout(false);
