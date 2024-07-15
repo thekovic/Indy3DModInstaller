@@ -132,7 +132,14 @@ public partial class ModInstallerGui : Form
 
     private void Gui_buttonSetDevMode_Click(object sender, EventArgs e)
     {
-        Indy3DModInstaller.SetDevMode();
+        try
+        {
+            Indy3DModInstaller.SetDevMode();
+        }
+        catch (Exception ex)
+        {
+            Program.WriteLine(ex.Message);
+        }
     }
 
     private async void Gui_buttonInstall_Click(object sender, EventArgs e)
@@ -164,7 +171,14 @@ public partial class ModInstallerGui : Form
         {
             await Task.Run(() =>
             {
-                Indy3DModInstaller.Install(Program._installPath, Program._modPath);
+                try
+                {
+                    Indy3DModInstaller.Install(Program._installPath, Program._modPath);
+                }
+                catch (Exception ex)
+                {
+                    Program.WriteLine(ex.Message);
+                }
             });
         }
         finally
@@ -196,7 +210,14 @@ public partial class ModInstallerGui : Form
             {
                 await Task.Run(() =>
                 {
-                    Indy3DModInstaller.Uninstall(Program._installPath);
+                    try
+                    {
+                        Indy3DModInstaller.Uninstall(Program._installPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Program.WriteLine(ex.Message);
+                    }
                 });
             }
             finally
