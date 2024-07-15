@@ -3,7 +3,8 @@
 internal class Program
 {
     public static bool _unpack = false;
-    public static string? _mod = null;
+    public static string? _installPath = null;
+    public static string? _modPath = null;
     public static bool _devMode = false;
     public static bool _uninstall = false;
 
@@ -13,7 +14,7 @@ internal class Program
         {
             _unpack = true;
             _devMode = true;
-            _mod = "sed";
+            _modPath = "sed";
         }
         else
         {
@@ -42,7 +43,7 @@ internal class Program
                         _uninstall = true;
                         break;
                     case "mod":
-                        _mod = value;
+                        _modPath = value;
                         break;
                 }
             }
@@ -68,10 +69,10 @@ internal class Program
             Indy3DModInstaller.SetDevMode();
         }
 
-        if (_mod != null)
+        if (_modPath != null)
         {
-            Console.WriteLine($"Installing {_mod}...");
-            OsUtils.CopyDirectoryContent(_mod, ".");
+            Console.WriteLine($"Installing {_modPath}...");
+            OsUtils.CopyDirectoryContent(_modPath, ".");
         }
 
         if (_uninstall)
