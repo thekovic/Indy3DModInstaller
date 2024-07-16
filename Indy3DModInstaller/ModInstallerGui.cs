@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Diagnostics;
 
 namespace Indy3DModInstaller;
 
 public partial class ModInstallerGui : Form
 {
+    private int _buttonsWidth = 0;
+
     public ModInstallerGui()
     {
         this.InitializeComponent();
@@ -25,7 +18,11 @@ public partial class ModInstallerGui : Form
             Program._installPath = resourcePath;
         }
 
-        StopProgressBar(progressBar1);
+        this.StopProgressBar();
+
+        _buttonsWidth = buttonUnpack.Width + buttonInstall.Width + buttonSetDevMode.Width + buttonUninstall.Width + 24;
+
+        this.ResizeGui();
     }
 
     public RichTextBox GetMessageBox()
@@ -33,17 +30,31 @@ public partial class ModInstallerGui : Form
         return richTextFeedback;
     }
 
-    private static void StartProgressBar(ProgressBar progressBar)
+    private void ResizeGui()
     {
-        progressBar.Style = ProgressBarStyle.Marquee;
-        progressBar.MarqueeAnimationSpeed = 30;
+        richTextBoxGamePath.Width = flowLayoutGamePath.Width - buttonBrowseGamePath.Width - 18;
+
+        richTextBoxModPath.Width = flowLayoutModPath.Width - buttonBrowseModPath.Width - 18;
+
+        richTextFeedback.Height = flowLayoutFeedbackArea.Height - progressBarFeedback.Height - 14;
+        richTextFeedback.Width = flowLayoutFeedbackArea.Width - 12;
+        progressBarFeedback.Width = flowLayoutFeedbackArea.Width - 16;
+
+        int paddingLeft = (flowLayoutButtonPane.Width - _buttonsWidth) / 2;
+        flowLayoutButtonPane.Padding = new Padding(paddingLeft, 0, 0, 0);
     }
 
-    private static void StopProgressBar(ProgressBar progressBar)
+    private void StartProgressBar()
     {
-        progressBar.Style = ProgressBarStyle.Continuous;
-        progressBar.MarqueeAnimationSpeed = 0;
-        progressBar.Value = 0;
+        progressBarFeedback.Style = ProgressBarStyle.Marquee;
+        progressBarFeedback.MarqueeAnimationSpeed = 30;
+    }
+
+    private void StopProgressBar()
+    {
+        progressBarFeedback.Style = ProgressBarStyle.Continuous;
+        progressBarFeedback.MarqueeAnimationSpeed = 0;
+        progressBarFeedback.Value = 0;
     }
 
     private void EnableButtons()
@@ -60,6 +71,11 @@ public partial class ModInstallerGui : Form
         buttonSetDevMode.Enabled = false;
         buttonInstall.Enabled = false;
         buttonUninstall.Enabled = false;
+    }
+
+    private void Gui_window_Resize(object sender, EventArgs e)
+    {
+        this.ResizeGui();
     }
 
     private void Gui_buttonBrowseGamePath_Click(object sender, EventArgs e)
@@ -104,7 +120,7 @@ public partial class ModInstallerGui : Form
         }
         else
         {
-            StartProgressBar(progressBar1);
+            this.StartProgressBar();
             this.DisableButtons();
 
             try
@@ -123,7 +139,7 @@ public partial class ModInstallerGui : Form
             }
             finally
             {
-                StopProgressBar(progressBar1);
+                this.StopProgressBar();
                 this.EnableButtons();
                 Program.WriteLine("Unpacking successfully finished.");
             }
@@ -164,7 +180,7 @@ public partial class ModInstallerGui : Form
             return;
         }
 
-        StartProgressBar(progressBar1);
+        this.StartProgressBar();
         this.DisableButtons();
 
         try
@@ -183,7 +199,7 @@ public partial class ModInstallerGui : Form
         }
         finally
         {
-            StopProgressBar(progressBar1);
+            this.StopProgressBar();
             this.EnableButtons();
             Program.WriteLine("Mod installation successfully finished.");
         }
@@ -203,7 +219,7 @@ public partial class ModInstallerGui : Form
         }
         else
         {
-            StartProgressBar(progressBar1);
+            this.StartProgressBar();
             this.DisableButtons();
 
             try
@@ -222,7 +238,7 @@ public partial class ModInstallerGui : Form
             }
             finally
             {
-                StopProgressBar(progressBar1);
+                this.StopProgressBar();
                 this.EnableButtons();
                 Program.WriteLine("Mod uninstallation successfully finished.");
             }
