@@ -18,6 +18,8 @@ internal class Indy3DModInstaller
         new Indy3DRegistryEntry("CD", "HKEY_LOCAL_MACHINE\\Software\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0")
     ];
 
+    private static readonly string[] gameAssetFolderNames = ["3do", "cog", "hi3do", "mat", "misc", "ndy", "sound"];
+
     public static void Unpack(string installPath)
     {
         string cogPath = Path.Combine(installPath, "cog");
@@ -126,19 +128,32 @@ internal class Indy3DModInstaller
     public static void Install(string installPath, string modPath)
     {
         Program.WriteLine($"Installing mod from {modPath}...");
-        OsUtils.CopyDirectoryContent(modPath, installPath, true);
+
+        foreach (string folderName in gameAssetFolderNames)
+        {
+            string folderInInstallPath = Path.Combine(installPath, folderName);
+            string folderInModPath = Path.Combine(modPath, folderName);
+
+            if (Directory.Exists(folderInModPath))
+            {
+                string folderinModPathWithModPrefix = Path.Combine(Path.GetFileName(modPath), Path.GetFileName(folderInModPath));
+                Program.WriteLine($"Installing {folderinModPathWithModPrefix}...");
+                OsUtils.CopyDirectoryContent(folderInModPath, folderInInstallPath);
+            }
+        }
     }
 
     public static void Uninstall(string installPath)
     {
         Program.WriteLine("Uninstalling mods, reverting to vanilla state from backups...");
-        string[] folderNames = ["3do", "cog", "hi3do", "mat", "misc", "ndy", "sound"];
 
-        foreach (string folderName in folderNames)
+        foreach (string folderName in gameAssetFolderNames)
         {
             string folderInInstallPath = Path.Combine(installPath, folderName);
+
             if (Directory.Exists(folderInInstallPath))
             {
+                Program.WriteLine($"Uninstalling modded {Path.GetFileName(folderInInstallPath)}...");
                 Directory.Delete(folderInInstallPath, true);
             }
         }
