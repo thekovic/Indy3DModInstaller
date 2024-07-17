@@ -12,18 +12,25 @@ internal class Indy3DRegistryEntry(string gameVersionId, string registryKey)
 
 internal class Indy3DModInstaller
 {
-    private static readonly Indy3DRegistryEntry[] registryEntries = [
+    private static readonly Indy3DRegistryEntry[] _registryEntries = [
         new Indy3DRegistryEntry("Steam", "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
         new Indy3DRegistryEntry("GOG", "HKEY_CURRENT_USER\\SOFTWARE\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
         new Indy3DRegistryEntry("CD", "HKEY_LOCAL_MACHINE\\Software\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0")
     ];
 
-    private static readonly string[] gameAssetFolderNames = ["3do", "cog", "hi3do", "mat", "misc", "ndy", "sound"];
+    private static readonly string[] _gameAssetFolderNames = ["3do", "cog", "hi3do", "mat", "misc", "ndy", "sound"];
+
+    private const string _cogBackupFolder = "cog_backup";
+
+    private const string _cd1GobFile = "CD1.GOB";
+    private const string _cd1GobBackupFile = "CD1.GOB.BAK";
+    private const string _cd2GobFile = "CD2.GOB";
+    private const string _cd2GobBackupFile = "CD2.GOB.BAK";
 
     public static void Unpack(string installPath)
     {
         string cogPath = Path.Combine(installPath, "cog");
-        string cogBackupPath = Path.Combine(installPath, "cog_backup");
+        string cogBackupPath = Path.Combine(installPath, _cogBackupFolder);
 
         // Backup existing cog override (important for Steam version)
         if (Directory.Exists(cogPath))
@@ -33,20 +40,20 @@ internal class Indy3DModInstaller
 
         try
         {
-            Program.WriteLine("Extracting archive CD1.GOB...");
-            OsUtils.LaunchProcess("gobext.exe", ["CD1.GOB", "-o=."], installPath);
-            Program.WriteLine("Extracting archive CD2.GOB...");
-            OsUtils.LaunchProcess("gobext.exe", ["CD2.GOB", "-o=."], installPath);
+            Program.WriteLine($"Extracting archive {_cd1GobFile}...");
+            OsUtils.LaunchProcess("gobext.exe", [_cd1GobFile, "-o=."], installPath);
+            Program.WriteLine($"Extracting archive {_cd2GobFile}...");
+            OsUtils.LaunchProcess("gobext.exe", [_cd2GobFile, "-o=."], installPath);
         }
         catch (Exception)
         {
             throw;
         }
 
-        string cd1Path = Path.Combine(installPath, "CD1.GOB");
-        string cd2Path = Path.Combine(installPath, "CD2.GOB");
-        string cd1BackupPath = Path.Combine(installPath, "CD1_backup.GOB");
-        string cd2BackupPath = Path.Combine(installPath, "CD2_backup.GOB");
+        string cd1Path = Path.Combine(installPath, _cd1GobFile);
+        string cd2Path = Path.Combine(installPath, _cd2GobFile);
+        string cd1BackupPath = Path.Combine(installPath, _cd1GobBackupFile);
+        string cd2BackupPath = Path.Combine(installPath, _cd2GobBackupFile);
 
         // rename/backup GOB files so that the game is running solely from extracted files
         File.Move(cd1Path, cd1BackupPath);
@@ -84,7 +91,7 @@ internal class Indy3DModInstaller
 
     public static string? GetInstallPathFromRegistry()
     {
-        foreach (Indy3DRegistryEntry registryEntry in registryEntries)
+        foreach (Indy3DRegistryEntry registryEntry in _registryEntries)
         {
             object? registryKey = Registry.GetValue(registryEntry.RegistryKey, "Install Path", null);
             if (registryKey == null)
@@ -101,7 +108,7 @@ internal class Indy3DModInstaller
 
     public static void SetDevMode()
     {
-        foreach (Indy3DRegistryEntry registryEntry in registryEntries)
+        foreach (Indy3DRegistryEntry registryEntry in _registryEntries)
         {
             object? registryKey = Registry.GetValue(registryEntry.RegistryKey, "Start Mode", 42);
             if (registryKey == null)
@@ -129,7 +136,7 @@ internal class Indy3DModInstaller
     {
         Program.WriteLine($"Installing mod from {modPath}...");
 
-        foreach (string folderName in gameAssetFolderNames)
+        foreach (string folderName in _gameAssetFolderNames)
         {
             string folderInInstallPath = Path.Combine(installPath, folderName);
             string folderInModPath = Path.Combine(modPath, folderName);
@@ -147,7 +154,7 @@ internal class Indy3DModInstaller
     {
         Program.WriteLine("Uninstalling mods, reverting to vanilla state from backups...");
 
-        foreach (string folderName in gameAssetFolderNames)
+        foreach (string folderName in _gameAssetFolderNames)
         {
             string folderInInstallPath = Path.Combine(installPath, folderName);
 
@@ -158,10 +165,10 @@ internal class Indy3DModInstaller
             }
         }
 
-        string cd1Path = Path.Combine(installPath, "CD1.GOB");
-        string cd2Path = Path.Combine(installPath, "CD2.GOB");
-        string cd1BackupPath = Path.Combine(installPath, "CD1_backup.GOB");
-        string cd2BackupPath = Path.Combine(installPath, "CD2_backup.GOB");
+        string cd1Path = Path.Combine(installPath, _cd1GobFile);
+        string cd2Path = Path.Combine(installPath, _cd2GobFile);
+        string cd1BackupPath = Path.Combine(installPath, _cd1GobBackupFile);
+        string cd2BackupPath = Path.Combine(installPath, _cd2GobBackupFile);
 
         if (File.Exists(cd1BackupPath))
         {
@@ -174,7 +181,7 @@ internal class Indy3DModInstaller
         }
 
         string cogPath = Path.Combine(installPath, "cog");
-        string cogBackupPath = Path.Combine(installPath, "cog_backup");
+        string cogBackupPath = Path.Combine(installPath, _cogBackupFolder);
 
         if (Directory.Exists(cogBackupPath))
         {
