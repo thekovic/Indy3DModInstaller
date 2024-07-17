@@ -22,6 +22,8 @@ internal class Indy3DModInstaller
 
     private const string _cogBackupFolder = "cog_backup";
 
+    private const string _jones3dGobFile = "Jones3D.GOB";
+    private const string _jones3dGobBackupFile = "Jones3D.GOB.BAK";
     private const string _cd1GobFile = "CD1.GOB";
     private const string _cd1GobBackupFile = "CD1.GOB.BAK";
     private const string _cd2GobFile = "CD2.GOB";
@@ -40,6 +42,8 @@ internal class Indy3DModInstaller
 
         try
         {
+            Program.WriteLine($"Extracting archive {_jones3dGobFile}...");
+            OsUtils.LaunchProcess("gobext.exe", [_jones3dGobFile, "-o=."], installPath);
             Program.WriteLine($"Extracting archive {_cd1GobFile}...");
             OsUtils.LaunchProcess("gobext.exe", [_cd1GobFile, "-o=."], installPath);
             Program.WriteLine($"Extracting archive {_cd2GobFile}...");
@@ -50,12 +54,16 @@ internal class Indy3DModInstaller
             throw;
         }
 
+        string jones3dPath = Path.Combine(installPath, _jones3dGobFile);
         string cd1Path = Path.Combine(installPath, _cd1GobFile);
         string cd2Path = Path.Combine(installPath, _cd2GobFile);
+
+        string jones3dBackupPath = Path.Combine(installPath, _jones3dGobBackupFile);
         string cd1BackupPath = Path.Combine(installPath, _cd1GobBackupFile);
         string cd2BackupPath = Path.Combine(installPath, _cd2GobBackupFile);
 
         // rename/backup GOB files so that the game is running solely from extracted files
+        File.Move(jones3dPath, jones3dBackupPath);
         File.Move(cd1Path, cd1BackupPath);
         File.Move(cd2Path, cd2BackupPath);
 
@@ -165,10 +173,19 @@ internal class Indy3DModInstaller
             }
         }
 
+        string jones3dPath = Path.Combine(installPath, _jones3dGobFile);
         string cd1Path = Path.Combine(installPath, _cd1GobFile);
         string cd2Path = Path.Combine(installPath, _cd2GobFile);
+
+        string jones3dBackupPath = Path.Combine(installPath, _jones3dGobBackupFile);
         string cd1BackupPath = Path.Combine(installPath, _cd1GobBackupFile);
         string cd2BackupPath = Path.Combine(installPath, _cd2GobBackupFile);
+
+        // Restore backups
+        if (File.Exists(jones3dPath))
+        {
+            File.Move(jones3dBackupPath, jones3dPath);
+        }
 
         if (File.Exists(cd1BackupPath))
         {
