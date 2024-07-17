@@ -205,4 +205,11 @@ internal class Indy3DModInstaller
             Directory.Move(cogBackupPath, cogPath);
         }
     }
+
+    public static void LaunchGame(string installPath)
+    {
+        Program.WriteLine("Launching game...");
+
+        OsUtils.LaunchProcess(Path.Combine(installPath, "Indy3D.exe"), [], installPath);
+    }
 }

@@ -46,6 +46,7 @@ partial class ModInstallerGui
         this.buttonInstall = new Button();
         this.buttonSetDevMode = new Button();
         this.buttonUninstall = new Button();
+        this.buttonPlay = new Button();
         this.folderBrowserDialogGamePath = new FolderBrowserDialog();
         this.folderBrowserDialogModPath = new FolderBrowserDialog();
         this.tableLayoutPanel1.SuspendLayout();
@@ -197,17 +198,17 @@ partial class ModInstallerGui
         this.flowLayoutButtonPane.Controls.Add(this.buttonInstall);
         this.flowLayoutButtonPane.Controls.Add(this.buttonSetDevMode);
         this.flowLayoutButtonPane.Controls.Add(this.buttonUninstall);
+        this.flowLayoutButtonPane.Controls.Add(this.buttonPlay);
         this.flowLayoutButtonPane.Dock = DockStyle.Fill;
         this.flowLayoutButtonPane.Location = new Point(3, 605);
         this.flowLayoutButtonPane.Name = "flowLayoutButtonPane";
-        this.flowLayoutButtonPane.Padding = new Padding(74, 0, 0, 0);
         this.flowLayoutButtonPane.Size = new Size(696, 65);
         this.flowLayoutButtonPane.TabIndex = 7;
         // 
         // buttonUnpack
         // 
         this.buttonUnpack.AutoSize = true;
-        this.buttonUnpack.Location = new Point(77, 3);
+        this.buttonUnpack.Location = new Point(3, 3);
         this.buttonUnpack.Name = "buttonUnpack";
         this.buttonUnpack.Size = new Size(152, 30);
         this.buttonUnpack.TabIndex = 0;
@@ -218,7 +219,7 @@ partial class ModInstallerGui
         // buttonInstall
         // 
         this.buttonInstall.AutoSize = true;
-        this.buttonInstall.Location = new Point(235, 3);
+        this.buttonInstall.Location = new Point(161, 3);
         this.buttonInstall.Name = "buttonInstall";
         this.buttonInstall.Size = new Size(94, 30);
         this.buttonInstall.TabIndex = 1;
@@ -229,7 +230,7 @@ partial class ModInstallerGui
         // buttonSetDevMode
         // 
         this.buttonSetDevMode.AutoSize = true;
-        this.buttonSetDevMode.Location = new Point(335, 3);
+        this.buttonSetDevMode.Location = new Point(261, 3);
         this.buttonSetDevMode.Name = "buttonSetDevMode";
         this.buttonSetDevMode.Size = new Size(138, 30);
         this.buttonSetDevMode.TabIndex = 2;
@@ -240,13 +241,24 @@ partial class ModInstallerGui
         // buttonUninstall
         // 
         this.buttonUninstall.AutoSize = true;
-        this.buttonUninstall.Location = new Point(479, 3);
+        this.buttonUninstall.Location = new Point(405, 3);
         this.buttonUninstall.Name = "buttonUninstall";
         this.buttonUninstall.Size = new Size(139, 30);
         this.buttonUninstall.TabIndex = 3;
         this.buttonUninstall.Text = "Uninstall All Mods";
         this.buttonUninstall.UseVisualStyleBackColor = true;
         this.buttonUninstall.Click += this.Gui_buttonUninstall_Click;
+        // 
+        // buttonPlay
+        // 
+        this.buttonPlay.AutoSize = true;
+        this.buttonPlay.Location = new Point(550, 3);
+        this.buttonPlay.Name = "buttonPlay";
+        this.buttonPlay.Size = new Size(108, 30);
+        this.buttonPlay.TabIndex = 4;
+        this.buttonPlay.Text = "Launch Game";
+        this.buttonPlay.UseVisualStyleBackColor = true;
+        this.buttonPlay.Click += this.Gui_buttonPlay_Click;
         // 
         // folderBrowserDialogGamePath
         // 
@@ -259,7 +271,7 @@ partial class ModInstallerGui
         this.ClientSize = new Size(702, 673);
         this.Controls.Add(this.tableLayoutPanel1);
         this.Icon = (Icon) resources.GetObject("$this.Icon");
-        this.MinimumSize = new Size(600, 600);
+        this.MinimumSize = new Size(700, 600);
         this.Name = "ModInstallerGui";
         this.Text = "Indy3D Mod Installer GUI";
         this.Resize += this.Gui_window_Resize;
@@ -296,4 +308,5 @@ partial class ModInstallerGui
     private Button buttonSetDevMode;
     private Button buttonUninstall;
     private FolderBrowserDialog folderBrowserDialogModPath;
+    private Button buttonPlay;
 }

@@ -20,7 +20,7 @@ public partial class ModInstallerGui : Form
 
         this.StopProgressBar();
 
-        _buttonsWidth = buttonUnpack.Width + buttonInstall.Width + buttonSetDevMode.Width + buttonUninstall.Width + 24;
+        _buttonsWidth = buttonUnpack.Width + buttonInstall.Width + buttonSetDevMode.Width + buttonUninstall.Width + buttonPlay.Width + (5 * 6);
 
         this.ResizeGui();
     }
@@ -241,6 +241,44 @@ public partial class ModInstallerGui : Form
                 this.StopProgressBar();
                 this.EnableButtons();
                 Program.WriteLine("Mod uninstallation successfully finished.");
+            }
+        }
+    }
+
+    private async void Gui_buttonPlay_Click(object sender, EventArgs e)
+    {
+        if (Program._installPath == null)
+        {
+            Program.WriteLine("ERROR: Path empty. Cannot launch game.");
+            Program.WriteLine("Please select path to Resource folder.");
+        }
+        else if (Path.GetFileName(Program._installPath) != "Resource")
+        {
+            Program.WriteLine("ERROR: Path doesn't lead to Resource folder. Cannot launch game.");
+            Program.WriteLine("Please select path to Resource folder.");
+        }
+        else
+        {
+            this.DisableButtons();
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        Indy3DModInstaller.LaunchGame(Program._installPath);
+                        Program.WriteLine("Game exited successfully.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Program.WriteLine(ex.Message);
+                    }
+                });
+            }
+            finally
+            {
+                this.EnableButtons();
             }
         }
     }

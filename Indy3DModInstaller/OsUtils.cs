@@ -53,11 +53,16 @@ internal class OsUtils
                 // Blocking wait for the process to finish
                 process.WaitForExit();
 
-                if (process.ExitCode != 0)
+                // Hack to ignore error codes from Indy3D.exe because it returns +-1 on normal exit
+                if (Path.GetFileNameWithoutExtension(process.StartInfo.FileName) == "Indy3D" && (process.ExitCode == 1 || process.ExitCode == -1))
+                {
+                    return;
+                }
+                else if (process.ExitCode != 0)
                 {
                     Program.WriteLine("ERROR:");
-                    Program.WriteLine(sbStderr.ToString());
-                    throw new Exception($"Subprocess {process.StartInfo.FileName} failed during execution.{Environment.NewLine}");
+                    Program.WriteLine($"<{sbStderr}>");
+                    throw new Exception($"Subprocess {process.StartInfo.FileName} failed during execution with exit code {process.ExitCode}.{Environment.NewLine}");
                 }
             }
         }
