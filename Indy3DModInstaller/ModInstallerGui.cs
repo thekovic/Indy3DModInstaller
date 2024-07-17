@@ -4,7 +4,7 @@ namespace Indy3DModInstaller;
 
 public partial class ModInstallerGui : Form
 {
-    private int _buttonsWidth = 0;
+    private readonly int _buttonsWidth = 0;
 
     public ModInstallerGui()
     {
