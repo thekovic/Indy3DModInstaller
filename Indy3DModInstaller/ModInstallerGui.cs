@@ -130,6 +130,7 @@ public partial class ModInstallerGui : Form
                     try
                     {
                         Indy3DModInstaller.Unpack(Program._installPath);
+                        Program.WriteLine("Unpacking successfully finished.");
                     }
                     catch (Exception ex)
                     {
@@ -141,7 +142,6 @@ public partial class ModInstallerGui : Form
             {
                 this.StopProgressBar();
                 this.EnableButtons();
-                Program.WriteLine("Unpacking successfully finished.");
             }
         }
     }
@@ -190,6 +190,7 @@ public partial class ModInstallerGui : Form
                 try
                 {
                     Indy3DModInstaller.Install(Program._installPath, Program._modPath);
+                    Program.WriteLine("Mod installation successfully finished.");
                 }
                 catch (Exception ex)
                 {
@@ -201,7 +202,6 @@ public partial class ModInstallerGui : Form
         {
             this.StopProgressBar();
             this.EnableButtons();
-            Program.WriteLine("Mod installation successfully finished.");
         }
     }
 
@@ -229,6 +229,7 @@ public partial class ModInstallerGui : Form
                     try
                     {
                         Indy3DModInstaller.Uninstall(Program._installPath);
+                        Program.WriteLine("Mod uninstallation successfully finished.");
                     }
                     catch (Exception ex)
                     {
@@ -240,7 +241,6 @@ public partial class ModInstallerGui : Form
             {
                 this.StopProgressBar();
                 this.EnableButtons();
-                Program.WriteLine("Mod uninstallation successfully finished.");
             }
         }
     }
