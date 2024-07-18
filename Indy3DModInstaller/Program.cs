@@ -10,8 +10,13 @@ internal class Program
 
     public static RichTextBox? messageBox = null;
 
+    /// <summary>
+    /// Print a message to the message box in the GUI. Used as main user-facing feedback mechanism.
+    /// </summary>
+    /// <param name="message">Message to be printed.</param>
     public static void WriteLine(string message)
     {
+        // Dispatch action based on what the GUI needs
         if (messageBox!.InvokeRequired)
         {
             messageBox.Invoke(new Action(() => messageBox.AppendText($"{message}{Environment.NewLine}")));
