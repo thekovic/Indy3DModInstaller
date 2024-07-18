@@ -63,6 +63,7 @@ public partial class ModInstallerGui : Form
         buttonSetDevMode.Enabled = true;
         buttonInstall.Enabled = true;
         buttonUninstall.Enabled = true;
+        buttonPlay.Enabled = true;
     }
 
     private void DisableButtons()
@@ -71,6 +72,7 @@ public partial class ModInstallerGui : Form
         buttonSetDevMode.Enabled = false;
         buttonInstall.Enabled = false;
         buttonUninstall.Enabled = false;
+        buttonPlay.Enabled = false;
     }
 
     private void Gui_window_Resize(object sender, EventArgs e)
