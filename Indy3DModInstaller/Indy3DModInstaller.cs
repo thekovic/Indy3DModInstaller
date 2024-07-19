@@ -182,7 +182,7 @@ internal class Indy3DModInstaller
         string cd2BackupPath = Path.Combine(installPath, _cd2GobBackupFile);
 
         // Restore backups
-        if (File.Exists(jones3dPath))
+        if (File.Exists(jones3dBackupPath))
         {
             File.Move(jones3dBackupPath, jones3dPath);
         }
