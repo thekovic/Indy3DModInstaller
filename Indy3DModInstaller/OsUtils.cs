@@ -3,82 +3,81 @@ using System.Text;
 
 namespace Indy3DModInstaller;
 
-internal class OsUtils
+public class SpawnedProcessErrorException : Exception
+{
+    public SpawnedProcessErrorException()
+    {
+    }
+
+    public SpawnedProcessErrorException(string message) : base(message)
+    {
+    }
+
+    public SpawnedProcessErrorException(string message, Exception inner) : base(message, inner)
+    {
+    }
+}
+
+internal static class OsUtils
 {
     public static void LaunchProcess(string processName, string[] args, string workingDirectory)
     {
-        StringBuilder sbArgs = new StringBuilder();
         StringBuilder sbStderr = new StringBuilder();
 
-        try
+        using (var process = new Process())
         {
-            using (var process = new Process())
+            // Set process name from the config
+            process.StartInfo.FileName = processName;
+            // Pass arguments to the process
+            foreach (string arg in args)
             {
-                // Set process name from the config
-                process.StartInfo.FileName = processName;
-                // Pass arguments to the process
-                foreach (string arg in args)
-                {
-                    sbArgs.Append($"{arg} ");
-                    process.StartInfo.ArgumentList.Add(arg);
-                }
-
-                process.StartInfo.UseShellExecute = false;
-                // Despite its name, the following setting also prevents
-                // stdout of the launched process from showing up in our
-                // terminal.
-                process.StartInfo.CreateNoWindow = true;
-                // Set process working directory to the Resource folder
-                process.StartInfo.WorkingDirectory = workingDirectory;
-
-                // Enable capture of stderr of the process
-                process.StartInfo.RedirectStandardError = true;
-                process.ErrorDataReceived += new DataReceivedEventHandler((sender, output) =>
-                {
-                    if (!string.IsNullOrEmpty(output.Data))
-                    {
-                        sbStderr.AppendLine(output.Data);
-                    }
-                });
-
-                // PER MICROSOFT:
-                // This code assumes the process you are starting will terminate itself.
-                // Given that it is started without a window so you cannot terminate it
-                // on the desktop, it must terminate itself or you can do it programmatically
-                // from this application using the Kill method.
-                process.Start();
-                // Start capturing stderr
-                process.BeginErrorReadLine();
-
-                // Blocking wait for the process to finish
-                process.WaitForExit();
-
-                // Hack to ignore error codes from Indy3D.exe because it returns +-1 on normal exit
-                if (Path.GetFileNameWithoutExtension(process.StartInfo.FileName) == "Indy3D" && (process.ExitCode == 1 || process.ExitCode == -1))
-                {
-                    return;
-                }
-                else if (process.ExitCode != 0)
-                {
-                    Program.WriteLine("ERROR:");
-                    Program.WriteLine($"<{sbStderr}>");
-                    throw new Exception($"Subprocess {process.StartInfo.FileName} failed during execution with exit code {process.ExitCode}.{Environment.NewLine}");
-                }
+                process.StartInfo.ArgumentList.Add(arg);
             }
-        }
-        catch (Exception)
-        {
-            throw;
+
+            process.StartInfo.UseShellExecute = false;
+            // Despite its name, the following setting also prevents
+            // stdout of the launched process from showing up in our
+            // terminal.
+            process.StartInfo.CreateNoWindow = true;
+            // Set process working directory to the Resource folder
+            process.StartInfo.WorkingDirectory = workingDirectory;
+
+            // Enable capture of stderr of the process
+            process.StartInfo.RedirectStandardError = true;
+            process.ErrorDataReceived += new DataReceivedEventHandler((sender, output) =>
+            {
+                if (!string.IsNullOrEmpty(output.Data))
+                {
+                    sbStderr.AppendLine(output.Data);
+                }
+            });
+
+            // PER MICROSOFT:
+            // This code assumes the process you are starting will terminate itself.
+            // Given that it is started without a window so you cannot terminate it
+            // on the desktop, it must terminate itself or you can do it programmatically
+            // from this application using the Kill method.
+            process.Start();
+            // Start capturing stderr
+            process.BeginErrorReadLine();
+
+            // Blocking wait for the process to finish
+            process.WaitForExit();
+
+            // Hack to ignore error codes from Indy3D.exe because it returns +-1 on normal exit
+            if (Path.GetFileNameWithoutExtension(process.StartInfo.FileName) == "Indy3D" && (process.ExitCode == 1 || process.ExitCode == -1))
+            {
+                return;
+            }
+            else if (process.ExitCode != 0)
+            {
+                throw new SpawnedProcessErrorException($"Subprocess error message:{Environment.NewLine}{sbStderr}{Environment.NewLine}Subprocess {process.StartInfo.FileName} failed during execution with exit code {process.ExitCode}.{Environment.NewLine}");
+            }
         }
     }
 
-    public static void CopyDirectoryContent(string sourceDir, string destDir, bool verbose = false)
+    public static void CopyDirectoryContent(string sourceDir, string destDir)
     {
-        if (verbose)
-        {
-            Program.WriteLine($"Moving \"{sourceDir}\" to \"{destDir}\"...");
-        }
-
         // Check if the source directory exists
         if (!Directory.Exists(sourceDir))
         {
