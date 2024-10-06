@@ -39,6 +39,7 @@ partial class ModInstallerGui
         this.richTextBoxModPath = new RichTextBox();
         this.buttonBrowseModPath = new Button();
         this.flowLayoutFeedbackArea = new FlowLayoutPanel();
+        this.labelFeedback = new Label();
         this.richTextFeedback = new RichTextBox();
         this.progressBarFeedback = new ProgressBar();
         this.flowLayoutButtonPane = new FlowLayoutPanel();
@@ -165,6 +166,7 @@ partial class ModInstallerGui
         // 
         // flowLayoutFeedbackArea
         // 
+        this.flowLayoutFeedbackArea.Controls.Add(this.labelFeedback);
         this.flowLayoutFeedbackArea.Controls.Add(this.richTextFeedback);
         this.flowLayoutFeedbackArea.Controls.Add(this.progressBarFeedback);
         this.flowLayoutFeedbackArea.Dock = DockStyle.Fill;
@@ -174,9 +176,18 @@ partial class ModInstallerGui
         this.flowLayoutFeedbackArea.Size = new Size(696, 424);
         this.flowLayoutFeedbackArea.TabIndex = 8;
         // 
+        // labelFeedback
+        // 
+        this.labelFeedback.AutoSize = true;
+        this.labelFeedback.Location = new Point(3, 0);
+        this.labelFeedback.Name = "labelFeedback";
+        this.labelFeedback.Size = new Size(471, 20);
+        this.labelFeedback.TabIndex = 2;
+        this.labelFeedback.Text = "Log box: (When reporting issues, post the ENTIRE content of this box!)";
+        // 
         // richTextFeedback
         // 
-        this.richTextFeedback.Location = new Point(3, 3);
+        this.richTextFeedback.Location = new Point(3, 23);
         this.richTextFeedback.Name = "richTextFeedback";
         this.richTextFeedback.ReadOnly = true;
         this.richTextFeedback.Size = new Size(690, 355);
@@ -185,7 +196,7 @@ partial class ModInstallerGui
         // 
         // progressBarFeedback
         // 
-        this.progressBarFeedback.Location = new Point(5, 364);
+        this.progressBarFeedback.Location = new Point(5, 384);
         this.progressBarFeedback.Margin = new Padding(5, 3, 5, 3);
         this.progressBarFeedback.Name = "progressBarFeedback";
         this.progressBarFeedback.Size = new Size(686, 28);
@@ -282,6 +293,7 @@ partial class ModInstallerGui
         this.flowLayoutModPath.ResumeLayout(false);
         this.flowLayoutModPath.PerformLayout();
         this.flowLayoutFeedbackArea.ResumeLayout(false);
+        this.flowLayoutFeedbackArea.PerformLayout();
         this.flowLayoutButtonPane.ResumeLayout(false);
         this.flowLayoutButtonPane.PerformLayout();
         this.ResumeLayout(false);
@@ -309,4 +321,5 @@ partial class ModInstallerGui
     private Button buttonUninstall;
     private FolderBrowserDialog folderBrowserDialogModPath;
     private Button buttonPlay;
+    private Label labelFeedback;
 }

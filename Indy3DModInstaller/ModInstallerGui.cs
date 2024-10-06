@@ -45,7 +45,7 @@ public partial class ModInstallerGui : Form
 
         richTextBoxModPath.Width = flowLayoutModPath.Width - buttonBrowseModPath.Width - 18;
 
-        richTextFeedback.Height = flowLayoutFeedbackArea.Height - progressBarFeedback.Height - 14;
+        richTextFeedback.Height = flowLayoutFeedbackArea.Height - labelFeedback.Height - progressBarFeedback.Height - 14;
         richTextFeedback.Width = flowLayoutFeedbackArea.Width - 12;
         progressBarFeedback.Width = flowLayoutFeedbackArea.Width - 16;
 
