@@ -19,35 +19,39 @@ public partial class ModInstallerGui : Form
     /// </summary>
     private readonly int _buttonHeight = 0;
 
-    private string? _installPath = null;
     private string? _modPath = null;
 
     private readonly GuiMessageWriter _messageWriter;
 
     private readonly Indy3DModInstaller _modInstaller;
 
+    private Config _config;
+
     public ModInstallerGui()
     {
         this.InitializeComponent();
 
-        string? installPath = Indy3DModInstaller.GetInstallPathFromRegistry();
-        if (installPath != null)
-        {
-            string resourcePath = Path.Combine(installPath, "Resource");
-            richTextBoxGamePath.Text = resourcePath;
-            _installPath = resourcePath;
-        }
-
-        // Progress bar is moving by default so stop it.
-        this.StopProgressBar();
+        _messageWriter = new GuiMessageWriter(richTextFeedback);
+        _modInstaller = new Indy3DModInstaller(_messageWriter);
 
         _buttonWidth = buttonUnpack.Width;
         _buttonHeight = buttonUnpack.Height;
-
         this.ResizeGui();
+        // Progress bar is moving by default so stop it.
+        this.StopProgressBar();
 
-        _messageWriter = new GuiMessageWriter(richTextFeedback);
-        _modInstaller = new Indy3DModInstaller(_messageWriter);
+        try
+        {
+            _config = Config.ReadConfig();
+            _messageWriter.WriteLine("Config file loaded successfully.");
+        }
+        catch (Exception e)
+        {
+            _messageWriter.WriteLine(e.Message);
+            _config = new Config();
+        }
+
+        richTextBoxGamePath.Text = _config.InstallPath;
     }
 
     private void ResizeGui()
@@ -129,13 +133,13 @@ public partial class ModInstallerGui : Form
         if (folderBrowserDialogGamePath.ShowDialog() == DialogResult.OK)
         {
             richTextBoxGamePath.Text = folderBrowserDialogGamePath.SelectedPath;
-            _installPath = folderBrowserDialogGamePath.SelectedPath;
+            _config.InstallPath = folderBrowserDialogGamePath.SelectedPath;
         }
     }
 
     private void Gui_richTextBoxGamePath_TextChanged(object sender, EventArgs e)
     {
-        _installPath = richTextBoxGamePath.Text;
+        _config.InstallPath = richTextBoxGamePath.Text;
     }
 
     private void Gui_buttonBrowseModPath_Click(object sender, EventArgs e)
@@ -163,7 +167,7 @@ public partial class ModInstallerGui : Form
             {
                 try
                 {
-                    _modInstaller.Unpack(_installPath);
+                    _modInstaller.Unpack(_config.InstallPath);
                 }
                 catch (Exception ex)
                 {
@@ -201,7 +205,7 @@ public partial class ModInstallerGui : Form
             {
                 try
                 {
-                    _modInstaller.Install(_installPath, _modPath);
+                    _modInstaller.Install(_config.InstallPath, _modPath);
                 }
                 catch (Exception ex)
                 {
@@ -227,7 +231,7 @@ public partial class ModInstallerGui : Form
             {
                 try
                 {
-                    _modInstaller.Uninstall(_installPath);
+                    _modInstaller.Uninstall(_config.InstallPath);
                 }
                 catch (Exception ex)
                 {
@@ -252,7 +256,7 @@ public partial class ModInstallerGui : Form
             {
                 try
                 {
-                    _modInstaller.LaunchGame(_installPath);
+                    _modInstaller.LaunchGame(_config.ExecutablePath);
                 }
                 catch (Exception ex)
                 {
