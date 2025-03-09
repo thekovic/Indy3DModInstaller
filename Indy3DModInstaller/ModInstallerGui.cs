@@ -3,9 +3,21 @@
 public partial class ModInstallerGui : Form
 {
     /// <summary>
-    /// Width of the buttons at the bottom of the window. Precalculated manually once and stored here for later use.
+    /// Default margin value used for all the controls in the GUI. Used when calculating window size during resizing.
     /// </summary>
-    private readonly int _buttonsWidth = 0;
+    private const int MARGIN_COMMON = 3;
+    /// <summary>
+    /// Double the margin value to account for two sides (left and right or up and down) of the control.
+    /// </summary>
+    private const int MARGIN_DOUBLE = 2 * MARGIN_COMMON;
+    /// <summary>
+    /// Width of every button at the bottom of the window. Matches the autosize of the widest button.
+    /// </summary>
+    private readonly int _buttonWidth = 0;
+    /// <summary>
+    /// Height of every button at the bottom of the window. Matches the autosize of the tallest button.
+    /// </summary>
+    private readonly int _buttonHeight = 0;
 
     private string? _installPath = null;
     private string? _modPath = null;
@@ -29,9 +41,8 @@ public partial class ModInstallerGui : Form
         // Progress bar is moving by default so stop it.
         this.StopProgressBar();
 
-        // Magic value. Total left/right margin values of all the buttons.
-        const int buttonMargins = 5 * 6;
-        _buttonsWidth = buttonUnpack.Width + buttonInstall.Width + buttonSetDevMode.Width + buttonUninstall.Width + buttonPlay.Width + buttonMargins;
+        _buttonWidth = buttonUnpack.Width;
+        _buttonHeight = buttonUnpack.Height;
 
         this.ResizeGui();
 
@@ -41,16 +52,40 @@ public partial class ModInstallerGui : Form
 
     private void ResizeGui()
     {
-        richTextBoxGamePath.Width = flowLayoutGamePath.Width - buttonBrowseGamePath.Width - 18;
+        // Resize game path panel.
+        panelGamePath.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
+        panelGamePath.Height = labelGamePath.Height + richTextBoxGamePath.Height + (4 * MARGIN_COMMON);
+        richTextBoxGamePath.Width = panelGamePath.Width - buttonBrowseGamePath.Width - (2 * MARGIN_DOUBLE);
+        buttonBrowseGamePath.Location = new Point(panelGamePath.Width - buttonBrowseGamePath.Width - MARGIN_DOUBLE, richTextBoxGamePath.Location.Y);
 
-        richTextBoxModPath.Width = flowLayoutModPath.Width - buttonBrowseModPath.Width - 18;
+        // Resize mod path panel.
+        panelModPath.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
+        panelModPath.Height = labelModPath.Height + richTextBoxModPath.Height + (4 * MARGIN_COMMON);
+        richTextBoxModPath.Width = panelModPath.Width - buttonBrowseModPath.Width - (2 * MARGIN_DOUBLE);
+        buttonBrowseModPath.Location = new Point(panelModPath.Width - buttonBrowseModPath.Width - MARGIN_DOUBLE, richTextBoxModPath.Location.Y);
 
-        richTextFeedback.Height = flowLayoutFeedbackArea.Height - labelFeedback.Height - progressBarFeedback.Height - 14;
-        richTextFeedback.Width = flowLayoutFeedbackArea.Width - 12;
-        progressBarFeedback.Width = flowLayoutFeedbackArea.Width - 16;
+        // Resize and move button panel.
+        int buttonOffsetX = (splitPanelButtonPane.Panel1.Width - _buttonWidth) / 2;
+        int buttonOffsetY = _buttonHeight + MARGIN_DOUBLE;
+        splitPanelButtonPane.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
+        splitPanelButtonPane.Height = (3 * buttonOffsetY) + MARGIN_DOUBLE;
+        splitPanelButtonPane.Location = new Point(MARGIN_COMMON, panelContentWrapper.Height - splitPanelButtonPane.Height - MARGIN_DOUBLE);
+        // Buttons in first half of the split panel.
+        buttonUnpack.Location = new Point(buttonOffsetX, MARGIN_COMMON);
+        buttonInstall.Location = new Point(buttonOffsetX, buttonOffsetY + MARGIN_COMMON);
+        buttonUninstall.Location = new Point(buttonOffsetX, (2 * buttonOffsetY) + MARGIN_COMMON);
+        // Buttons in second half of the split panel.
+        buttonSettings.Location = new Point(buttonOffsetX, MARGIN_COMMON);
+        buttonSetDevMode.Location = new Point(buttonOffsetX, buttonOffsetY + MARGIN_COMMON);
+        buttonPlay.Location = new Point(buttonOffsetX, (2 * buttonOffsetY) + MARGIN_COMMON);
 
-        int paddingLeft = (flowLayoutButtonPane.Width - _buttonsWidth) / 2;
-        flowLayoutButtonPane.Padding = new Padding(paddingLeft, 0, 0, 0);
+        // Resize and move feedback panel.
+        panelFeedback.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
+        panelFeedback.Height = panelContentWrapper.Height - (panelGamePath.Height + panelModPath.Height + splitPanelButtonPane.Height + (4 * MARGIN_DOUBLE));
+        richTextFeedback.Width = panelFeedback.Width - MARGIN_DOUBLE;
+        richTextFeedback.Height = panelFeedback.Height - labelFeedback.Height - progressBarFeedback.Height - (3 * MARGIN_DOUBLE);
+        progressBarFeedback.Width = panelFeedback.Width - MARGIN_DOUBLE;
+        progressBarFeedback.Location = new Point(MARGIN_COMMON, richTextFeedback.Location.Y + richTextFeedback.Height + MARGIN_DOUBLE);
     }
 
     private void StartProgressBar()
