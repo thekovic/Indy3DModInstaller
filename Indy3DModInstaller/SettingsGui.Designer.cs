@@ -190,6 +190,7 @@ partial class SettingsGui
         this.ClientSize = new Size(682, 193);
         this.Controls.Add(this.panelContentWrapper);
         this.MaximizeBox = false;
+        this.MaximumSize = new Size(9999, 240);
         this.MinimumSize = new Size(700, 240);
         this.Name = "SettingsGui";
         this.Text = "SettingsGui";
