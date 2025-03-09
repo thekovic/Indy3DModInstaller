@@ -234,20 +234,27 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
         _messageWriter.WriteLine("Mod uninstallation successfully finished.");
     }
 
-    public void LaunchGame(string? installPath)
+    public void LaunchGame(string? executablePath)
     {
-        if (installPath == null)
+        if (executablePath == null)
         {
-            throw new ArgumentNullException($"ERROR: Path empty. Cannot launch game.{Environment.NewLine}Please select path to Resource folder.");
+            throw new ArgumentNullException($"ERROR: Executable path empty. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
         }
-        else if (Path.GetFileName(installPath) != "Resource")
+
+        if (!File.Exists(executablePath))
         {
-            throw new ArgumentException($"ERROR: Path doesn't lead to Resource folder. Cannot launch game.{Environment.NewLine}Please select path to Resource folder.");
+            throw new FileNotFoundException($"ERROR: Executable not found. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
+        }
+
+        if (File.GetAttributes(executablePath).HasFlag(FileAttributes.Directory))
+        {
+            throw new Exception($"ERROR: Executable path set to a directory. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
         }
 
         _messageWriter.WriteLine("Launching game...");
 
-        OsUtils.LaunchProcess(Path.Combine(installPath, "Indy3D.exe"), [], installPath);
+        string executableDir = Path.GetDirectoryName(executablePath)!;
+        OsUtils.LaunchProcess(executablePath, [], executableDir);
 
         _messageWriter.WriteLine("Game exited successfully.");
     }
