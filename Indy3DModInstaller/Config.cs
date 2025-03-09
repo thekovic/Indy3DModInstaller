@@ -6,7 +6,6 @@ public class Config
 {
     private const string CONFIG_FILE = "Indy3DModInstallerConfig.json";
     private const string ORIGINAL_EXECUTABLE = "Indy3D.exe";
-    private const string OPENJONES_EXECUTABLE = "Jones3D.exe";
 
     private static JsonSerializerOptions JsonOptions { get; } = new JsonSerializerOptions
     {
@@ -31,6 +30,20 @@ public class Config
         }
         // Set executable path to the original executable by default.
         this.ExecutablePath = Path.Combine(this.InstallPath!, ORIGINAL_EXECUTABLE);
+    }
+
+    public Config(Config config)
+    {
+        this.Version = config.Version;
+        this.InstallPath = config.InstallPath;
+        this.ExecutablePath = config.ExecutablePath;
+    }
+
+    public void Update(Config config)
+    {
+        this.Version = config.Version;
+        this.InstallPath = config.InstallPath;
+        this.ExecutablePath = config.ExecutablePath;
     }
 
     public static Config ReadConfig()

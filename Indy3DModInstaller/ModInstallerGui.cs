@@ -25,7 +25,8 @@ public partial class ModInstallerGui : Form
 
     private readonly Indy3DModInstaller _modInstaller;
 
-    private Config _config;
+    private readonly Config _config;
+    private bool _configChanged = false;
 
     public ModInstallerGui()
     {
@@ -49,19 +50,12 @@ public partial class ModInstallerGui : Form
         {
             _messageWriter.WriteLine(e.Message);
             _config = new Config();
+            _configChanged = true;
         }
-
-        richTextBoxGamePath.Text = _config.InstallPath;
     }
 
     private void ResizeGui()
     {
-        // Resize game path panel.
-        panelGamePath.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
-        panelGamePath.Height = labelGamePath.Height + richTextBoxGamePath.Height + (4 * MARGIN_COMMON);
-        richTextBoxGamePath.Width = panelGamePath.Width - buttonBrowseGamePath.Width - (2 * MARGIN_DOUBLE);
-        buttonBrowseGamePath.Location = new Point(panelGamePath.Width - buttonBrowseGamePath.Width - MARGIN_DOUBLE, richTextBoxGamePath.Location.Y);
-
         // Resize mod path panel.
         panelModPath.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
         panelModPath.Height = labelModPath.Height + richTextBoxModPath.Height + (4 * MARGIN_COMMON);
@@ -85,7 +79,7 @@ public partial class ModInstallerGui : Form
 
         // Resize and move feedback panel.
         panelFeedback.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
-        panelFeedback.Height = panelContentWrapper.Height - (panelGamePath.Height + panelModPath.Height + splitPanelButtonPane.Height + (4 * MARGIN_DOUBLE));
+        panelFeedback.Height = panelContentWrapper.Height - (panelModPath.Height + splitPanelButtonPane.Height + (3 * MARGIN_DOUBLE));
         richTextFeedback.Width = panelFeedback.Width - MARGIN_DOUBLE;
         richTextFeedback.Height = panelFeedback.Height - labelFeedback.Height - progressBarFeedback.Height - (3 * MARGIN_DOUBLE);
         progressBarFeedback.Width = panelFeedback.Width - MARGIN_DOUBLE;
@@ -126,20 +120,6 @@ public partial class ModInstallerGui : Form
     private void Gui_window_Resize(object sender, EventArgs e)
     {
         this.ResizeGui();
-    }
-
-    private void Gui_buttonBrowseGamePath_Click(object sender, EventArgs e)
-    {
-        if (folderBrowserDialogGamePath.ShowDialog() == DialogResult.OK)
-        {
-            richTextBoxGamePath.Text = folderBrowserDialogGamePath.SelectedPath;
-            _config.InstallPath = folderBrowserDialogGamePath.SelectedPath;
-        }
-    }
-
-    private void Gui_richTextBoxGamePath_TextChanged(object sender, EventArgs e)
-    {
-        _config.InstallPath = richTextBoxGamePath.Text;
     }
 
     private void Gui_buttonBrowseModPath_Click(object sender, EventArgs e)
@@ -267,6 +247,21 @@ public partial class ModInstallerGui : Form
         finally
         {
             this.EnableButtons();
+        }
+    }
+
+    private void Gui_buttonSettings_Click(object sender, EventArgs e)
+    {
+        var settingsGui = new SettingsGui(_config);
+        _configChanged = true;
+        settingsGui.ShowDialog();
+    }
+
+    private void Gui_window_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        if (_configChanged)
+        {
+            Config.SaveConfig(_config);
         }
     }
 }

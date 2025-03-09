@@ -29,9 +29,6 @@ partial class ModInstallerGui
     private void InitializeComponent()
     {
         var resources = new System.ComponentModel.ComponentResourceManager(typeof(ModInstallerGui));
-        this.richTextBoxGamePath = new RichTextBox();
-        this.buttonBrowseGamePath = new Button();
-        this.labelGamePath = new Label();
         this.labelModPath = new Label();
         this.richTextBoxModPath = new RichTextBox();
         this.buttonBrowseModPath = new Button();
@@ -43,15 +40,12 @@ partial class ModInstallerGui
         this.buttonSetDevMode = new Button();
         this.buttonUninstall = new Button();
         this.buttonPlay = new Button();
-        this.folderBrowserDialogGamePath = new FolderBrowserDialog();
         this.folderBrowserDialogModPath = new FolderBrowserDialog();
-        this.panelGamePath = new Panel();
         this.panelModPath = new Panel();
         this.panelFeedback = new Panel();
         this.splitPanelButtonPane = new SplitContainer();
         this.buttonSettings = new Button();
         this.panelContentWrapper = new Panel();
-        this.panelGamePath.SuspendLayout();
         this.panelModPath.SuspendLayout();
         this.panelFeedback.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize) this.splitPanelButtonPane).BeginInit();
@@ -60,37 +54,6 @@ partial class ModInstallerGui
         this.splitPanelButtonPane.SuspendLayout();
         this.panelContentWrapper.SuspendLayout();
         this.SuspendLayout();
-        // 
-        // richTextBoxGamePath
-        // 
-        this.richTextBoxGamePath.Location = new Point(3, 23);
-        this.richTextBoxGamePath.Name = "richTextBoxGamePath";
-        this.richTextBoxGamePath.ScrollBars = RichTextBoxScrollBars.None;
-        this.richTextBoxGamePath.Size = new Size(590, 35);
-        this.richTextBoxGamePath.TabIndex = 1;
-        this.richTextBoxGamePath.Text = "";
-        this.richTextBoxGamePath.WordWrap = false;
-        this.richTextBoxGamePath.TextChanged += this.Gui_richTextBoxGamePath_TextChanged;
-        // 
-        // buttonBrowseGamePath
-        // 
-        this.buttonBrowseGamePath.AutoSize = true;
-        this.buttonBrowseGamePath.Location = new Point(599, 23);
-        this.buttonBrowseGamePath.Name = "buttonBrowseGamePath";
-        this.buttonBrowseGamePath.Size = new Size(84, 35);
-        this.buttonBrowseGamePath.TabIndex = 0;
-        this.buttonBrowseGamePath.Text = "Browse...";
-        this.buttonBrowseGamePath.UseVisualStyleBackColor = true;
-        this.buttonBrowseGamePath.Click += this.Gui_buttonBrowseGamePath_Click;
-        // 
-        // labelGamePath
-        // 
-        this.labelGamePath.AutoSize = true;
-        this.labelGamePath.Location = new Point(0, 0);
-        this.labelGamePath.Name = "labelGamePath";
-        this.labelGamePath.Size = new Size(452, 20);
-        this.labelGamePath.TabIndex = 3;
-        this.labelGamePath.Text = "Select path to Resource folder in your Infernal Machine installation:";
         // 
         // labelModPath
         // 
@@ -205,26 +168,12 @@ partial class ModInstallerGui
         this.buttonPlay.UseVisualStyleBackColor = true;
         this.buttonPlay.Click += this.Gui_buttonPlay_Click;
         // 
-        // folderBrowserDialogGamePath
-        // 
-        this.folderBrowserDialogGamePath.ShowNewFolderButton = false;
-        // 
-        // panelGamePath
-        // 
-        this.panelGamePath.Controls.Add(this.buttonBrowseGamePath);
-        this.panelGamePath.Controls.Add(this.richTextBoxGamePath);
-        this.panelGamePath.Controls.Add(this.labelGamePath);
-        this.panelGamePath.Location = new Point(3, 3);
-        this.panelGamePath.Name = "panelGamePath";
-        this.panelGamePath.Size = new Size(720, 65);
-        this.panelGamePath.TabIndex = 1;
-        // 
         // panelModPath
         // 
         this.panelModPath.Controls.Add(this.buttonBrowseModPath);
         this.panelModPath.Controls.Add(this.richTextBoxModPath);
         this.panelModPath.Controls.Add(this.labelModPath);
-        this.panelModPath.Location = new Point(3, 74);
+        this.panelModPath.Location = new Point(3, 3);
         this.panelModPath.Name = "panelModPath";
         this.panelModPath.Size = new Size(720, 66);
         this.panelModPath.TabIndex = 2;
@@ -234,14 +183,14 @@ partial class ModInstallerGui
         this.panelFeedback.Controls.Add(this.progressBarFeedback);
         this.panelFeedback.Controls.Add(this.richTextFeedback);
         this.panelFeedback.Controls.Add(this.labelFeedback);
-        this.panelFeedback.Location = new Point(3, 146);
+        this.panelFeedback.Location = new Point(3, 75);
         this.panelFeedback.Name = "panelFeedback";
         this.panelFeedback.Size = new Size(720, 258);
         this.panelFeedback.TabIndex = 3;
         // 
         // splitPanelButtonPane
         // 
-        this.splitPanelButtonPane.Location = new Point(3, 410);
+        this.splitPanelButtonPane.Location = new Point(3, 339);
         this.splitPanelButtonPane.Name = "splitPanelButtonPane";
         // 
         // splitPanelButtonPane.Panel1
@@ -265,12 +214,12 @@ partial class ModInstallerGui
         this.buttonSettings.Name = "buttonSettings";
         this.buttonSettings.Size = new Size(152, 28);
         this.buttonSettings.TabIndex = 5;
-        this.buttonSettings.Text = "Settings...";
+        this.buttonSettings.Text = "Path Settings...";
         this.buttonSettings.UseVisualStyleBackColor = true;
+        this.buttonSettings.Click += this.Gui_buttonSettings_Click;
         // 
         // panelContentWrapper
         // 
-        this.panelContentWrapper.Controls.Add(this.panelGamePath);
         this.panelContentWrapper.Controls.Add(this.splitPanelButtonPane);
         this.panelContentWrapper.Controls.Add(this.panelModPath);
         this.panelContentWrapper.Controls.Add(this.panelFeedback);
@@ -290,9 +239,8 @@ partial class ModInstallerGui
         this.MinimumSize = new Size(700, 600);
         this.Name = "ModInstallerGui";
         this.Text = "Indy3D Mod Installer GUI";
+        this.FormClosing += this.Gui_window_FormClosing;
         this.Resize += this.Gui_window_Resize;
-        this.panelGamePath.ResumeLayout(false);
-        this.panelGamePath.PerformLayout();
         this.panelModPath.ResumeLayout(false);
         this.panelModPath.PerformLayout();
         this.panelFeedback.ResumeLayout(false);
@@ -308,10 +256,6 @@ partial class ModInstallerGui
     }
 
     #endregion
-    private FolderBrowserDialog folderBrowserDialogGamePath;
-    private RichTextBox richTextBoxGamePath;
-    private Button buttonBrowseGamePath;
-    private Label labelGamePath;
     private Label labelModPath;
     private RichTextBox richTextBoxModPath;
     private Button buttonBrowseModPath;
@@ -324,7 +268,6 @@ partial class ModInstallerGui
     private FolderBrowserDialog folderBrowserDialogModPath;
     private Button buttonPlay;
     private Label labelFeedback;
-    private Panel panelGamePath;
     private Panel panelModPath;
     private Panel panelFeedback;
     private SplitContainer splitPanelButtonPane;
