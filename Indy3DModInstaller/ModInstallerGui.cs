@@ -106,6 +106,7 @@ public partial class ModInstallerGui : Form
         buttonInstall.Enabled = true;
         buttonUninstall.Enabled = true;
         buttonPlay.Enabled = true;
+        buttonSettings.Enabled = true;
     }
 
     private void DisableButtons()
@@ -115,6 +116,7 @@ public partial class ModInstallerGui : Form
         buttonInstall.Enabled = false;
         buttonUninstall.Enabled = false;
         buttonPlay.Enabled = false;
+        buttonSettings.Enabled = false;
     }
 
     private void Gui_window_Resize(object sender, EventArgs e)
