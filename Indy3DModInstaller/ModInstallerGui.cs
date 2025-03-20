@@ -63,9 +63,9 @@ public partial class ModInstallerGui : Form
         buttonBrowseModPath.Location = new Point(panelModPath.Width - buttonBrowseModPath.Width - MARGIN_DOUBLE, richTextBoxModPath.Location.Y);
 
         // Resize and move button panel.
-        int buttonOffsetX = (splitPanelButtonPane.Panel1.Width - _buttonWidth) / 2;
         int buttonOffsetY = _buttonHeight + MARGIN_DOUBLE;
         splitPanelButtonPane.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
+        int buttonOffsetX = (splitPanelButtonPane.Panel1.Width - _buttonWidth) / 2;
         splitPanelButtonPane.Height = (3 * buttonOffsetY) + MARGIN_DOUBLE;
         splitPanelButtonPane.Location = new Point(MARGIN_COMMON, panelContentWrapper.Height - splitPanelButtonPane.Height - MARGIN_DOUBLE);
         // Buttons in first half of the split panel.
