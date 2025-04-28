@@ -52,6 +52,12 @@ public partial class ModInstallerGui : Form
             _config = new Config();
             _configChanged = true;
         }
+
+        // Emit warning if Config failed to find game's install path.
+        if (_config.InstallPath == null)
+        {
+            _messageWriter.WriteLine("WARNING: Infernal Machine install path not found. Please, configure it by clicking the Settings button.");
+        }
     }
 
     private void ResizeGui()

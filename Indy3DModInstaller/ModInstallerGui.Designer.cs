@@ -214,7 +214,7 @@ partial class ModInstallerGui
         this.buttonSettings.Name = "buttonSettings";
         this.buttonSettings.Size = new Size(152, 28);
         this.buttonSettings.TabIndex = 5;
-        this.buttonSettings.Text = "Path Settings...";
+        this.buttonSettings.Text = "Settings...";
         this.buttonSettings.UseVisualStyleBackColor = true;
         this.buttonSettings.Click += this.Gui_buttonSettings_Click;
         // 

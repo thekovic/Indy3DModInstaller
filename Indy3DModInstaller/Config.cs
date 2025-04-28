@@ -27,9 +27,9 @@ public class Config
         {
             string resourcePath = Path.Combine(this.InstallPath, "Resource");
             this.InstallPath = resourcePath;
+            // Set executable path to the original executable by default.
+            this.ExecutablePath = Path.Combine(this.InstallPath, ORIGINAL_EXECUTABLE);
         }
-        // Set executable path to the original executable by default.
-        this.ExecutablePath = Path.Combine(this.InstallPath!, ORIGINAL_EXECUTABLE);
     }
 
     public Config(Config config)
