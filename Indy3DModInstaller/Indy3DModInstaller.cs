@@ -33,7 +33,7 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
 
     private readonly IMessageWriter _messageWriter = messageWriter;
 
-    public void Unpack(string? installPath)
+    public void Unpack(string? installPath, bool convertCndToNdy)
     {
         if (installPath == null)
         {
@@ -75,10 +75,20 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
 
         string[] cnd_files = Directory.GetFiles(Path.Combine(installPath, "ndy"), "*.cnd");
         
-        foreach (string file in cnd_files)
+        foreach (string cnd_file in cnd_files)
         {
-            _messageWriter.WriteLine($"Extracting level {Path.GetFileName(file)}...");
-            OsUtils.LaunchProcess("cndtool.exe", ["extract", "--no-template", $"-o=.", $"{Path.Combine("ndy", Path.GetFileName(file))}"], installPath);
+            if (convertCndToNdy)
+            {
+                _messageWriter.WriteLine($"Extracting level {Path.GetFileName(cnd_file)} and converting to .ndy...");
+                OsUtils.LaunchProcess("cndtool.exe", ["convert", "ndy", $"-o=.", $"{Path.Combine("ndy", Path.GetFileName(cnd_file))}", cogPath], installPath);
+                // Backup the original .CND after we finish converting.
+                File.Move(cnd_file, $"{cnd_file}.bak");
+            }
+            else
+            {
+                _messageWriter.WriteLine($"Extracting level {Path.GetFileName(cnd_file)}...");
+                OsUtils.LaunchProcess("cndtool.exe", ["extract", "--no-template", $"-o=.", $"{Path.Combine("ndy", Path.GetFileName(cnd_file))}"], installPath);
+            }
         }
 
         string keyPath = Path.Combine(installPath, "key");

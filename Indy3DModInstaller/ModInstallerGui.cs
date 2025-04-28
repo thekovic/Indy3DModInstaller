@@ -44,7 +44,7 @@ public partial class ModInstallerGui : Form
         try
         {
             _config = Config.ReadConfig();
-            _messageWriter.WriteLine("Config file loaded successfully.");
+            _messageWriter.WriteLine($"Config file loaded successfully.{Environment.NewLine}");
         }
         catch (Exception e)
         {
@@ -155,7 +155,7 @@ public partial class ModInstallerGui : Form
             {
                 try
                 {
-                    _modInstaller.Unpack(_config.InstallPath);
+                    _modInstaller.Unpack(_config.InstallPath, _config.ConvertCndToNdy);
                 }
                 catch (Exception ex)
                 {
