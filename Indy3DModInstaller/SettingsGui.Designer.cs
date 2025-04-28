@@ -29,6 +29,8 @@ partial class SettingsGui
     private void InitializeComponent()
     {
         this.panelContentWrapper = new Panel();
+        this.flowLayoutPanelCheckBoxes = new FlowLayoutPanel();
+        this.checkBoxConvertCndToNdy = new CheckBox();
         this.flowLayoutPanelButtonPane = new FlowLayoutPanel();
         this.buttonCancel = new Button();
         this.buttonApply = new Button();
@@ -43,6 +45,7 @@ partial class SettingsGui
         this.folderBrowserDialogGamePath = new FolderBrowserDialog();
         this.openFileDialogExecutablePath = new OpenFileDialog();
         this.panelContentWrapper.SuspendLayout();
+        this.flowLayoutPanelCheckBoxes.SuspendLayout();
         this.flowLayoutPanelButtonPane.SuspendLayout();
         this.panelExecutablePath.SuspendLayout();
         this.panelGamePath.SuspendLayout();
@@ -50,21 +53,42 @@ partial class SettingsGui
         // 
         // panelContentWrapper
         // 
+        this.panelContentWrapper.Controls.Add(this.flowLayoutPanelCheckBoxes);
         this.panelContentWrapper.Controls.Add(this.flowLayoutPanelButtonPane);
         this.panelContentWrapper.Controls.Add(this.panelExecutablePath);
         this.panelContentWrapper.Controls.Add(this.panelGamePath);
         this.panelContentWrapper.Dock = DockStyle.Fill;
         this.panelContentWrapper.Location = new Point(0, 0);
         this.panelContentWrapper.Name = "panelContentWrapper";
-        this.panelContentWrapper.Size = new Size(682, 193);
+        this.panelContentWrapper.Size = new Size(682, 233);
         this.panelContentWrapper.TabIndex = 0;
+        // 
+        // flowLayoutPanelCheckBoxes
+        // 
+        this.flowLayoutPanelCheckBoxes.Controls.Add(this.checkBoxConvertCndToNdy);
+        this.flowLayoutPanelCheckBoxes.Location = new Point(3, 145);
+        this.flowLayoutPanelCheckBoxes.Name = "flowLayoutPanelCheckBoxes";
+        this.flowLayoutPanelCheckBoxes.Size = new Size(676, 30);
+        this.flowLayoutPanelCheckBoxes.TabIndex = 5;
+        // 
+        // checkBoxConvertCndToNdy
+        // 
+        this.checkBoxConvertCndToNdy.AutoSize = true;
+        this.checkBoxConvertCndToNdy.Location = new Point(3, 3);
+        this.checkBoxConvertCndToNdy.Name = "checkBoxConvertCndToNdy";
+        this.checkBoxConvertCndToNdy.Size = new Size(400, 24);
+        this.checkBoxConvertCndToNdy.TabIndex = 0;
+        this.checkBoxConvertCndToNdy.Text = "Convert .CND level files to .NDY format upon unpacking";
+        this.checkBoxConvertCndToNdy.UseVisualStyleBackColor = true;
+        this.checkBoxConvertCndToNdy.CheckedChanged += this.Gui_checkBoxConvertCndToNdy_CheckedChanged;
         // 
         // flowLayoutPanelButtonPane
         // 
+        this.flowLayoutPanelButtonPane.Anchor =  AnchorStyles.Bottom | AnchorStyles.Left;
         this.flowLayoutPanelButtonPane.Controls.Add(this.buttonCancel);
         this.flowLayoutPanelButtonPane.Controls.Add(this.buttonApply);
         this.flowLayoutPanelButtonPane.FlowDirection = FlowDirection.RightToLeft;
-        this.flowLayoutPanelButtonPane.Location = new Point(3, 145);
+        this.flowLayoutPanelButtonPane.Location = new Point(3, 180);
         this.flowLayoutPanelButtonPane.Name = "flowLayoutPanelButtonPane";
         this.flowLayoutPanelButtonPane.Size = new Size(676, 41);
         this.flowLayoutPanelButtonPane.TabIndex = 4;
@@ -187,15 +211,17 @@ partial class SettingsGui
         this.AutoScaleDimensions = new SizeF(8F, 20F);
         this.AutoScaleMode = AutoScaleMode.Font;
         this.CancelButton = this.buttonCancel;
-        this.ClientSize = new Size(682, 193);
+        this.ClientSize = new Size(682, 233);
         this.Controls.Add(this.panelContentWrapper);
         this.MaximizeBox = false;
-        this.MaximumSize = new Size(9999, 240);
-        this.MinimumSize = new Size(700, 240);
+        this.MaximumSize = new Size(9999, 960);
+        this.MinimumSize = new Size(700, 280);
         this.Name = "SettingsGui";
         this.Text = "SettingsGui";
         this.Resize += this.Gui_window_Resize;
         this.panelContentWrapper.ResumeLayout(false);
+        this.flowLayoutPanelCheckBoxes.ResumeLayout(false);
+        this.flowLayoutPanelCheckBoxes.PerformLayout();
         this.flowLayoutPanelButtonPane.ResumeLayout(false);
         this.panelExecutablePath.ResumeLayout(false);
         this.panelExecutablePath.PerformLayout();
@@ -220,4 +246,6 @@ partial class SettingsGui
     private Button buttonCancel;
     private FolderBrowserDialog folderBrowserDialogGamePath;
     private OpenFileDialog openFileDialogExecutablePath;
+    private FlowLayoutPanel flowLayoutPanelCheckBoxes;
+    private CheckBox checkBoxConvertCndToNdy;
 }

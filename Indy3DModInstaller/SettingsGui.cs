@@ -23,6 +23,7 @@ public partial class SettingsGui : Form
 
         richTextBoxGamePath.Text = _modifiedConfig.InstallPath;
         richTextBoxExecutablePath.Text = _modifiedConfig.ExecutablePath;
+        checkBoxConvertCndToNdy.Checked = _modifiedConfig.ConvertCndToNdy;
 
         openFileDialogExecutablePath.InitialDirectory = _modifiedConfig.ExecutablePath;
     }
@@ -41,6 +42,7 @@ public partial class SettingsGui : Form
 
         // Resize and move button panel.
         flowLayoutPanelButtonPane.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
+        flowLayoutPanelButtonPane.Location = new Point(flowLayoutPanelButtonPane.Location.X, panelContentWrapper.Height - flowLayoutPanelButtonPane.Height - MARGIN_DOUBLE);
     }
 
     private void Gui_window_Resize(object sender, EventArgs e)
@@ -82,7 +84,7 @@ public partial class SettingsGui : Form
 
     private void Gui_buttonApply_Click(object sender, EventArgs e)
     {
-        _originalConfig.Update(_modifiedConfig);
+        _originalConfig.UpdateWithValues(_modifiedConfig);
         Config.SaveConfig(_originalConfig);
         this.Close();
     }
@@ -90,5 +92,10 @@ public partial class SettingsGui : Form
     private void Gui_buttonCancel_Click(object sender, EventArgs e)
     {
         this.Close();
+    }
+
+    private void Gui_checkBoxConvertCndToNdy_CheckedChanged(object sender, EventArgs e)
+    {
+        _modifiedConfig.ConvertCndToNdy = checkBoxConvertCndToNdy.Checked;
     }
 }
