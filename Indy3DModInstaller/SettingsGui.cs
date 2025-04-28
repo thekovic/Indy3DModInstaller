@@ -32,11 +32,12 @@ public partial class SettingsGui : Form
         // Resize game path panel.
         panelGamePath.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
         richTextBoxGamePath.Width = panelGamePath.Width - buttonBrowseGamePath.Width - (2 * MARGIN_DOUBLE);
-        buttonBrowseGamePath.Location = new Point(panelGamePath.Width - buttonBrowseGamePath.Width - MARGIN_DOUBLE, richTextBoxGamePath.Location.Y);
+        buttonBrowseGamePath.Location = new Point(panelGamePath.Width - buttonBrowseGamePath.Width - MARGIN_COMMON, richTextBoxGamePath.Location.Y);
         // Resize executable path panel.
         panelExecutablePath.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
         richTextBoxExecutablePath.Width = panelExecutablePath.Width - buttonBrowseExecutablePath.Width - (2 * MARGIN_DOUBLE);
-        buttonBrowseExecutablePath.Location = new Point(panelExecutablePath.Width - buttonBrowseExecutablePath.Width - MARGIN_DOUBLE, richTextBoxExecutablePath.Location.Y);
+        buttonBrowseExecutablePath.Location = new Point(panelExecutablePath.Width - buttonBrowseExecutablePath.Width - MARGIN_COMMON, richTextBoxExecutablePath.Location.Y);
+        // Resize checkbox panel.
 
         // Resize and move button panel.
         flowLayoutPanelButtonPane.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
