@@ -60,7 +60,7 @@ partial class SettingsGui
         this.panelContentWrapper.Dock = DockStyle.Fill;
         this.panelContentWrapper.Location = new Point(0, 0);
         this.panelContentWrapper.Name = "panelContentWrapper";
-        this.panelContentWrapper.Size = new Size(682, 233);
+        this.panelContentWrapper.Size = new Size(682, 273);
         this.panelContentWrapper.TabIndex = 0;
         // 
         // flowLayoutPanelCheckBoxes
@@ -88,7 +88,7 @@ partial class SettingsGui
         this.flowLayoutPanelButtonPane.Controls.Add(this.buttonCancel);
         this.flowLayoutPanelButtonPane.Controls.Add(this.buttonApply);
         this.flowLayoutPanelButtonPane.FlowDirection = FlowDirection.RightToLeft;
-        this.flowLayoutPanelButtonPane.Location = new Point(3, 180);
+        this.flowLayoutPanelButtonPane.Location = new Point(3, 220);
         this.flowLayoutPanelButtonPane.Name = "flowLayoutPanelButtonPane";
         this.flowLayoutPanelButtonPane.Size = new Size(676, 41);
         this.flowLayoutPanelButtonPane.TabIndex = 4;
@@ -211,7 +211,7 @@ partial class SettingsGui
         this.AutoScaleDimensions = new SizeF(8F, 20F);
         this.AutoScaleMode = AutoScaleMode.Font;
         this.CancelButton = this.buttonCancel;
-        this.ClientSize = new Size(682, 233);
+        this.ClientSize = new Size(682, 273);
         this.Controls.Add(this.panelContentWrapper);
         this.MaximizeBox = false;
         this.MaximumSize = new Size(9999, 960);
