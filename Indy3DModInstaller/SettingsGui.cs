@@ -17,6 +17,7 @@ public partial class SettingsGui : Form
     public SettingsGui(Config config)
     {
         this.InitializeComponent();
+        this.ResizeGui();
 
         _originalConfig = config;
         _modifiedConfig = new Config(config);
