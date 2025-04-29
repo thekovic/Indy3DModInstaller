@@ -44,6 +44,19 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
             throw new ArgumentException($"ERROR: Path doesn't lead to Resource folder. Cannot unpack game files.{Environment.NewLine}Please select path to Resource folder.");
         }
 
+        string jones3dPath = Path.Combine(installPath, JONES3D_GOB_FILE);
+        string cd1Path = Path.Combine(installPath, CD1_GOB_FILE);
+        string cd2Path = Path.Combine(installPath, CD2_GOB_FILE);
+
+        string jones3dBackupPath = Path.Combine(installPath, JONES3D_GOB_BACKUP_FILE);
+        string cd1BackupPath = Path.Combine(installPath, CD1_GOB_BACKUP_FILE);
+        string cd2BackupPath = Path.Combine(installPath, CD2_GOB_BACKUP_FILE);
+
+        if (!File.Exists(jones3dPath))
+        {
+            throw new FileNotFoundException($"ERROR: Resource folder doesn't contain .GOB files.{Environment.NewLine}If you have previously tried to Unpack game files, click Uninstall All Mods. Otherwise, verify that your game files are valid.");
+        }
+
         string cogPath = Path.Combine(installPath, "cog");
         string cogBackupPath = Path.Combine(installPath, COG_BACKUP_FOLDER);
 
@@ -59,14 +72,6 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
         OsUtils.LaunchProcess("gobext.exe", [CD1_GOB_FILE, "-o=."], installPath);
         _messageWriter.WriteLine($"Extracting archive {CD2_GOB_FILE}...");
         OsUtils.LaunchProcess("gobext.exe", [CD2_GOB_FILE, "-o=."], installPath);
-
-        string jones3dPath = Path.Combine(installPath, JONES3D_GOB_FILE);
-        string cd1Path = Path.Combine(installPath, CD1_GOB_FILE);
-        string cd2Path = Path.Combine(installPath, CD2_GOB_FILE);
-
-        string jones3dBackupPath = Path.Combine(installPath, JONES3D_GOB_BACKUP_FILE);
-        string cd1BackupPath = Path.Combine(installPath, CD1_GOB_BACKUP_FILE);
-        string cd2BackupPath = Path.Combine(installPath, CD2_GOB_BACKUP_FILE);
 
         // rename/backup GOB files so that the game is running solely from extracted files
         File.Move(jones3dPath, jones3dBackupPath);
