@@ -154,6 +154,8 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
                 _messageWriter.WriteLine("Dev Mode was already enabled.");
                 _messageWriter.WriteLine("Dev Mode for Indy3D.exe disabled.");
             }
+
+            return;
         }
     }
 
