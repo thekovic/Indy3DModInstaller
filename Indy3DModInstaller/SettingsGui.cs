@@ -26,7 +26,11 @@ public partial class SettingsGui : Form
         richTextBoxExecutablePath.Text = _modifiedConfig.ExecutablePath;
         checkBoxConvertCndToNdy.Checked = _modifiedConfig.ConvertCndToNdy;
 
-        openFileDialogExecutablePath.InitialDirectory = _modifiedConfig.ExecutablePath;
+        if (_modifiedConfig.InstallPath != null)
+        {
+            folderBrowserDialogGamePath.InitialDirectory = _modifiedConfig.InstallPath;
+            openFileDialogExecutablePath.InitialDirectory = _modifiedConfig.InstallPath;
+        }
     }
 
     private void ResizeGui()
@@ -57,14 +61,12 @@ public partial class SettingsGui : Form
         {
             richTextBoxGamePath.Text = folderBrowserDialogGamePath.SelectedPath;
             _modifiedConfig.InstallPath = folderBrowserDialogGamePath.SelectedPath;
-            openFileDialogExecutablePath.InitialDirectory = folderBrowserDialogGamePath.SelectedPath;
         }
     }
 
     private void Gui_richTextBoxGamePath_TextChanged(object sender, EventArgs e)
     {
         _modifiedConfig.InstallPath = richTextBoxGamePath.Text;
-        openFileDialogExecutablePath.InitialDirectory = richTextBoxGamePath.Text;
     }
 
     private void Gui_buttonBrowseExecutablePath_Click(object sender, EventArgs e)
@@ -73,14 +75,12 @@ public partial class SettingsGui : Form
         {
             richTextBoxExecutablePath.Text = openFileDialogExecutablePath.FileName;
             _modifiedConfig.ExecutablePath = openFileDialogExecutablePath.FileName;
-            openFileDialogExecutablePath.InitialDirectory = Path.GetDirectoryName(openFileDialogExecutablePath.FileName);
         }
     }
 
     private void Gui_richTextBoxExecutablePath_TextChanged(object sender, EventArgs e)
     {
         _modifiedConfig.ExecutablePath = richTextBoxExecutablePath.Text;
-        openFileDialogExecutablePath.InitialDirectory = richTextBoxExecutablePath.Text;
     }
 
     private void Gui_buttonApply_Click(object sender, EventArgs e)

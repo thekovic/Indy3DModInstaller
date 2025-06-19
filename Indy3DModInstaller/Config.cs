@@ -35,6 +35,10 @@ public class Config
         this.ConvertCndToNdy = false;
     }
 
+    /// <summary>
+    /// Copy constructor.
+    /// </summary>
+    /// <param name="config"></param>
     public Config(Config config)
     {
         this.UpdateWithValues(config);
