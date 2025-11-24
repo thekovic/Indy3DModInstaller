@@ -210,9 +210,10 @@ partial class ModInstallerGui
         // 
         // buttonSettings
         // 
+        this.buttonSettings.AutoSize = true;
         this.buttonSettings.Location = new Point(114, 14);
         this.buttonSettings.Name = "buttonSettings";
-        this.buttonSettings.Size = new Size(152, 28);
+        this.buttonSettings.Size = new Size(152, 30);
         this.buttonSettings.TabIndex = 5;
         this.buttonSettings.Text = "Settings...";
         this.buttonSettings.UseVisualStyleBackColor = true;
