@@ -22,7 +22,7 @@ internal static class OsUtils
 {
     public static void LaunchProcess(string processName, string[] args, string workingDirectory)
     {
-        StringBuilder sbStderr = new StringBuilder();
+        var sbStderr = new StringBuilder();
 
         using (var process = new Process())
         {
@@ -65,11 +65,12 @@ internal static class OsUtils
             process.WaitForExit();
 
             // Hack to ignore error codes from Indy3D.exe because it returns +-1 on normal exit
-            if (Path.GetFileNameWithoutExtension(process.StartInfo.FileName) == "Indy3D" && (process.ExitCode == 1 || process.ExitCode == -1))
+            if (Path.GetFileNameWithoutExtension(process.StartInfo.FileName) == "Indy3D" && process.ExitCode is 1 or -1)
             {
                 return;
             }
-            else if (process.ExitCode != 0)
+
+            if (process.ExitCode != 0)
             {
                 throw new SpawnedProcessErrorException($"Subprocess error message:{Environment.NewLine}{sbStderr}{Environment.NewLine}Subprocess {process.StartInfo.FileName} failed during execution with exit code {process.ExitCode}.{Environment.NewLine}");
             }

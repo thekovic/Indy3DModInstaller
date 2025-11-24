@@ -13,10 +13,10 @@ internal class Indy3DRegistryEntry(string gameVersionId, string registryKey)
 internal class Indy3DModInstaller(IMessageWriter messageWriter)
 {
     private static readonly Indy3DRegistryEntry[] REGISTRY_ENTRIES = [
-        new Indy3DRegistryEntry("Steam", "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
-        new Indy3DRegistryEntry("GOG", "HKEY_CURRENT_USER\\SOFTWARE\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
-        new Indy3DRegistryEntry("CD", "HKEY_LOCAL_MACHINE\\Software\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
-        new Indy3DRegistryEntry("CD (Unofficial Installer)", "HKEY_CURRENT_USER\\SOFTWARE\\Classes\\VirtualStore\\MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0")
+        new("Steam", "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
+        new("GOG", "HKEY_CURRENT_USER\\SOFTWARE\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
+        new("CD", "HKEY_LOCAL_MACHINE\\Software\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
+        new("CD (Unofficial Installer)", "HKEY_CURRENT_USER\\SOFTWARE\\Classes\\VirtualStore\\MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0")
     ];
 
     private static readonly string[] GAME_ASSET_FOLDER_NAMES = ["3do", "cog", "hi3do", "mat", "misc", "ndy", "sound"];
@@ -39,7 +39,8 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
         {
             throw new ArgumentNullException($"ERROR: Path empty. Cannot unpack game files.{Environment.NewLine}Please select path to Resource folder.");
         }
-        else if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
+
+        if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
         {
             throw new ArgumentException($"ERROR: Path doesn't lead to Resource folder. Cannot unpack game files.{Environment.NewLine}Please select path to Resource folder.");
         }
@@ -78,21 +79,21 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
         File.Move(cd1Path, cd1BackupPath);
         File.Move(cd2Path, cd2BackupPath);
 
-        string[] cnd_files = Directory.GetFiles(Path.Combine(installPath, "ndy"), "*.cnd");
+        string[] cndFiles = Directory.GetFiles(Path.Combine(installPath, "ndy"), "*.cnd");
         
-        foreach (string cnd_file in cnd_files)
+        foreach (string cndFile in cndFiles)
         {
             if (convertCndToNdy)
             {
-                _messageWriter.WriteLine($"Extracting level {Path.GetFileName(cnd_file)} and converting to .ndy...");
-                OsUtils.LaunchProcess("cndtool.exe", ["convert", "ndy", $"-o=.", $"{Path.Combine("ndy", Path.GetFileName(cnd_file))}", cogPath], installPath);
+                _messageWriter.WriteLine($"Extracting level {Path.GetFileName(cndFile)} and converting to .ndy...");
+                OsUtils.LaunchProcess("cndtool.exe", ["convert", "ndy", $"-o=.", $"{Path.Combine("ndy", Path.GetFileName(cndFile))}", cogPath], installPath);
                 // Backup the original .CND after we finish converting.
-                File.Move(cnd_file, $"{cnd_file}.bak");
+                File.Move(cndFile, $"{cndFile}.bak");
             }
             else
             {
-                _messageWriter.WriteLine($"Extracting level {Path.GetFileName(cnd_file)}...");
-                OsUtils.LaunchProcess("cndtool.exe", ["extract", "--no-template", $"-o=.", $"{Path.Combine("ndy", Path.GetFileName(cnd_file))}"], installPath);
+                _messageWriter.WriteLine($"Extracting level {Path.GetFileName(cndFile)}...");
+                OsUtils.LaunchProcess("cndtool.exe", ["extract", "--no-template", $"-o=.", $"{Path.Combine("ndy", Path.GetFileName(cndFile))}"], installPath);
             }
         }
 
@@ -116,7 +117,7 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
 
     public static string? GetInstallPathFromRegistry()
     {
-        foreach (Indy3DRegistryEntry registryEntry in REGISTRY_ENTRIES)
+        foreach (var registryEntry in REGISTRY_ENTRIES)
         {
             object? registryKey = Registry.GetValue(registryEntry.RegistryKey, "Install Path", null);
             if (registryKey == null)
@@ -133,7 +134,7 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
 
     public void SetDevMode()
     {
-        foreach (Indy3DRegistryEntry registryEntry in REGISTRY_ENTRIES)
+        foreach (var registryEntry in REGISTRY_ENTRIES)
         {
             object? registryKey = Registry.GetValue(registryEntry.RegistryKey, "Start Mode", 42);
             if (registryKey == null)
@@ -165,7 +166,8 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
         {
             throw new ArgumentNullException($"ERROR: Path empty. Cannot install mod.{Environment.NewLine}Please select path to Resource folder.");
         }
-        else if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
+
+        if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
         {
             throw new ArgumentException($"ERROR: Path doesn't lead to Resource folder. Cannot install mod.{Environment.NewLine}Please select path to Resource folder.");
         }
@@ -184,8 +186,8 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
 
             if (Directory.Exists(folderInModPath))
             {
-                string folderinModPathWithModPrefix = Path.Combine(Path.GetFileName(modPath), Path.GetFileName(folderInModPath));
-                _messageWriter.WriteLine($"Installing {folderinModPathWithModPrefix}...");
+                string folderInModPathWithModPrefix = Path.Combine(Path.GetFileName(modPath), Path.GetFileName(folderInModPath));
+                _messageWriter.WriteLine($"Installing {folderInModPathWithModPrefix}...");
                 OsUtils.CopyDirectoryContent(folderInModPath, folderInInstallPath);
             }
         }
@@ -199,7 +201,8 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
         {
             throw new ArgumentNullException($"ERROR: Path empty. Cannot uninstall mods.{Environment.NewLine}Please select path to Resource folder.");
         }
-        else if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
+
+        if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
         {
             throw new ArgumentException($"ERROR: Path doesn't lead to Resource folder. Cannot uninstall mods.{Environment.NewLine}Please select path to Resource folder.");
         }

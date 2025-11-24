@@ -18,7 +18,7 @@ public class GuiMessageWriter(RichTextBox messageBox) : IMessageWriter
         // Dispatch action based on what the GUI needs
         if (this.MessageBox.InvokeRequired)
         {
-            this.MessageBox.Invoke(new Action(() => this.MessageBox.AppendText($"{message}{Environment.NewLine}")));
+            this.MessageBox.Invoke(() => this.MessageBox.AppendText($"{message}{Environment.NewLine}"));
         }
         else
         {
