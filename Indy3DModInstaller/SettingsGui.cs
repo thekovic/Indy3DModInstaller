@@ -23,13 +23,18 @@ public partial class SettingsGui : Form
         _modifiedConfig = new Config(config);
 
         richTextBoxGamePath.Text = _modifiedConfig.InstallPath;
-        richTextBoxExecutablePath.Text = _modifiedConfig.ExecutablePath;
+        richTextBoxOpenJonesDirPath.Text = _modifiedConfig.OpenJonesDirPath;
+        checkBoxLaunchOpenJones.Checked = _modifiedConfig.LaunchOpenJones;
         checkBoxConvertCndToNdy.Checked = _modifiedConfig.ConvertCndToNdy;
 
         if (_modifiedConfig.InstallPath != null)
         {
             folderBrowserDialogGamePath.InitialDirectory = _modifiedConfig.InstallPath;
-            openFileDialogExecutablePath.InitialDirectory = _modifiedConfig.InstallPath;
+        }
+
+        if (_modifiedConfig.OpenJonesDirPath != null)
+        {
+            folderBrowserDialogOpenJonesDirPath.InitialDirectory = _modifiedConfig.OpenJonesDirPath;
         }
     }
 
@@ -39,10 +44,14 @@ public partial class SettingsGui : Form
         panelGamePath.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
         richTextBoxGamePath.Width = panelGamePath.Width - buttonBrowseGamePath.Width - (2 * MARGIN_DOUBLE);
         buttonBrowseGamePath.Location = new Point(panelGamePath.Width - buttonBrowseGamePath.Width - MARGIN_COMMON, richTextBoxGamePath.Location.Y);
-        // Resize executable path panel.
-        panelExecutablePath.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
-        richTextBoxExecutablePath.Width = panelExecutablePath.Width - buttonBrowseExecutablePath.Width - (2 * MARGIN_DOUBLE);
-        buttonBrowseExecutablePath.Location = new Point(panelExecutablePath.Width - buttonBrowseExecutablePath.Width - MARGIN_COMMON, richTextBoxExecutablePath.Location.Y);
+        // Resize OpenJones directory path panel.
+        panelOpenJonesDirPath.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
+        richTextBoxOpenJonesDirPath.Width = panelOpenJonesDirPath.Width - buttonBrowseOpenJonesDirPath.Width - (2 * MARGIN_DOUBLE);
+        buttonBrowseOpenJonesDirPath.Location = new Point(panelOpenJonesDirPath.Width - buttonBrowseOpenJonesDirPath.Width - MARGIN_COMMON, richTextBoxOpenJonesDirPath.Location.Y);
+        // Resize OpenJones controls panel.
+        panelOpenJonesControls.Width = panelContentWrapper.Width - MARGIN_DOUBLE;
+        buttonUninstallOpenJones.Location = new Point(panelOpenJonesControls.Width - buttonUninstallOpenJones.Width - MARGIN_COMMON, buttonUninstallOpenJones.Location.Y);
+        buttonInstallOpenJones.Location = new Point(buttonUninstallOpenJones.Location.X - buttonInstallOpenJones.Width - MARGIN_DOUBLE, buttonInstallOpenJones.Location.Y);
         // Resize checkbox panel.
 
         // Resize and move button panel.
@@ -61,6 +70,7 @@ public partial class SettingsGui : Form
         {
             richTextBoxGamePath.Text = folderBrowserDialogGamePath.SelectedPath;
             _modifiedConfig.InstallPath = folderBrowserDialogGamePath.SelectedPath;
+            _modifiedConfig.ExecutablePath = Path.Combine(folderBrowserDialogGamePath.SelectedPath, Config.ORIGINAL_EXECUTABLE);
         }
     }
 
@@ -69,18 +79,18 @@ public partial class SettingsGui : Form
         _modifiedConfig.InstallPath = richTextBoxGamePath.Text;
     }
 
-    private void Gui_buttonBrowseExecutablePath_Click(object sender, EventArgs e)
+    private void Gui_buttonBrowseOpenJonesDirPath_Click(object sender, EventArgs e)
     {
-        if (openFileDialogExecutablePath.ShowDialog() == DialogResult.OK)
+        if (folderBrowserDialogOpenJonesDirPath.ShowDialog() == DialogResult.OK)
         {
-            richTextBoxExecutablePath.Text = openFileDialogExecutablePath.FileName;
-            _modifiedConfig.ExecutablePath = openFileDialogExecutablePath.FileName;
+            richTextBoxOpenJonesDirPath.Text = folderBrowserDialogOpenJonesDirPath.SelectedPath;
+            _modifiedConfig.OpenJonesDirPath = folderBrowserDialogOpenJonesDirPath.SelectedPath;
         }
     }
 
-    private void Gui_richTextBoxExecutablePath_TextChanged(object sender, EventArgs e)
+    private void Gui_richTextBoxOpenJonesDirPath_TextChanged(object sender, EventArgs e)
     {
-        _modifiedConfig.ExecutablePath = richTextBoxExecutablePath.Text;
+        _modifiedConfig.OpenJonesDirPath = richTextBoxOpenJonesDirPath.Text;
     }
 
     private void Gui_buttonApply_Click(object sender, EventArgs e)
@@ -93,6 +103,11 @@ public partial class SettingsGui : Form
     private void Gui_buttonCancel_Click(object sender, EventArgs e)
     {
         this.Close();
+    }
+
+    private void Gui_checkBoxLaunchOpenJones_CheckedChanged(object sender, EventArgs e)
+    {
+        _modifiedConfig.LaunchOpenJones = checkBoxLaunchOpenJones.Checked;
     }
 
     private void Gui_checkBoxConvertCndToNdy_CheckedChanged(object sender, EventArgs e)
