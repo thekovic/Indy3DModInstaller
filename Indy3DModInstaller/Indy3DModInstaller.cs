@@ -3,14 +3,14 @@ using System.Diagnostics;
 
 namespace Indy3DModInstaller;
 
-internal class Indy3DRegistryEntry(string gameVersionId, string registryKey)
+public class Indy3DRegistryEntry(string gameVersionId, string registryKey)
 {
     public string GameVersionId { get; set; } = gameVersionId;
 
     public string RegistryKey { get; set; } = registryKey;
 }
 
-internal class Indy3DModInstaller(IMessageWriter messageWriter)
+public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWriter
 {
     private static readonly Indy3DRegistryEntry[] REGISTRY_ENTRIES = [
         new("Steam", "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
@@ -31,7 +31,7 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
     private const string CD2_GOB_FILE = "CD2.GOB";
     private const string CD2_GOB_BACKUP_FILE = $"{CD2_GOB_FILE}.BAK";
 
-    private readonly IMessageWriter _messageWriter = messageWriter;
+    public IMessageWriter MessageWriter { get; } = messageWriter;
 
     public void Unpack(string? installPath, bool convertCndToNdy)
     {
@@ -67,11 +67,11 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
             Directory.Move(cogPath, cogBackupPath);
         }
 
-        _messageWriter.WriteLine($"Extracting archive {JONES3D_GOB_FILE}...");
+        MessageWriter.WriteLine($"Extracting archive {JONES3D_GOB_FILE}...");
         OsUtils.LaunchProcess("gobext.exe", [JONES3D_GOB_FILE, "-o=."], installPath);
-        _messageWriter.WriteLine($"Extracting archive {CD1_GOB_FILE}...");
+        MessageWriter.WriteLine($"Extracting archive {CD1_GOB_FILE}...");
         OsUtils.LaunchProcess("gobext.exe", [CD1_GOB_FILE, "-o=."], installPath);
-        _messageWriter.WriteLine($"Extracting archive {CD2_GOB_FILE}...");
+        MessageWriter.WriteLine($"Extracting archive {CD2_GOB_FILE}...");
         OsUtils.LaunchProcess("gobext.exe", [CD2_GOB_FILE, "-o=."], installPath);
 
         // rename/backup GOB files so that the game is running solely from extracted files
@@ -85,14 +85,14 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
         {
             if (convertCndToNdy)
             {
-                _messageWriter.WriteLine($"Extracting level {Path.GetFileName(cndFile)} and converting to .ndy...");
+                MessageWriter.WriteLine($"Extracting level {Path.GetFileName(cndFile)} and converting to .ndy...");
                 OsUtils.LaunchProcess("cndtool.exe", ["convert", "ndy", $"-o=.", $"{Path.Combine("ndy", Path.GetFileName(cndFile))}", cogPath], installPath);
                 // Backup the original .CND after we finish converting.
                 File.Move(cndFile, $"{cndFile}.bak");
             }
             else
             {
-                _messageWriter.WriteLine($"Extracting level {Path.GetFileName(cndFile)}...");
+                MessageWriter.WriteLine($"Extracting level {Path.GetFileName(cndFile)}...");
                 OsUtils.LaunchProcess("cndtool.exe", ["extract", "--no-template", $"-o=.", $"{Path.Combine("ndy", Path.GetFileName(cndFile))}"], installPath);
             }
         }
@@ -112,7 +112,7 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
             OsUtils.CopyDirectoryContent(cogBackupPath, cogPath);
         }
 
-        _messageWriter.WriteLine("Unpacking successfully finished.");
+        MessageWriter.WriteLine("Unpacking successfully finished.");
     }
 
     public static string? GetInstallPathFromRegistry()
@@ -142,18 +142,18 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
                 continue;
             }
 
-            _messageWriter.WriteLine($"Dev Mode: Found entry for {registryEntry.GameVersionId} version.");
+            MessageWriter.WriteLine($"Dev Mode: Found entry for {registryEntry.GameVersionId} version.");
             int startMode = (int) registryKey;
             if (startMode != 2)
             {
                 Registry.SetValue(registryEntry.RegistryKey, "Start Mode", 2, RegistryValueKind.DWord);
-                _messageWriter.WriteLine("Dev Mode for Indy3D.exe enabled.");
+                MessageWriter.WriteLine("Dev Mode for Indy3D.exe enabled.");
             }
             else
             {
                 Registry.SetValue(registryEntry.RegistryKey, "Start Mode", 1, RegistryValueKind.DWord);
-                _messageWriter.WriteLine("Dev Mode was already enabled.");
-                _messageWriter.WriteLine("Dev Mode for Indy3D.exe disabled.");
+                MessageWriter.WriteLine("Dev Mode was already enabled.");
+                MessageWriter.WriteLine("Dev Mode for Indy3D.exe disabled.");
             }
 
             return;
@@ -177,7 +177,7 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
             throw new ArgumentNullException($"ERROR: Path empty. Cannot install mod.{Environment.NewLine}Please select path to mod folder.");
         }
 
-        _messageWriter.WriteLine($"Installing mod from {modPath}...");
+        MessageWriter.WriteLine($"Installing mod from {modPath}...");
 
         foreach (string folderName in GAME_ASSET_FOLDER_NAMES)
         {
@@ -187,12 +187,12 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
             if (Directory.Exists(folderInModPath))
             {
                 string folderInModPathWithModPrefix = Path.Combine(Path.GetFileName(modPath), Path.GetFileName(folderInModPath));
-                _messageWriter.WriteLine($"Installing {folderInModPathWithModPrefix}...");
+                MessageWriter.WriteLine($"Installing {folderInModPathWithModPrefix}...");
                 OsUtils.CopyDirectoryContent(folderInModPath, folderInInstallPath);
             }
         }
 
-        _messageWriter.WriteLine("Mod installation successfully finished.");
+        MessageWriter.WriteLine("Mod installation successfully finished.");
     }
 
     public void Uninstall(string? installPath)
@@ -207,7 +207,7 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
             throw new ArgumentException($"ERROR: Path doesn't lead to Resource folder. Cannot uninstall mods.{Environment.NewLine}Please select path to Resource folder.");
         }
 
-        _messageWriter.WriteLine("Uninstalling mods, reverting to vanilla state from backups...");
+        MessageWriter.WriteLine("Uninstalling mods, reverting to vanilla state from backups...");
 
         foreach (string folderName in GAME_ASSET_FOLDER_NAMES)
         {
@@ -215,7 +215,7 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
 
             if (Directory.Exists(folderInInstallPath))
             {
-                _messageWriter.WriteLine($"Uninstalling modded {Path.GetFileName(folderInInstallPath)}...");
+                MessageWriter.WriteLine($"Uninstalling modded {Path.GetFileName(folderInInstallPath)}...");
                 Directory.Delete(folderInInstallPath, true);
             }
         }
@@ -252,7 +252,7 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
             Directory.Move(cogBackupPath, cogPath);
         }
 
-        _messageWriter.WriteLine("Mod uninstallation successfully finished.");
+        MessageWriter.WriteLine("Mod uninstallation successfully finished.");
     }
 
     public void LaunchGame(string? executablePath)
@@ -272,11 +272,11 @@ internal class Indy3DModInstaller(IMessageWriter messageWriter)
             throw new Exception($"ERROR: Executable path set to a directory. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
         }
 
-        _messageWriter.WriteLine("Launching game...");
+        MessageWriter.WriteLine("Launching game...");
 
         string executableDir = Path.GetDirectoryName(executablePath)!;
         OsUtils.LaunchProcess(executablePath, [], executableDir);
 
-        _messageWriter.WriteLine("Game exited successfully.");
+        MessageWriter.WriteLine("Game exited successfully.");
     }
 }

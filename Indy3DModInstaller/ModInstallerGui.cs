@@ -1,6 +1,6 @@
 ﻿namespace Indy3DModInstaller;
 
-public partial class ModInstallerGui : Form
+public partial class ModInstallerGui : Form, IHasMessageWriter
 {
     /// <summary>
     /// Default margin value used for all the controls in the GUI. Used when calculating window size during resizing.
@@ -21,19 +21,19 @@ public partial class ModInstallerGui : Form
 
     private string? _modPath = null;
 
-    private readonly GuiMessageWriter _messageWriter;
-
     private readonly Indy3DModInstaller _modInstaller;
 
     private readonly Config _config;
     private bool _configChanged = false;
 
+    public IMessageWriter MessageWriter { get; }
+
     public ModInstallerGui()
     {
         this.InitializeComponent();
 
-        _messageWriter = new GuiMessageWriter(richTextFeedback);
-        _modInstaller = new Indy3DModInstaller(_messageWriter);
+        MessageWriter = new GuiMessageWriter(richTextFeedback);
+        _modInstaller = new Indy3DModInstaller(MessageWriter);
 
         _buttonWidth = buttonUnpack.Width;
         _buttonHeight = buttonUnpack.Height;
@@ -44,11 +44,11 @@ public partial class ModInstallerGui : Form
         try
         {
             _config = Config.ReadConfig();
-            _messageWriter.WriteLine($"Config file loaded successfully.{Environment.NewLine}");
+            MessageWriter.WriteLine($"Config file loaded successfully.");
         }
         catch (Exception e)
         {
-            _messageWriter.WriteLine(e.Message);
+            MessageWriter.WriteLine(e.Message);
             _config = new Config();
             _configChanged = true;
         }
@@ -56,7 +56,7 @@ public partial class ModInstallerGui : Form
         // Emit warning if Config failed to find game's install path.
         if (_config.InstallPath == null)
         {
-            _messageWriter.WriteLine("WARNING: Infernal Machine install path not found. Please, configure it by clicking the Settings button.");
+            MessageWriter.WriteLine("WARNING: Infernal Machine install path not found. Please, configure it by clicking the Settings button.");
         }
     }
 
@@ -159,7 +159,7 @@ public partial class ModInstallerGui : Form
                 }
                 catch (Exception ex)
                 {
-                    _messageWriter.WriteLine(ex.Message);
+                    MessageWriter.WriteLine(ex.Message);
                 }
             });
         }
@@ -178,7 +178,7 @@ public partial class ModInstallerGui : Form
         }
         catch (Exception ex)
         {
-            _messageWriter.WriteLine(ex.Message);
+            MessageWriter.WriteLine(ex.Message);
         }
     }
 
@@ -197,7 +197,7 @@ public partial class ModInstallerGui : Form
                 }
                 catch (Exception ex)
                 {
-                    _messageWriter.WriteLine(ex.Message);
+                    MessageWriter.WriteLine(ex.Message);
                 }
             });
         }
@@ -223,7 +223,7 @@ public partial class ModInstallerGui : Form
                 }
                 catch (Exception ex)
                 {
-                    _messageWriter.WriteLine(ex.Message);
+                    MessageWriter.WriteLine(ex.Message);
                 }
             });
         }
@@ -248,7 +248,7 @@ public partial class ModInstallerGui : Form
                 }
                 catch (Exception ex)
                 {
-                    _messageWriter.WriteLine(ex.Message);
+                    MessageWriter.WriteLine(ex.Message);
                 }
             });
         }

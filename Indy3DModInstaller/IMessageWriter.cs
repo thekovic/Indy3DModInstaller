@@ -1,8 +1,25 @@
 ﻿namespace Indy3DModInstaller;
 
-internal interface IMessageWriter
+public interface IHasMessageWriter
+{
+    public IMessageWriter MessageWriter { get; }
+}
+
+public interface IMessageWriter
 {
     public void WriteLine(string message);
+}
+
+public class NullMessageWriter : IMessageWriter
+{
+    /// <summary>
+    /// Print a message to nowhere. Used when no user feedback is needed.
+    /// </summary>
+    /// <param name="message">Message to be printed.</param>
+    public void WriteLine(string message)
+    {
+        // Do nothing.
+    }
 }
 
 public class GuiMessageWriter(RichTextBox messageBox) : IMessageWriter
