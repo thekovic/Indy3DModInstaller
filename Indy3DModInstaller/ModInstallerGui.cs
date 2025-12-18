@@ -272,4 +272,8 @@ public partial class ModInstallerGui : Form
             Config.SaveConfig(_config);
         }
     }
+
+    private async void Gui_window_Shown(object sender, EventArgs e)
+    {
+    }
 }
