@@ -37,7 +37,7 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
     {
         if (installPath == null)
         {
-            throw new ArgumentNullException($"ERROR: Path empty. Cannot unpack game files.{Environment.NewLine}Please select path to Resource folder.");
+            throw new ArgumentNullException(nameof(installPath), $"ERROR: Path empty. Cannot unpack game files.{Environment.NewLine}Please select path to Resource folder.");
         }
 
         if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
@@ -164,7 +164,7 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
     {
         if (installPath == null)
         {
-            throw new ArgumentNullException($"ERROR: Path empty. Cannot install mod.{Environment.NewLine}Please select path to Resource folder.");
+            throw new ArgumentNullException(nameof(installPath), $"ERROR: Path empty. Cannot install mod.{Environment.NewLine}Please select path to Resource folder.");
         }
 
         if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
@@ -174,7 +174,7 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
 
         if (modPath == null)
         {
-            throw new ArgumentNullException($"ERROR: Path empty. Cannot install mod.{Environment.NewLine}Please select path to mod folder.");
+            throw new ArgumentNullException(nameof(modPath), $"ERROR: Path empty. Cannot install mod.{Environment.NewLine}Please select path to mod folder.");
         }
 
         MessageWriter.WriteLine($"Installing mod from {modPath}...");
@@ -199,7 +199,7 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
     {
         if (installPath == null)
         {
-            throw new ArgumentNullException($"ERROR: Path empty. Cannot uninstall mods.{Environment.NewLine}Please select path to Resource folder.");
+            throw new ArgumentNullException(nameof(installPath), $"ERROR: Path empty. Cannot uninstall mods.{Environment.NewLine}Please select path to Resource folder.");
         }
 
         if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
@@ -259,7 +259,7 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
     {
         if (executablePath == null)
         {
-            throw new ArgumentNullException($"ERROR: Executable path empty. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
+            throw new ArgumentNullException(nameof(executablePath), $"ERROR: Executable path empty. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
         }
 
         if (!File.Exists(executablePath))
@@ -269,7 +269,7 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
 
         if (File.GetAttributes(executablePath).HasFlag(FileAttributes.Directory))
         {
-            throw new Exception($"ERROR: Executable path set to a directory. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
+            throw new ArgumentException($"ERROR: Executable path set to a directory. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
         }
 
         MessageWriter.WriteLine("Launching game...");

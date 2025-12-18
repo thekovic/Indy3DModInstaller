@@ -70,14 +70,14 @@ public class Config
     {
         if (!File.Exists(CONFIG_FILE))
         {
-            throw new Exception("WARNING: Config file not found. Using default instead.");
+            throw new FileNotFoundException("WARNING: Config file not found. Using default instead.");
         }
 
         string json = File.ReadAllText(CONFIG_FILE);
         var config = JsonSerializer.Deserialize<Config>(json, JsonOptions);
         if (config == null)
         {
-            throw new Exception("WARNING: Failed to read config file. Using default instead.");
+            throw new IOException("WARNING: Failed to read config file. Using default instead.");
         }
 
         // Upgrade to version 3.
@@ -89,7 +89,7 @@ public class Config
 
         if (config.Version != CONFIG_SERIALIZATION_VERSION)
         {
-            throw new Exception("WARNING: Config file version is incompatible. Using default instead.");
+            throw new InvalidDataException("WARNING: Config file version is incompatible. Using default instead.");
         }
 
         return config;
