@@ -8,6 +8,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Resources\Indy3DModInstaller.ico</ApplicationIcon>
+    <Version>2.3.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
