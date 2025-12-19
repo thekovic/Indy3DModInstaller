@@ -1,4 +1,6 @@
-﻿namespace Indy3DModInstaller;
+﻿using System.Diagnostics;
+
+namespace Indy3DModInstaller;
 
 public partial class ModInstallerGui : Form, IHasMessageWriter
 {
@@ -31,6 +33,9 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
     public ModInstallerGui()
     {
         this.InitializeComponent();
+
+        var applicationVersion = FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion;
+        this.Text += $" v{applicationVersion}";
 
         MessageWriter = new GuiMessageWriter(richTextFeedback);
         _modInstaller = new Indy3DModInstaller(MessageWriter);
