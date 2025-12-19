@@ -254,29 +254,4 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
 
         MessageWriter.WriteLine("Mod uninstallation successfully finished.");
     }
-
-    public void LaunchGame(string? executablePath)
-    {
-        if (executablePath == null)
-        {
-            throw new ArgumentNullException(nameof(executablePath), $"ERROR: Executable path empty. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
-        }
-
-        if (!File.Exists(executablePath))
-        {
-            throw new FileNotFoundException($"ERROR: Executable not found. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
-        }
-
-        if (File.GetAttributes(executablePath).HasFlag(FileAttributes.Directory))
-        {
-            throw new ArgumentException($"ERROR: Executable path set to a directory. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
-        }
-
-        MessageWriter.WriteLine("Launching game...");
-
-        string executableDir = Path.GetDirectoryName(executablePath)!;
-        OsUtils.LaunchProcess(executablePath, [], executableDir);
-
-        MessageWriter.WriteLine("Game exited successfully.");
-    }
 }

@@ -27,6 +27,8 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
 
     private readonly OpenJonesInstaller _openJonesInstaller;
 
+    private readonly GameLauncher _gameLauncher;
+
     private readonly Config _config;
     private bool _configChanged = false;
 
@@ -42,6 +44,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
         MessageWriter = new GuiMessageWriter(richTextFeedback);
         _modInstaller = new Indy3DModInstaller(MessageWriter);
         _openJonesInstaller = new OpenJonesInstaller(MessageWriter);
+        _gameLauncher = new GameLauncher(MessageWriter);
 
         _buttonWidth = buttonUnpack.Width;
         _buttonHeight = buttonUnpack.Height;
@@ -252,7 +255,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
             {
                 try
                 {
-                    _modInstaller.LaunchGame(_config.ExecutablePath);
+                    _gameLauncher.LaunchGame(_config);
                 }
                 catch (Exception ex)
                 {

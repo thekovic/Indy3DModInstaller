@@ -151,6 +151,7 @@ partial class SettingsGui
         checkBoxLaunchOpenJones.TabIndex = 0;
         checkBoxLaunchOpenJones.Text = "Launch OpenJones3D instead of the original engine";
         checkBoxLaunchOpenJones.UseVisualStyleBackColor = true;
+        checkBoxLaunchOpenJones.CheckedChanged += Gui_checkBoxLaunchOpenJones_CheckedChanged;
         // 
         // checkBoxConvertCndToNdy
         // 
