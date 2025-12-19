@@ -29,6 +29,7 @@ partial class SettingsGui
     private void InitializeComponent()
     {
         panelContentWrapper = new Panel();
+        progressBarOpenJonesInstallation = new ProgressBar();
         panelOpenJonesControls = new Panel();
         buttonUninstallOpenJones = new Button();
         buttonInstallOpenJones = new Button();
@@ -60,6 +61,7 @@ partial class SettingsGui
         // 
         // panelContentWrapper
         // 
+        panelContentWrapper.Controls.Add(progressBarOpenJonesInstallation);
         panelContentWrapper.Controls.Add(panelOpenJonesControls);
         panelContentWrapper.Controls.Add(flowLayoutPanelCheckBoxes);
         panelContentWrapper.Controls.Add(flowLayoutPanelButtonPane);
@@ -68,8 +70,17 @@ partial class SettingsGui
         panelContentWrapper.Dock = DockStyle.Fill;
         panelContentWrapper.Location = new Point(0, 0);
         panelContentWrapper.Name = "panelContentWrapper";
-        panelContentWrapper.Size = new Size(682, 313);
+        panelContentWrapper.Size = new Size(682, 353);
         panelContentWrapper.TabIndex = 0;
+        // 
+        // progressBarOpenJonesInstallation
+        // 
+        progressBarOpenJonesInstallation.Location = new Point(3, 192);
+        progressBarOpenJonesInstallation.MarqueeAnimationSpeed = 30;
+        progressBarOpenJonesInstallation.Name = "progressBarOpenJonesInstallation";
+        progressBarOpenJonesInstallation.Size = new Size(676, 29);
+        progressBarOpenJonesInstallation.Style = ProgressBarStyle.Marquee;
+        progressBarOpenJonesInstallation.TabIndex = 0;
         // 
         // panelOpenJonesControls
         // 
@@ -90,6 +101,7 @@ partial class SettingsGui
         buttonUninstallOpenJones.TabIndex = 3;
         buttonUninstallOpenJones.Text = "Uninstall";
         buttonUninstallOpenJones.UseVisualStyleBackColor = true;
+        buttonUninstallOpenJones.Click += Gui_buttonUninstallOpenJones_Click;
         // 
         // buttonInstallOpenJones
         // 
@@ -99,6 +111,7 @@ partial class SettingsGui
         buttonInstallOpenJones.TabIndex = 2;
         buttonInstallOpenJones.Text = "Install";
         buttonInstallOpenJones.UseVisualStyleBackColor = true;
+        buttonInstallOpenJones.Click += Gui_buttonInstallOpenJones_Click;
         // 
         // comboBoxOpenJonesVersion
         // 
@@ -108,6 +121,7 @@ partial class SettingsGui
         comboBoxOpenJonesVersion.Name = "comboBoxOpenJonesVersion";
         comboBoxOpenJonesVersion.Size = new Size(151, 28);
         comboBoxOpenJonesVersion.TabIndex = 1;
+        comboBoxOpenJonesVersion.SelectedIndexChanged += Gui_comboBoxOpenJonesVersion_SelectedIndexChanged;
         // 
         // labelOpenJonesControls
         // 
@@ -122,7 +136,7 @@ partial class SettingsGui
         // 
         flowLayoutPanelCheckBoxes.Controls.Add(checkBoxLaunchOpenJones);
         flowLayoutPanelCheckBoxes.Controls.Add(checkBoxConvertCndToNdy);
-        flowLayoutPanelCheckBoxes.Location = new Point(3, 192);
+        flowLayoutPanelCheckBoxes.Location = new Point(3, 227);
         flowLayoutPanelCheckBoxes.Name = "flowLayoutPanelCheckBoxes";
         flowLayoutPanelCheckBoxes.Size = new Size(676, 60);
         flowLayoutPanelCheckBoxes.TabIndex = 5;
@@ -156,7 +170,7 @@ partial class SettingsGui
         flowLayoutPanelButtonPane.Controls.Add(buttonCancel);
         flowLayoutPanelButtonPane.Controls.Add(buttonApply);
         flowLayoutPanelButtonPane.FlowDirection = FlowDirection.RightToLeft;
-        flowLayoutPanelButtonPane.Location = new Point(3, 260);
+        flowLayoutPanelButtonPane.Location = new Point(3, 300);
         flowLayoutPanelButtonPane.Name = "flowLayoutPanelButtonPane";
         flowLayoutPanelButtonPane.Size = new Size(676, 41);
         flowLayoutPanelButtonPane.TabIndex = 4;
@@ -273,11 +287,11 @@ partial class SettingsGui
         AutoScaleDimensions = new SizeF(8F, 20F);
         AutoScaleMode = AutoScaleMode.Font;
         CancelButton = buttonCancel;
-        ClientSize = new Size(682, 313);
+        ClientSize = new Size(682, 353);
         Controls.Add(panelContentWrapper);
         MaximizeBox = false;
         MaximumSize = new Size(9999, 960);
-        MinimumSize = new Size(700, 350);
+        MinimumSize = new Size(700, 385);
         Name = "SettingsGui";
         Text = "Settings";
         Resize += Gui_window_Resize;
@@ -318,4 +332,5 @@ partial class SettingsGui
     private Button buttonUninstallOpenJones;
     private Button buttonInstallOpenJones;
     private CheckBox checkBoxLaunchOpenJones;
+    private ProgressBar progressBarOpenJonesInstallation;
 }

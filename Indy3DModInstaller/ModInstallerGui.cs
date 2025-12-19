@@ -25,6 +25,8 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
 
     private readonly Indy3DModInstaller _modInstaller;
 
+    private readonly OpenJonesInstaller _openJonesInstaller;
+
     private readonly Config _config;
     private bool _configChanged = false;
 
@@ -39,6 +41,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
 
         MessageWriter = new GuiMessageWriter(richTextFeedback);
         _modInstaller = new Indy3DModInstaller(MessageWriter);
+        _openJonesInstaller = new OpenJonesInstaller(MessageWriter);
 
         _buttonWidth = buttonUnpack.Width;
         _buttonHeight = buttonUnpack.Height;
@@ -265,7 +268,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
 
     private void Gui_buttonSettings_Click(object sender, EventArgs e)
     {
-        var settingsGui = new SettingsGui(_config);
+        var settingsGui = new SettingsGui(_config, _openJonesInstaller);
         _configChanged = true;
         settingsGui.ShowDialog();
     }
@@ -280,5 +283,18 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
 
     private async void Gui_window_Shown(object sender, EventArgs e)
     {
+        try
+        {
+            await _openJonesInstaller.InitializeOnlineResources();
+            MessageWriter.WriteLine("OpenJones3D installer initialized successfully.");
+        }
+        catch (Exception ex)
+        {
+            MessageWriter.WriteLine(ex.Message);
+        }
+        finally
+        {
+            MessageWriter.WriteLine("");
+        }
     }
 }
