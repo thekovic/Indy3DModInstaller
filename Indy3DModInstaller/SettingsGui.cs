@@ -85,13 +85,25 @@ public partial class SettingsGui : Form
         flowLayoutPanelButtonPane.Enabled = true;
     }
 
+    /// <summary>
+    /// Updates the items and selected value of the OpenJones3D version ComboBox to reflect the available builds and
+    /// current selection. Tries to select the version stored in the config if it is available.
+    /// </summary>
+    /// <remarks>This method refreshes the ComboBox's data source based on the current OpenJones3D directory and
+    /// selection. It temporarily detaches the SelectedIndexChanged event handler to prevent unintended event firing
+    /// during the update, then reattaches it after the operation completes. Call this method when the available
+    /// OpenJones3D builds may have changed.</remarks>
     private void UpdateOpenJonesVersionComboBox()
     {
+        // Bug fix: Changing DataSource triggers SelectedIndexChanged event, which was intended to only be triggered by user interacting with the ComboBox, so temporarily remove event handler.
+        comboBoxOpenJonesVersion.SelectedIndexChanged -= Gui_comboBoxOpenJonesVersion_SelectedIndexChanged!;
         comboBoxOpenJonesVersion.DataSource = _openJonesInstaller.GetBuildStrings(_modifiedConfig.OpenJonesDirPath);
         if (comboBoxOpenJonesVersion.Items.Contains(_modifiedConfig.OpenJonesSelectedVersion))
         {
             comboBoxOpenJonesVersion.SelectedItem = _modifiedConfig.OpenJonesSelectedVersion;
         }
+        // Re-add event handler.
+        comboBoxOpenJonesVersion.SelectedIndexChanged += Gui_comboBoxOpenJonesVersion_SelectedIndexChanged!;
     }
 
     private void UpdateOpenJonesInstallUninstallButtonState()
