@@ -42,7 +42,7 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
 
         if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
         {
-            throw new ArgumentException($"ERROR: Path doesn't lead to Resource folder. Cannot unpack game files.{Environment.NewLine}Please select path to Resource folder.");
+            throw new ArgumentException($"ERROR: Path {installPath} doesn't lead to Resource folder. Cannot unpack game files.{Environment.NewLine}Please select path to Resource folder in the Settings window.");
         }
 
         string jones3dPath = Path.Combine(installPath, JONES3D_GOB_FILE);
@@ -164,12 +164,12 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
     {
         if (installPath == null)
         {
-            throw new ArgumentNullException(nameof(installPath), $"ERROR: Path empty. Cannot install mod.{Environment.NewLine}Please select path to Resource folder.");
+            throw new ArgumentNullException(nameof(installPath), $"ERROR: Path empty. Cannot install mod.{Environment.NewLine}Please select path to Resource folder in the Settings window.");
         }
 
         if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
         {
-            throw new ArgumentException($"ERROR: Path doesn't lead to Resource folder. Cannot install mod.{Environment.NewLine}Please select path to Resource folder.");
+            throw new ArgumentException($"ERROR: Path {installPath} doesn't lead to Resource folder. Cannot install mod.{Environment.NewLine}Please select path to Resource folder in the Settings window.");
         }
 
         if (modPath == null)
@@ -199,12 +199,12 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
     {
         if (installPath == null)
         {
-            throw new ArgumentNullException(nameof(installPath), $"ERROR: Path empty. Cannot uninstall mods.{Environment.NewLine}Please select path to Resource folder.");
+            throw new ArgumentNullException(nameof(installPath), $"ERROR: Path empty. Cannot uninstall mods.{Environment.NewLine}Please select path to Resource folder in the Settings window.");
         }
 
         if (Path.GetFileName(installPath) != RESOURCE_FOLDER)
         {
-            throw new ArgumentException($"ERROR: Path doesn't lead to Resource folder. Cannot uninstall mods.{Environment.NewLine}Please select path to Resource folder.");
+            throw new ArgumentException($"ERROR: Path {installPath} doesn't lead to Resource folder. Cannot uninstall mods.{Environment.NewLine}Please select path to Resource folder in the Settings window.");
         }
 
         MessageWriter.WriteLine("Uninstalling mods, reverting to vanilla state from backups...");

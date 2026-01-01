@@ -15,6 +15,11 @@ internal class GameLauncher(IMessageWriter messageWriter) : IHasMessageWriter
                 throw new InvalidDataException($"ERROR: OpenJones3D directory path empty. Cannot launch OpenJones3D.{Environment.NewLine}Please select path to OpenJones3D directory in the Settings window.");
             }
 
+            if (!Directory.Exists(config.OpenJonesDirPath))
+            {
+                throw new DirectoryNotFoundException($"ERROR: OpenJones3D directory {config.OpenJonesDirPath} not found. Cannot launch OpenJones3D.{Environment.NewLine}Please select valid path to OpenJones3D directory in the Settings window.");
+            }
+
             if (config.OpenJonesSelectedVersion is null)
             {
                 throw new InvalidDataException($"ERROR: OpenJones3D version not selected. Cannot launch OpenJones.{Environment.NewLine}Please select OpenJones3D version in the Settings window.");
@@ -40,17 +45,17 @@ internal class GameLauncher(IMessageWriter messageWriter) : IHasMessageWriter
     {
         if (executablePath == null)
         {
-            throw new ArgumentNullException(nameof(executablePath), $"ERROR: Executable path empty. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
+            throw new ArgumentNullException(nameof(executablePath), $"ERROR: Executable path empty. Cannot launch game.");
         }
 
         if (!File.Exists(executablePath))
         {
-            throw new FileNotFoundException($"ERROR: Executable not found. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
+            throw new FileNotFoundException($"ERROR: Executable {executablePath} not found. Cannot launch game.");
         }
 
         if (File.GetAttributes(executablePath).HasFlag(FileAttributes.Directory))
         {
-            throw new ArgumentException($"ERROR: Executable path set to a directory. Cannot launch game.{Environment.NewLine}Please select path to game executable in Settings window.");
+            throw new ArgumentException($"ERROR: Executable path {executablePath} set to a directory. Cannot launch game.");
         }
 
         string executableDir = Path.GetDirectoryName(executablePath)!;

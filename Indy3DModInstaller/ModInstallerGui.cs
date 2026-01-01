@@ -291,6 +291,10 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
             await _openJonesInstaller.InitializeOnlineResources();
             MessageWriter.WriteLine("OpenJones3D installer initialized successfully.");
         }
+        catch (HttpRequestException httpEx)
+        {
+            MessageWriter.WriteLine($"WARNING: Failed to initialize OpenJones3D installer because remote resources could not be reached. {httpEx.Message} Try updating Indy3D Mod Installer.");
+        }
         catch (Exception ex)
         {
             MessageWriter.WriteLine(ex.Message);
