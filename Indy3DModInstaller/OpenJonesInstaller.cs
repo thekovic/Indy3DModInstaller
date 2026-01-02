@@ -5,13 +5,13 @@ using System.Text.Json;
 
 namespace Indy3DModInstaller;
 
-public class OpenJonesVersion(int major, int minor, int patch, string? build, string downloadUrl)
+public class OpenJonesVersion(int major, int minor, int patch, string? build, string? downloadUrl)
 {
     public int Major { get; } = major;
     public int Minor { get; } = minor;
     public int Patch { get; } = patch;
     public string? Build { get; } = build;
-    public string DownloadUrl { get; } = downloadUrl;
+    public string? DownloadUrl { get; } = downloadUrl;
 
     public override string ToString()
     {
@@ -22,6 +22,18 @@ public class OpenJonesVersion(int major, int minor, int patch, string? build, st
         }
 
         return buildString;
+    }
+
+    public static OpenJonesVersion FromString(string versionString)
+    {
+        // Example version strings: "1.2.3", "1.2.3-beta"
+        var versionParts = versionString.Split('-', 2);
+        var numberParts = versionParts[0].Split('.');
+        int major = int.Parse(numberParts[0]);
+        int minor = int.Parse(numberParts[1]);
+        int patch = int.Parse(numberParts[2]);
+        string? build = (versionParts.Length > 1) ? versionParts[1] : null;
+        return new OpenJonesVersion(major, minor, patch, build, null);
     }
 }
 
@@ -127,6 +139,17 @@ public class OpenJonesInstaller(IMessageWriter messageWriter) : IHasMessageWrite
         return !Directory.Exists(versionPath) && dbBuildStrings.Contains(versionString);
     }
 
+    public static bool IsVersionInstalled(string? openJonesDir, string? versionString)
+    {
+        if (openJonesDir is null || versionString is null)
+        {
+            return false;
+        }
+
+        string versionPath = Path.Combine(openJonesDir, versionString);
+        return Directory.Exists(versionPath);
+    }
+
     public async Task InstallVersion(string? executablePath, string? openJonesDir, string? versionString)
     {
         if (!IsInitialized)
@@ -158,6 +181,11 @@ public class OpenJonesInstaller(IMessageWriter messageWriter) : IHasMessageWrite
         if (versionInfo is null)
         {
             throw new ArgumentException($"Version '{versionString}' not found in the OpenJones3D version database. OpenJones3D installation cannot proceed.");
+        }
+
+        if (versionInfo.DownloadUrl is null)
+        {
+            throw new InvalidOperationException($"ERROR: Download URL for OpenJones3D version '{versionString}' not found. OpenJones3D installation cannot proceed.");
         }
 
         // Figure out if executablePath corresponds to Steam or GOG version so that we can patch it.

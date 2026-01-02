@@ -24,16 +24,27 @@ public class Config
     public bool ConvertCndToNdy {  get; set; }
 
     /// <summary>
+    /// Constructor for serialization. Do not *actually* use.
+    /// </summary>
+    public Config()
+    {
+        Version = CONFIG_SERIALIZATION_VERSION;
+    }
+
+    /// <summary>
     /// Initializes a new instance of the Config class with default values for configuration settings.
     /// </summary>
     /// <remarks>The default configuration sets the installation path based on the registry and appends the
     /// "Resource" subdirectory. The executable path is set to the original executable within this resource directory.
     /// The OpenJonesDirPath is initialized to a subdirectory named "OpenJones3D" in the current working directory. The
     /// ConvertCndToNdy property is set to false by default.</remarks>
-    public Config()
+    public Config(RegistryGameSettings registry)
     {
         this.Version = CONFIG_SERIALIZATION_VERSION;
-        this.InstallPath = Indy3DModInstaller.GetInstallPathFromRegistry();
+        this.OpenJonesDirPath = Path.Combine(Directory.GetCurrentDirectory(), "OpenJones3D");
+        this.LaunchOpenJones = false;
+        this.ConvertCndToNdy = false;
+        this.InstallPath = registry.InstallPath;
         // Append "Resource" to the install path from registry.
         if (this.InstallPath != null)
         {
@@ -42,8 +53,6 @@ public class Config
             // Set executable path to the original executable by default.
             this.ExecutablePath = Path.Combine(this.InstallPath, ORIGINAL_EXECUTABLE);
         }
-        this.OpenJonesDirPath = Path.Combine(Directory.GetCurrentDirectory(), "OpenJones3D");
-        this.ConvertCndToNdy = false;
     }
 
     /// <summary>
