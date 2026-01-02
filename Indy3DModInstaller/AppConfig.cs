@@ -2,7 +2,7 @@
 
 namespace Indy3DModInstaller;
 
-public class Config
+public class AppConfig
 {
     private const string CONFIG_FILE = "Indy3DModInstallerConfig.json";
     public const string ORIGINAL_EXECUTABLE = "Indy3D.exe";
@@ -26,19 +26,19 @@ public class Config
     /// <summary>
     /// Constructor for serialization. Do not *actually* use.
     /// </summary>
-    public Config()
+    public AppConfig()
     {
         Version = CONFIG_SERIALIZATION_VERSION;
     }
 
     /// <summary>
-    /// Initializes a new instance of the Config class with default values for configuration settings.
+    /// Initializes a new instance of the AppConfig class with default values for configuration settings.
     /// </summary>
     /// <remarks>The default configuration sets the installation path based on the registry and appends the
     /// "Resource" subdirectory. The executable path is set to the original executable within this resource directory.
     /// The OpenJonesDirPath is initialized to a subdirectory named "OpenJones3D" in the current working directory. The
     /// ConvertCndToNdy property is set to false by default.</remarks>
-    public Config(RegistryGameSettings registry)
+    public AppConfig(RegistryGameSettings registry)
     {
         this.Version = CONFIG_SERIALIZATION_VERSION;
         this.OpenJonesDirPath = Path.Combine(Directory.GetCurrentDirectory(), "OpenJones3D");
@@ -59,12 +59,12 @@ public class Config
     /// Copy constructor.
     /// </summary>
     /// <param name="config"></param>
-    public Config(Config config)
+    public AppConfig(AppConfig config)
     {
         this.UpdateWithValues(config);
     }
 
-    public void UpdateWithValues(Config config)
+    public void UpdateWithValues(AppConfig config)
     {
         this.Version = config.Version;
         this.InstallPath = config.InstallPath;
@@ -75,7 +75,7 @@ public class Config
         this.ConvertCndToNdy = config.ConvertCndToNdy;
     }
 
-    public static Config ReadConfig()
+    public static AppConfig ReadConfig()
     {
         if (!File.Exists(CONFIG_FILE))
         {
@@ -83,7 +83,7 @@ public class Config
         }
 
         string json = File.ReadAllText(CONFIG_FILE);
-        var config = JsonSerializer.Deserialize<Config>(json, JsonOptions);
+        var config = JsonSerializer.Deserialize<AppConfig>(json, JsonOptions);
         if (config == null)
         {
             throw new IOException("WARNING: Failed to read config file. Using default instead.");
@@ -104,7 +104,7 @@ public class Config
         return config;
     }
 
-    public static void SaveConfig(Config config)
+    public static void SaveConfig(AppConfig config)
     {
         string json = JsonSerializer.Serialize(config, JsonOptions);
         File.WriteAllText(CONFIG_FILE, json);

@@ -10,7 +10,7 @@
 public class AppState
 {
     public IMessageWriter MessageWriter { get; }
-    public Config CurrentConfig { get; }
+    public AppConfig CurrentConfig { get; }
     public Indy3DModInstaller ModInstaller { get; }
     public OpenJonesInstaller OpenJonesInstaller { get; }
     public GameLauncher GameLauncher { get; }
@@ -57,27 +57,27 @@ public class AppState
     {
         _instance = this;
         MessageWriter = messageWriter;
-        ModInstaller = new Indy3DModInstaller(messageWriter);
-        OpenJonesInstaller = new OpenJonesInstaller(messageWriter);
-        GameLauncher = new GameLauncher(messageWriter);
+        ModInstaller = new Indy3DModInstaller();
+        OpenJonesInstaller = new OpenJonesInstaller();
+        GameLauncher = new GameLauncher();
         _registryGameSettings = new RegistryGameSettings();
         CurrentConfig = InitConfig();
         _openJonesGameSettings = new OpenJonesGameSettings();
     }
 
-    private Config InitConfig()
+    private AppConfig InitConfig()
     {
-        Config config;
+        AppConfig config;
         try
         {
-            config = Config.ReadConfig();
+            config = AppConfig.ReadConfig();
             MessageWriter.WriteLine($"Config file loaded successfully.");
         }
         catch (Exception e)
         {
             MessageWriter.WriteLine(e.Message);
-            config = new Config(_registryGameSettings);
-            Config.SaveConfig(config);
+            config = new AppConfig(_registryGameSettings);
+            AppConfig.SaveConfig(config);
         }
 
         // Emit warning if config failed to find game's install path.

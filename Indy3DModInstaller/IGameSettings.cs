@@ -104,7 +104,7 @@ public class OpenJonesGameSettings : IGameSettings
     private static IMessageWriter MessageWriter { get => AppState.Instance.MessageWriter; }
 
     private const string OPENJONES_SETTINGS_FILE = "Jones.cfg";
-    private static Config Config { get => AppState.Instance.CurrentConfig; }
+    private static AppConfig Config { get => AppState.Instance.CurrentConfig; }
 
     private static JsonSerializerOptions JsonOptions { get; } = new JsonSerializerOptions
     {

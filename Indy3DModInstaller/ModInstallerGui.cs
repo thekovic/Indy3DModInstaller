@@ -2,7 +2,7 @@
 
 namespace Indy3DModInstaller;
 
-public partial class ModInstallerGui : Form, IHasMessageWriter
+public partial class ModInstallerGui : Form
 {
     /// <summary>
     /// Default margin value used for all the controls in the GUI. Used when calculating window size during resizing.
@@ -27,7 +27,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
 
     private bool _configChanged = false;
 
-    public IMessageWriter MessageWriter { get; }
+    private IMessageWriter MessageWriter { get; }
 
     public ModInstallerGui()
     {
@@ -267,9 +267,11 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
 
     private void Gui_buttonSettings_Click(object sender, EventArgs e)
     {
-        var settingsGui = new SettingsGui(App.CurrentConfig, App.OpenJonesInstaller);
+        var settingsGui = new SettingsGui();
         _configChanged = true;
+        // This is a blocking call until the Settings window is closed.
         settingsGui.ShowDialog();
+        // Update Dev Mode button text in case user selected different game version in the Settings.
         UpdateDevModeButtonText();
     }
 
@@ -277,7 +279,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
     {
         if (_configChanged)
         {
-            Config.SaveConfig(App.CurrentConfig);
+            AppConfig.SaveConfig(App.CurrentConfig);
         }
     }
 

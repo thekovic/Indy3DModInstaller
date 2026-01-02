@@ -11,19 +11,19 @@ public partial class SettingsGui : Form
     /// </summary>
     private const int MARGIN_DOUBLE = 2 * MARGIN_COMMON;
 
-    private readonly Config _originalConfig;
-    private readonly Config _modifiedConfig;
+    private readonly AppConfig _originalConfig;
+    private readonly AppConfig _modifiedConfig;
 
     private readonly OpenJonesInstaller _openJonesInstaller;
 
-    public SettingsGui(Config config, OpenJonesInstaller openJonesInstaller)
+    public SettingsGui()
     {
         this.InitializeComponent();
         this.ResizeGui();
 
-        _originalConfig = config;
-        _modifiedConfig = new Config(config);
-        _openJonesInstaller = openJonesInstaller;
+        _originalConfig = AppState.Instance.CurrentConfig;
+        _modifiedConfig = new AppConfig(_originalConfig);
+        _openJonesInstaller = AppState.Instance.OpenJonesInstaller;
 
         richTextBoxGamePath.Text = _modifiedConfig.InstallPath;
         richTextBoxOpenJonesDirPath.Text = _modifiedConfig.OpenJonesDirPath;
@@ -124,7 +124,7 @@ public partial class SettingsGui : Form
         {
             richTextBoxGamePath.Text = folderBrowserDialogGamePath.SelectedPath;
             _modifiedConfig.InstallPath = folderBrowserDialogGamePath.SelectedPath;
-            _modifiedConfig.ExecutablePath = Path.Combine(folderBrowserDialogGamePath.SelectedPath, Config.ORIGINAL_EXECUTABLE);
+            _modifiedConfig.ExecutablePath = Path.Combine(folderBrowserDialogGamePath.SelectedPath, AppConfig.ORIGINAL_EXECUTABLE);
         }
     }
 
@@ -166,7 +166,7 @@ public partial class SettingsGui : Form
     private void Gui_buttonApply_Click(object sender, EventArgs e)
     {
         _originalConfig.UpdateWithValues(_modifiedConfig);
-        Config.SaveConfig(_originalConfig);
+        AppConfig.SaveConfig(_originalConfig);
         this.Close();
     }
 
@@ -196,7 +196,7 @@ public partial class SettingsGui : Form
         }
         catch (Exception ex)
         {
-            _openJonesInstaller.MessageWriter.WriteLine(ex.Message);
+            AppState.Instance.MessageWriter.WriteLine(ex.Message);
         }
         finally
         {
@@ -215,7 +215,7 @@ public partial class SettingsGui : Form
         }
         catch (Exception ex)
         {
-            _openJonesInstaller.MessageWriter.WriteLine(ex.Message);
+            AppState.Instance.MessageWriter.WriteLine(ex.Message);
         }
         finally
         {

@@ -1,10 +1,5 @@
 ﻿namespace Indy3DModInstaller;
 
-public interface IHasMessageWriter
-{
-    public IMessageWriter MessageWriter { get; }
-}
-
 public interface IMessageWriter
 {
     public void WriteLine(string message);

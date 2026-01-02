@@ -1,6 +1,6 @@
 ﻿namespace Indy3DModInstaller;
 
-public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWriter
+public class Indy3DModInstaller
 {
     private static readonly string[] GAME_ASSET_FOLDER_NAMES = ["3do", "cog", "hi3do", "mat", "misc", "ndy", "sound"];
 
@@ -14,7 +14,7 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
     private const string CD2_GOB_FILE = "CD2.GOB";
     private const string CD2_GOB_BACKUP_FILE = $"{CD2_GOB_FILE}.BAK";
 
-    public IMessageWriter MessageWriter { get; } = messageWriter;
+    private static IMessageWriter MessageWriter { get => AppState.Instance.MessageWriter; }
 
     public void Unpack(string? installPath, bool convertCndToNdy)
     {

@@ -67,7 +67,7 @@ public class IndyPatch
     }
 }
 
-public class OpenJonesInstaller(IMessageWriter messageWriter) : IHasMessageWriter
+public class OpenJonesInstaller
 {
     private const string OPENJONES_VERSION_DB_URL = "https://raw.githubusercontent.com/thekovic/Indy3DModInstaller/refs/heads/main/OpenJonesVersionDatabase.json";
     private const string OPENJONES_STEAM_PATCH_URL = "https://github.com/thekovic/Indy3DModInstaller/raw/refs/heads/main/patches/SteamTo10.patch";
@@ -87,7 +87,7 @@ public class OpenJonesInstaller(IMessageWriter messageWriter) : IHasMessageWrite
 
     public bool IsInitialized => OpenJonesVersions is not null && SteamPatch is not null && GogPatch is not null;
 
-    public IMessageWriter MessageWriter { get; } = messageWriter;
+    private static IMessageWriter MessageWriter { get => AppState.Instance.MessageWriter; }
 
     public async Task InitializeOnlineResources()
     {

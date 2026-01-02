@@ -1,12 +1,12 @@
 ﻿namespace Indy3DModInstaller;
 
-public class GameLauncher(IMessageWriter messageWriter) : IHasMessageWriter
+public class GameLauncher
 {
     private const string OPENJONES_EXECUTABLE = "Jones3D.exe";
 
-    public IMessageWriter MessageWriter { get; } = messageWriter;
+    private static IMessageWriter MessageWriter { get => AppState.Instance.MessageWriter; }
 
-    public void LaunchGame(Config config)
+    public void LaunchGame(AppConfig config)
     {
         if (config.LaunchOpenJones)
         {
