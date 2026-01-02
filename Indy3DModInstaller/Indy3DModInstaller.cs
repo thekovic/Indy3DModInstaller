@@ -1,24 +1,7 @@
-﻿using Microsoft.Win32;
-using System.Diagnostics;
-
-namespace Indy3DModInstaller;
-
-public class Indy3DRegistryEntry(string gameVersionId, string registryKey)
-{
-    public string GameVersionId { get; set; } = gameVersionId;
-
-    public string RegistryKey { get; set; } = registryKey;
-}
+﻿namespace Indy3DModInstaller;
 
 public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWriter
 {
-    private static readonly Indy3DRegistryEntry[] REGISTRY_ENTRIES = [
-        new("Steam", "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
-        new("GOG", "HKEY_CURRENT_USER\\SOFTWARE\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
-        new("CD", "HKEY_LOCAL_MACHINE\\Software\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
-        new("CD (Unofficial Installer)", "HKEY_CURRENT_USER\\SOFTWARE\\Classes\\VirtualStore\\MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0")
-    ];
-
     private static readonly string[] GAME_ASSET_FOLDER_NAMES = ["3do", "cog", "hi3do", "mat", "misc", "ndy", "sound"];
 
     private const string RESOURCE_FOLDER = "Resource";
@@ -80,7 +63,7 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
         File.Move(cd2Path, cd2BackupPath);
 
         string[] cndFiles = Directory.GetFiles(Path.Combine(installPath, "ndy"), "*.cnd");
-        
+
         foreach (string cndFile in cndFiles)
         {
             if (convertCndToNdy)
@@ -113,51 +96,6 @@ public class Indy3DModInstaller(IMessageWriter messageWriter) : IHasMessageWrite
         }
 
         MessageWriter.WriteLine("Unpacking successfully finished.");
-    }
-
-    public static string? GetInstallPathFromRegistry()
-    {
-        foreach (var registryEntry in REGISTRY_ENTRIES)
-        {
-            object? registryKey = Registry.GetValue(registryEntry.RegistryKey, "Install Path", null);
-            if (registryKey == null)
-            {
-                continue;
-            }
-
-            Debug.WriteLine($"Install Path: Found entry for {registryEntry.GameVersionId} version.");
-            return (string) registryKey;
-        }
-
-        return null;
-    }
-
-    public void SetDevMode()
-    {
-        foreach (var registryEntry in REGISTRY_ENTRIES)
-        {
-            object? registryKey = Registry.GetValue(registryEntry.RegistryKey, "Start Mode", 42);
-            if (registryKey == null)
-            {
-                continue;
-            }
-
-            MessageWriter.WriteLine($"Dev Mode: Found entry for {registryEntry.GameVersionId} version.");
-            int startMode = (int) registryKey;
-            if (startMode != 2)
-            {
-                Registry.SetValue(registryEntry.RegistryKey, "Start Mode", 2, RegistryValueKind.DWord);
-                MessageWriter.WriteLine("Dev Mode for Indy3D.exe enabled.");
-            }
-            else
-            {
-                Registry.SetValue(registryEntry.RegistryKey, "Start Mode", 1, RegistryValueKind.DWord);
-                MessageWriter.WriteLine("Dev Mode was already enabled.");
-                MessageWriter.WriteLine("Dev Mode for Indy3D.exe disabled.");
-            }
-
-            return;
-        }
     }
 
     public void Install(string? installPath, string? modPath)

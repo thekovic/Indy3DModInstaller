@@ -23,13 +23,8 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
 
     private string? _modPath = null;
 
-    private readonly Indy3DModInstaller _modInstaller;
+    private AppState App { get; }
 
-    private readonly OpenJonesInstaller _openJonesInstaller;
-
-    private readonly GameLauncher _gameLauncher;
-
-    private readonly Config _config;
     private bool _configChanged = false;
 
     public IMessageWriter MessageWriter { get; }
@@ -39,36 +34,18 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
         this.InitializeComponent();
 
         var applicationVersion = FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion;
-        this.Text += $" v{applicationVersion}";
+        Text += $" v{applicationVersion}";
 
         MessageWriter = new GuiMessageWriter(richTextFeedback);
-        _modInstaller = new Indy3DModInstaller(MessageWriter);
-        _openJonesInstaller = new OpenJonesInstaller(MessageWriter);
-        _gameLauncher = new GameLauncher(MessageWriter);
+        App = new AppState(MessageWriter);
 
         _buttonWidth = buttonUnpack.Width;
         _buttonHeight = buttonUnpack.Height;
+
         this.ResizeGui();
         // Progress bar is moving by default so stop it.
         this.StopProgressBar();
-
-        try
-        {
-            _config = Config.ReadConfig();
-            MessageWriter.WriteLine($"Config file loaded successfully.");
-        }
-        catch (Exception e)
-        {
-            MessageWriter.WriteLine(e.Message);
-            _config = new Config();
-            _configChanged = true;
-        }
-
-        // Emit warning if Config failed to find game's install path.
-        if (_config.InstallPath == null)
-        {
-            MessageWriter.WriteLine("WARNING: Infernal Machine install path not found. Please, configure it by clicking the Settings button.");
-        }
+        UpdateDevModeButtonText();
     }
 
     private void ResizeGui()
@@ -136,6 +113,21 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
         buttonSettings.Enabled = false;
     }
 
+    private void UpdateDevModeButtonText()
+    {
+        try
+        {
+            var currentStartMode = App.GameSettings.StartMode;
+            buttonSetDevMode.Text = currentStartMode == IGameSettings.START_MODE_DEV_DIALOG
+                ? "Disable Dev Mode"
+                : "Enable Dev Mode";
+        }
+        catch (Exception ex)
+        {
+            MessageWriter.WriteLine(ex.Message);
+        }
+    }
+
     private void Gui_window_Resize(object sender, EventArgs e)
     {
         this.ResizeGui();
@@ -166,7 +158,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
             {
                 try
                 {
-                    _modInstaller.Unpack(_config.InstallPath, _config.ConvertCndToNdy);
+                    App.ModInstaller.Unpack(App.CurrentConfig.InstallPath, App.CurrentConfig.ConvertCndToNdy);
                 }
                 catch (Exception ex)
                 {
@@ -185,7 +177,11 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
     {
         try
         {
-            _modInstaller.SetDevMode();
+            var currentStartMode = App.GameSettings.StartMode;
+            App.GameSettings.StartMode = currentStartMode == IGameSettings.START_MODE_DEV_DIALOG
+                ? IGameSettings.START_MODE_LOAD_DIALOG
+                : IGameSettings.START_MODE_DEV_DIALOG;
+            UpdateDevModeButtonText();
         }
         catch (Exception ex)
         {
@@ -204,7 +200,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
             {
                 try
                 {
-                    _modInstaller.Install(_config.InstallPath, _modPath);
+                    App.ModInstaller.Install(App.CurrentConfig.InstallPath, _modPath);
                 }
                 catch (Exception ex)
                 {
@@ -230,7 +226,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
             {
                 try
                 {
-                    _modInstaller.Uninstall(_config.InstallPath);
+                    App.ModInstaller.Uninstall(App.CurrentConfig.InstallPath);
                 }
                 catch (Exception ex)
                 {
@@ -255,7 +251,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
             {
                 try
                 {
-                    _gameLauncher.LaunchGame(_config);
+                    App.GameLauncher.LaunchGame(App.CurrentConfig);
                 }
                 catch (Exception ex)
                 {
@@ -271,16 +267,17 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
 
     private void Gui_buttonSettings_Click(object sender, EventArgs e)
     {
-        var settingsGui = new SettingsGui(_config, _openJonesInstaller);
+        var settingsGui = new SettingsGui(App.CurrentConfig, App.OpenJonesInstaller);
         _configChanged = true;
         settingsGui.ShowDialog();
+        UpdateDevModeButtonText();
     }
 
     private void Gui_window_FormClosing(object sender, FormClosingEventArgs e)
     {
         if (_configChanged)
         {
-            Config.SaveConfig(_config);
+            Config.SaveConfig(App.CurrentConfig);
         }
     }
 
@@ -288,7 +285,7 @@ public partial class ModInstallerGui : Form, IHasMessageWriter
     {
         try
         {
-            await _openJonesInstaller.InitializeOnlineResources();
+            await App.OpenJonesInstaller.InitializeOnlineResources();
             MessageWriter.WriteLine("OpenJones3D installer initialized successfully.");
         }
         catch (HttpRequestException httpEx)
