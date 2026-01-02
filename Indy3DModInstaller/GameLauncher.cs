@@ -1,6 +1,6 @@
 ﻿namespace Indy3DModInstaller;
 
-internal class GameLauncher(IMessageWriter messageWriter) : IHasMessageWriter
+public class GameLauncher(IMessageWriter messageWriter) : IHasMessageWriter
 {
     private const string OPENJONES_EXECUTABLE = "Jones3D.exe";
 
