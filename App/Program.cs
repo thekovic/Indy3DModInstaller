@@ -5,9 +5,7 @@ internal static class Program
     [STAThread]
     public static void Main()
     {
-        Application.EnableVisualStyles();
-        Application.SetCompatibleTextRenderingDefault(false);
-        Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        ApplicationConfiguration.Initialize();
 
         var gui = new ModInstallerGui();
         Application.Run(gui);
