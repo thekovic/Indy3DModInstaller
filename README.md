@@ -1,8 +1,12 @@
-# Prerequisites
+# Indy3D Mod Installer
+
+Graphical tool for modifying your installation of Indiana Jones and the Infernal Machine. 
+
+## Prerequisites
 
 - .NET 10.0 runtime (if you don't have it already, you should get a pop-up when you open `Indy3DModInstaller.exe` that will offer to install it automatically).
 
-# Documentation
+## Documentation
 
 Download the latest version on the [Releases](https://github.com/thekovic/Indy3DModInstaller/releases/latest) page. Extract the downloaded archive anywhere and run `Indy3DModInstaller.exe`.
 
