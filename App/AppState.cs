@@ -21,16 +21,11 @@ public class AppState
         get
         {
             // For OpenJones3D versions 0.4 and above, use OpenJonesGameSettings if configured to launch OpenJones and version is installed.
-            if (CurrentConfig.LaunchOpenJones && CurrentConfig.OpenJonesDirPath is not null && CurrentConfig.OpenJonesSelectedVersion is not null)
+            bool isInstalled = OpenJonesInstaller.IsVersionInstalled(CurrentConfig.OpenJonesDirPath, CurrentConfig.OpenJonesSelectedVersion);
+            bool isLegacy = OpenJonesInstaller.IsVersionLegacy(CurrentConfig.OpenJonesSelectedVersion);
+            if (CurrentConfig.LaunchOpenJones && isInstalled && !isLegacy)
             {
-                var openJonesVersion = OpenJonesVersion.FromString(CurrentConfig.OpenJonesSelectedVersion);
-                bool isInstalled = OpenJonesInstaller.IsVersionInstalled(
-                    CurrentConfig.OpenJonesDirPath,
-                    CurrentConfig.OpenJonesSelectedVersion);
-                if (isInstalled && openJonesVersion != null &&  openJonesVersion.Minor >= 4)
-                {
-                    return _openJonesGameSettings;
-                }
+                return _openJonesGameSettings;
             }
 
             return _registryGameSettings;
@@ -39,7 +34,7 @@ public class AppState
 
     private static AppState? _instance;
 
-    public static AppState Instance 
+    public static AppState Instance
     {
         get
         {

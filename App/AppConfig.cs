@@ -21,7 +21,7 @@ public class AppConfig
     public string? OpenJonesDirPath { get; set; }
     public string? OpenJonesSelectedVersion { get; set; }
     public bool LaunchOpenJones { get; set; }
-    public bool ConvertCndToNdy {  get; set; }
+    public bool ConvertCndToNdy { get; set; }
 
     /// <summary>
     /// Constructor for serialization. Do not *actually* use.

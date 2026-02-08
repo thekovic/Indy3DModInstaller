@@ -150,6 +150,30 @@ public class OpenJonesInstaller
         return Directory.Exists(versionPath);
     }
 
+    /// <summary>
+    /// Determines whether the selected OpenJones version should be treated like the original engine.
+    /// </summary>
+    /// <remarks>This method can be used to enable legacy behavior for OpenJones when a version is not
+    /// specified or when compatibility with earlier minor versions is required.</remarks>
+    /// <returns>true if no OpenJones version is selected or if the selected version is older than 0.4.0;
+    /// otherwise, false.</returns>
+    public static bool IsVersionLegacy(string? versionString)
+    {
+        // Use legacy behavior if OpenJones version is not selected or failed to parse.
+        if (versionString == null)
+        {
+            return true;
+        }
+
+        var openJonesVersion = OpenJonesVersion.FromString(versionString);
+        if (openJonesVersion == null || openJonesVersion.Minor < 4)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public async Task InstallVersion(string? executablePath, string? openJonesDir, string? versionString)
     {
         if (!IsInitialized)
