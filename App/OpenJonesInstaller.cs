@@ -115,7 +115,7 @@ public class OpenJonesInstaller
         var installedVersionStrings = (Directory.Exists(openJonesDir))
             ? Directory.GetDirectories(openJonesDir).Select(dir => Path.GetFileName(dir)!).ToList()
             : [];
-        var combinedVersionStrings = dbVersionStrings.Union(installedVersionStrings).OrderBy(s => s).ToList();
+        var combinedVersionStrings = dbVersionStrings.Union(installedVersionStrings).OrderBy(s => s).Reverse().ToList();
         return combinedVersionStrings;
     }
 
