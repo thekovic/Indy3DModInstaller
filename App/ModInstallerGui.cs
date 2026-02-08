@@ -154,17 +154,11 @@ public partial class ModInstallerGui : Form
 
         try
         {
-            await Task.Run(() =>
-            {
-                try
-                {
-                    App.ModInstaller.Unpack(App.CurrentConfig.InstallPath, App.CurrentConfig.ConvertCndToNdy);
-                }
-                catch (Exception ex)
-                {
-                    MessageWriter.WriteLine(ex.Message);
-                }
-            });
+            await App.ModInstaller.Unpack(App.CurrentConfig.InstallPath, App.CurrentConfig.ConvertCndToNdy);
+        }
+        catch (Exception ex)
+        {
+            MessageWriter.WriteLine(ex.Message);
         }
         finally
         {

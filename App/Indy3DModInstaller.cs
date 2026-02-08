@@ -16,7 +16,7 @@ public class Indy3DModInstaller
 
     private static IMessageWriter MessageWriter { get => AppState.Instance.MessageWriter; }
 
-    public void Unpack(string? installPath, bool convertCndToNdy)
+    public async Task Unpack(string? installPath, bool convertCndToNdy)
     {
         if (installPath == null)
         {
@@ -94,6 +94,9 @@ public class Indy3DModInstaller
         {
             OsUtils.CopyDirectoryContent(cogBackupPath, cogPath);
         }
+
+        // TODO: Move installing dgVoodoo2 to the mod selection dialog when it's implemented (making it optional).
+        await DgVoodooInstaller.InstallDgVoodoo(installPath);
 
         MessageWriter.WriteLine("Unpacking successfully finished.");
     }

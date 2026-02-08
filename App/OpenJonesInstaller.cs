@@ -232,23 +232,24 @@ public class OpenJonesInstaller
         ApplyPatch(tmpDestExecutablePath, usedPatch, destExecutablePath);
         File.Delete(tmpDestExecutablePath);
 
-
         using var httpClient = new HttpClient();
-
-        // Download and save the dgVoodoo2 configuration file.
-        using var configStream = await httpClient.GetStreamAsync(OPENJONES_DGVOODOO2_CONFIG_URL);
-        using var configFile = File.Create(Path.Combine(versionPath, "dgVoodoo.conf"));
-        await configStream.CopyToAsync(configFile);
 
         // Download and extract the OpenJones3D build
         MessageWriter.WriteLine($"Downloading OpenJones3D version '{versionString}' from '{versionInfo.DownloadUrl}'...");
         var archiveData = await httpClient.GetByteArrayAsync(versionInfo.DownloadUrl);
+
         using var archiveStream = new MemoryStream(archiveData);
         using var archive = new ZipArchive(archiveStream);
         MessageWriter.WriteLine($"Installing OpenJones3D version '{versionString}' to '{versionPath}'...");
         archive.ExtractToDirectory(versionPath);
 
-        MessageWriter.WriteLine($"OpenJones3D version '{versionString}' installed.");
+        MessageWriter.WriteLine($"OpenJones3D version '{versionString}' successfully installed.");
+
+        // Download and install dgVoodoo2 to the OpenJones version directory if version is legacy (meaning it only has DirectX 6 renderer).
+        if (IsVersionLegacy(versionString))
+        {
+            await DgVoodooInstaller.InstallDgVoodoo(versionPath);
+        }
     }
 
     private static bool IsHashMatchingPatch(string executablePath, IndyPatch patch)
