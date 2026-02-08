@@ -69,10 +69,9 @@ public class IndyPatch
 
 public class OpenJonesInstaller
 {
-    private const string OPENJONES_VERSION_DB_URL = "https://raw.githubusercontent.com/thekovic/Indy3DModInstaller/refs/heads/main/OpenJonesVersionDatabase.json";
-    private const string OPENJONES_STEAM_PATCH_URL = "https://github.com/thekovic/Indy3DModInstaller/raw/refs/heads/main/patches/SteamTo10.patch";
-    private const string OPENJONES_GOG_PATCH_URL = "https://github.com/thekovic/Indy3DModInstaller/raw/refs/heads/main/patches/GogTo10.patch";
-    private const string OPENJONES_DGVOODOO2_CONFIG_URL = "https://raw.githubusercontent.com/thekovic/Indy3DModInstaller/refs/heads/main/patches/dgVoodoo.conf";
+    private const string OPENJONES_VERSION_DB_URL = "https://raw.githubusercontent.com/thekovic/Indy3DModInstaller/refs/heads/main/Data/OpenJonesVersionDatabase.json";
+    private const string OPENJONES_STEAM_PATCH_URL = "https://github.com/thekovic/Indy3DModInstaller/raw/refs/heads/main/Data/SteamTo10.patch";
+    private const string OPENJONES_GOG_PATCH_URL = "https://github.com/thekovic/Indy3DModInstaller/raw/refs/heads/main/Data/GogTo10.patch";
 
     private static JsonSerializerOptions JsonOptions { get; } = new JsonSerializerOptions
     {

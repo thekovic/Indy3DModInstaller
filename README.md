@@ -19,7 +19,7 @@ Download the latest version on the [Releases](https://github.com/thekovic/Indy3D
 5. Enable or disable Dev Mode for Indy3D.exe by clicking on `Toggle Dev Mode`.
 6. Run the game by clicking on `Launch Game`.
 
-![Image showing the main window of Indy3D Mod Installer](images/usage1.png)
+![Image showing the main window of Indy3D Mod Installer](Data/usage1.png)
 
 ### Settings window:
 
@@ -30,4 +30,4 @@ Download the latest version on the [Releases](https://github.com/thekovic/Indy3D
 5. Check the `Convert .CND level files to .NDY format upon unpacking` to do exactly that when you click the `Unpack Game Files` button in the main window. This is required if you wish to install any mods that modify the levels from the original campaign (including custom assets).
 6. Click the `Apply` button to save your changes to the configuration file or click `Cancel` to discard them.
 
-![Image showing the Settings window of Indy3D Mod Installer](images/usage2.png)
+![Image showing the Settings window of Indy3D Mod Installer](Data/usage2.png)
