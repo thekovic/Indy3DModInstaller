@@ -69,16 +69,18 @@ partial class SettingsGui
         panelContentWrapper.Controls.Add(panelGamePath);
         panelContentWrapper.Dock = DockStyle.Fill;
         panelContentWrapper.Location = new Point(0, 0);
+        panelContentWrapper.Margin = new Padding(3, 2, 3, 2);
         panelContentWrapper.Name = "panelContentWrapper";
-        panelContentWrapper.Size = new Size(682, 353);
+        panelContentWrapper.Size = new Size(598, 265);
         panelContentWrapper.TabIndex = 0;
         // 
         // progressBarOpenJonesInstallation
         // 
-        progressBarOpenJonesInstallation.Location = new Point(3, 192);
+        progressBarOpenJonesInstallation.Location = new Point(3, 144);
+        progressBarOpenJonesInstallation.Margin = new Padding(3, 2, 3, 2);
         progressBarOpenJonesInstallation.MarqueeAnimationSpeed = 30;
         progressBarOpenJonesInstallation.Name = "progressBarOpenJonesInstallation";
-        progressBarOpenJonesInstallation.Size = new Size(676, 29);
+        progressBarOpenJonesInstallation.Size = new Size(592, 22);
         progressBarOpenJonesInstallation.Style = ProgressBarStyle.Marquee;
         progressBarOpenJonesInstallation.TabIndex = 0;
         // 
@@ -88,16 +90,18 @@ partial class SettingsGui
         panelOpenJonesControls.Controls.Add(buttonInstallOpenJones);
         panelOpenJonesControls.Controls.Add(comboBoxOpenJonesVersion);
         panelOpenJonesControls.Controls.Add(labelOpenJonesControls);
-        panelOpenJonesControls.Location = new Point(3, 145);
+        panelOpenJonesControls.Location = new Point(3, 109);
+        panelOpenJonesControls.Margin = new Padding(3, 2, 3, 2);
         panelOpenJonesControls.Name = "panelOpenJonesControls";
-        panelOpenJonesControls.Size = new Size(676, 41);
+        panelOpenJonesControls.Size = new Size(592, 31);
         panelOpenJonesControls.TabIndex = 6;
         // 
         // buttonUninstallOpenJones
         // 
-        buttonUninstallOpenJones.Location = new Point(579, 3);
+        buttonUninstallOpenJones.Location = new Point(507, 2);
+        buttonUninstallOpenJones.Margin = new Padding(3, 2, 3, 2);
         buttonUninstallOpenJones.Name = "buttonUninstallOpenJones";
-        buttonUninstallOpenJones.Size = new Size(94, 35);
+        buttonUninstallOpenJones.Size = new Size(82, 26);
         buttonUninstallOpenJones.TabIndex = 3;
         buttonUninstallOpenJones.Text = "Uninstall";
         buttonUninstallOpenJones.UseVisualStyleBackColor = true;
@@ -105,9 +109,10 @@ partial class SettingsGui
         // 
         // buttonInstallOpenJones
         // 
-        buttonInstallOpenJones.Location = new Point(479, 3);
+        buttonInstallOpenJones.Location = new Point(419, 2);
+        buttonInstallOpenJones.Margin = new Padding(3, 2, 3, 2);
         buttonInstallOpenJones.Name = "buttonInstallOpenJones";
-        buttonInstallOpenJones.Size = new Size(94, 35);
+        buttonInstallOpenJones.Size = new Size(82, 26);
         buttonInstallOpenJones.TabIndex = 2;
         buttonInstallOpenJones.Text = "Install";
         buttonInstallOpenJones.UseVisualStyleBackColor = true;
@@ -117,18 +122,19 @@ partial class SettingsGui
         // 
         comboBoxOpenJonesVersion.DropDownStyle = ComboBoxStyle.DropDownList;
         comboBoxOpenJonesVersion.FormattingEnabled = true;
-        comboBoxOpenJonesVersion.Location = new Point(207, 7);
+        comboBoxOpenJonesVersion.Location = new Point(181, 5);
+        comboBoxOpenJonesVersion.Margin = new Padding(3, 2, 3, 2);
         comboBoxOpenJonesVersion.Name = "comboBoxOpenJonesVersion";
-        comboBoxOpenJonesVersion.Size = new Size(151, 28);
+        comboBoxOpenJonesVersion.Size = new Size(133, 23);
         comboBoxOpenJonesVersion.TabIndex = 1;
         comboBoxOpenJonesVersion.SelectedIndexChanged += Gui_comboBoxOpenJonesVersion_SelectedIndexChanged;
         // 
         // labelOpenJonesControls
         // 
         labelOpenJonesControls.AutoSize = true;
-        labelOpenJonesControls.Location = new Point(3, 10);
+        labelOpenJonesControls.Location = new Point(3, 8);
         labelOpenJonesControls.Name = "labelOpenJonesControls";
-        labelOpenJonesControls.Size = new Size(198, 20);
+        labelOpenJonesControls.Size = new Size(157, 15);
         labelOpenJonesControls.TabIndex = 0;
         labelOpenJonesControls.Text = "Select OpenJones3D version:";
         // 
@@ -136,18 +142,19 @@ partial class SettingsGui
         // 
         flowLayoutPanelCheckBoxes.Controls.Add(checkBoxLaunchOpenJones);
         flowLayoutPanelCheckBoxes.Controls.Add(checkBoxConvertCndToNdy);
-        flowLayoutPanelCheckBoxes.Location = new Point(3, 227);
+        flowLayoutPanelCheckBoxes.Location = new Point(3, 170);
+        flowLayoutPanelCheckBoxes.Margin = new Padding(3, 2, 3, 2);
         flowLayoutPanelCheckBoxes.Name = "flowLayoutPanelCheckBoxes";
-        flowLayoutPanelCheckBoxes.Size = new Size(676, 60);
+        flowLayoutPanelCheckBoxes.Size = new Size(592, 45);
         flowLayoutPanelCheckBoxes.TabIndex = 5;
         // 
         // checkBoxLaunchOpenJones
         // 
         checkBoxLaunchOpenJones.AutoSize = true;
-        checkBoxLaunchOpenJones.Location = new Point(6, 3);
-        checkBoxLaunchOpenJones.Margin = new Padding(6, 3, 3, 3);
+        checkBoxLaunchOpenJones.Location = new Point(5, 2);
+        checkBoxLaunchOpenJones.Margin = new Padding(5, 2, 3, 2);
         checkBoxLaunchOpenJones.Name = "checkBoxLaunchOpenJones";
-        checkBoxLaunchOpenJones.Size = new Size(371, 24);
+        checkBoxLaunchOpenJones.Size = new Size(297, 19);
         checkBoxLaunchOpenJones.TabIndex = 0;
         checkBoxLaunchOpenJones.Text = "Launch OpenJones3D instead of the original engine";
         checkBoxLaunchOpenJones.UseVisualStyleBackColor = true;
@@ -156,12 +163,12 @@ partial class SettingsGui
         // checkBoxConvertCndToNdy
         // 
         checkBoxConvertCndToNdy.AutoSize = true;
-        checkBoxConvertCndToNdy.Location = new Point(6, 33);
-        checkBoxConvertCndToNdy.Margin = new Padding(6, 3, 3, 3);
+        checkBoxConvertCndToNdy.Location = new Point(5, 25);
+        checkBoxConvertCndToNdy.Margin = new Padding(5, 2, 3, 2);
         checkBoxConvertCndToNdy.Name = "checkBoxConvertCndToNdy";
-        checkBoxConvertCndToNdy.Size = new Size(400, 24);
+        checkBoxConvertCndToNdy.Size = new Size(330, 19);
         checkBoxConvertCndToNdy.TabIndex = 0;
-        checkBoxConvertCndToNdy.Text = "Convert .CND level files to .NDY format upon unpacking";
+        checkBoxConvertCndToNdy.Text = "Convert .CND level files to .NDY format during unpacking";
         checkBoxConvertCndToNdy.UseVisualStyleBackColor = true;
         checkBoxConvertCndToNdy.CheckedChanged += Gui_checkBoxConvertCndToNdy_CheckedChanged;
         // 
@@ -171,16 +178,18 @@ partial class SettingsGui
         flowLayoutPanelButtonPane.Controls.Add(buttonCancel);
         flowLayoutPanelButtonPane.Controls.Add(buttonApply);
         flowLayoutPanelButtonPane.FlowDirection = FlowDirection.RightToLeft;
-        flowLayoutPanelButtonPane.Location = new Point(3, 300);
+        flowLayoutPanelButtonPane.Location = new Point(3, 225);
+        flowLayoutPanelButtonPane.Margin = new Padding(3, 2, 3, 2);
         flowLayoutPanelButtonPane.Name = "flowLayoutPanelButtonPane";
-        flowLayoutPanelButtonPane.Size = new Size(676, 41);
+        flowLayoutPanelButtonPane.Size = new Size(592, 31);
         flowLayoutPanelButtonPane.TabIndex = 4;
         // 
         // buttonCancel
         // 
-        buttonCancel.Location = new Point(579, 3);
+        buttonCancel.Location = new Point(507, 2);
+        buttonCancel.Margin = new Padding(3, 2, 3, 2);
         buttonCancel.Name = "buttonCancel";
-        buttonCancel.Size = new Size(94, 35);
+        buttonCancel.Size = new Size(82, 26);
         buttonCancel.TabIndex = 1;
         buttonCancel.Text = "Cancel";
         buttonCancel.UseVisualStyleBackColor = true;
@@ -188,9 +197,10 @@ partial class SettingsGui
         // 
         // buttonApply
         // 
-        buttonApply.Location = new Point(479, 3);
+        buttonApply.Location = new Point(419, 2);
+        buttonApply.Margin = new Padding(3, 2, 3, 2);
         buttonApply.Name = "buttonApply";
-        buttonApply.Size = new Size(94, 35);
+        buttonApply.Size = new Size(82, 26);
         buttonApply.TabIndex = 0;
         buttonApply.Text = "Apply";
         buttonApply.UseVisualStyleBackColor = true;
@@ -201,17 +211,19 @@ partial class SettingsGui
         panelOpenJonesDirPath.Controls.Add(buttonBrowseOpenJonesDirPath);
         panelOpenJonesDirPath.Controls.Add(richTextBoxOpenJonesDirPath);
         panelOpenJonesDirPath.Controls.Add(labelOpenJonesDirPath);
-        panelOpenJonesDirPath.Location = new Point(3, 74);
+        panelOpenJonesDirPath.Location = new Point(3, 56);
+        panelOpenJonesDirPath.Margin = new Padding(3, 2, 3, 2);
         panelOpenJonesDirPath.Name = "panelOpenJonesDirPath";
-        panelOpenJonesDirPath.Size = new Size(676, 65);
+        panelOpenJonesDirPath.Size = new Size(592, 49);
         panelOpenJonesDirPath.TabIndex = 3;
         // 
         // buttonBrowseOpenJonesDirPath
         // 
         buttonBrowseOpenJonesDirPath.AutoSize = true;
-        buttonBrowseOpenJonesDirPath.Location = new Point(589, 23);
+        buttonBrowseOpenJonesDirPath.Location = new Point(515, 17);
+        buttonBrowseOpenJonesDirPath.Margin = new Padding(3, 2, 3, 2);
         buttonBrowseOpenJonesDirPath.Name = "buttonBrowseOpenJonesDirPath";
-        buttonBrowseOpenJonesDirPath.Size = new Size(84, 35);
+        buttonBrowseOpenJonesDirPath.Size = new Size(74, 26);
         buttonBrowseOpenJonesDirPath.TabIndex = 0;
         buttonBrowseOpenJonesDirPath.Text = "Browse...";
         buttonBrowseOpenJonesDirPath.UseVisualStyleBackColor = true;
@@ -219,10 +231,11 @@ partial class SettingsGui
         // 
         // richTextBoxOpenJonesDirPath
         // 
-        richTextBoxOpenJonesDirPath.Location = new Point(3, 23);
+        richTextBoxOpenJonesDirPath.Location = new Point(3, 17);
+        richTextBoxOpenJonesDirPath.Margin = new Padding(3, 2, 3, 2);
         richTextBoxOpenJonesDirPath.Name = "richTextBoxOpenJonesDirPath";
         richTextBoxOpenJonesDirPath.ScrollBars = RichTextBoxScrollBars.None;
-        richTextBoxOpenJonesDirPath.Size = new Size(580, 35);
+        richTextBoxOpenJonesDirPath.Size = new Size(508, 27);
         richTextBoxOpenJonesDirPath.TabIndex = 1;
         richTextBoxOpenJonesDirPath.Text = "";
         richTextBoxOpenJonesDirPath.WordWrap = false;
@@ -233,7 +246,7 @@ partial class SettingsGui
         labelOpenJonesDirPath.AutoSize = true;
         labelOpenJonesDirPath.Location = new Point(0, 0);
         labelOpenJonesDirPath.Name = "labelOpenJonesDirPath";
-        labelOpenJonesDirPath.Size = new Size(320, 20);
+        labelOpenJonesDirPath.Size = new Size(252, 15);
         labelOpenJonesDirPath.TabIndex = 3;
         labelOpenJonesDirPath.Text = "Select path to OpenJones3D installation folder:";
         // 
@@ -242,17 +255,19 @@ partial class SettingsGui
         panelGamePath.Controls.Add(buttonBrowseGamePath);
         panelGamePath.Controls.Add(richTextBoxGamePath);
         panelGamePath.Controls.Add(labelGamePath);
-        panelGamePath.Location = new Point(3, 3);
+        panelGamePath.Location = new Point(3, 2);
+        panelGamePath.Margin = new Padding(3, 2, 3, 2);
         panelGamePath.Name = "panelGamePath";
-        panelGamePath.Size = new Size(676, 65);
+        panelGamePath.Size = new Size(592, 49);
         panelGamePath.TabIndex = 2;
         // 
         // buttonBrowseGamePath
         // 
         buttonBrowseGamePath.AutoSize = true;
-        buttonBrowseGamePath.Location = new Point(589, 23);
+        buttonBrowseGamePath.Location = new Point(515, 17);
+        buttonBrowseGamePath.Margin = new Padding(3, 2, 3, 2);
         buttonBrowseGamePath.Name = "buttonBrowseGamePath";
-        buttonBrowseGamePath.Size = new Size(84, 35);
+        buttonBrowseGamePath.Size = new Size(74, 26);
         buttonBrowseGamePath.TabIndex = 0;
         buttonBrowseGamePath.Text = "Browse...";
         buttonBrowseGamePath.UseVisualStyleBackColor = true;
@@ -260,10 +275,11 @@ partial class SettingsGui
         // 
         // richTextBoxGamePath
         // 
-        richTextBoxGamePath.Location = new Point(3, 23);
+        richTextBoxGamePath.Location = new Point(3, 17);
+        richTextBoxGamePath.Margin = new Padding(3, 2, 3, 2);
         richTextBoxGamePath.Name = "richTextBoxGamePath";
         richTextBoxGamePath.ScrollBars = RichTextBoxScrollBars.None;
-        richTextBoxGamePath.Size = new Size(580, 35);
+        richTextBoxGamePath.Size = new Size(508, 27);
         richTextBoxGamePath.TabIndex = 1;
         richTextBoxGamePath.Text = "";
         richTextBoxGamePath.WordWrap = false;
@@ -274,7 +290,7 @@ partial class SettingsGui
         labelGamePath.AutoSize = true;
         labelGamePath.Location = new Point(0, 0);
         labelGamePath.Name = "labelGamePath";
-        labelGamePath.Size = new Size(452, 20);
+        labelGamePath.Size = new Size(360, 15);
         labelGamePath.TabIndex = 3;
         labelGamePath.Text = "Select path to Resource folder in your Infernal Machine installation:";
         // 
@@ -285,14 +301,15 @@ partial class SettingsGui
         // SettingsGui
         // 
         AcceptButton = buttonApply;
-        AutoScaleDimensions = new SizeF(8F, 20F);
+        AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         CancelButton = buttonCancel;
-        ClientSize = new Size(682, 353);
+        ClientSize = new Size(598, 265);
         Controls.Add(panelContentWrapper);
+        Margin = new Padding(3, 2, 3, 2);
         MaximizeBox = false;
-        MaximumSize = new Size(9999, 960);
-        MinimumSize = new Size(700, 385);
+        MaximumSize = new Size(8751, 730);
+        MinimumSize = new Size(614, 299);
         Name = "SettingsGui";
         Text = "Settings";
         Resize += Gui_window_Resize;
