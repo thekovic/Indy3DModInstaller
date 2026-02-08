@@ -86,6 +86,8 @@ public class RegistryGameSettings : IGameSettings
 
                 bool isDevMode = value == IGameSettings.START_MODE_DEV_DIALOG;
                 Registry.SetValue(registryEntry.RegistryKey, "Start Mode", value, RegistryValueKind.DWord);
+                // Force disable "Dev Mode" (the checkbox in the dev dialog launcher) which tends to be on by default for some reason and breaks levels in .NDY format, confusing users who don't know about it. Power users who need it for the level editor can just check the box manually.
+                Registry.SetValue(registryEntry.RegistryKey, "DevMode", 0, RegistryValueKind.DWord);
                 if (isDevMode)
                 {
                     MessageWriter.WriteLine("Dev Mode for Indy3D.exe enabled.");
@@ -186,6 +188,9 @@ public class OpenJonesGameSettings : IGameSettings
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), $"ERROR: Invalid StartMode value {value} for OpenJones3D settings.");
             }
+
+            // Force disable "Dev Mode" (the checkbox in the dev dialog launcher) which tends to be on by default for some reason and breaks levels in .NDY format, confusing users who don't know about it. Power users who need it for the level editor can just check the box manually.
+            root["devMode"] = "false";
 
             File.WriteAllText(_cachedSettingsPath!, root.ToJsonString(JsonOptions));
         }
