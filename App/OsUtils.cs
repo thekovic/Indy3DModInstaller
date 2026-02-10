@@ -72,7 +72,7 @@ internal static class OsUtils
 
             if (process.ExitCode != 0)
             {
-                throw new SpawnedProcessErrorException($"Subprocess error message:{Environment.NewLine}{sbStderr}{Environment.NewLine}Subprocess {process.StartInfo.FileName} failed during execution with exit code {process.ExitCode}.{Environment.NewLine}");
+                throw new SpawnedProcessErrorException($"Subprocess error message:{Environment.NewLine}{sbStderr}{Environment.NewLine}Subprocess {process.StartInfo.FileName} failed during execution with exit code 0x{process.ExitCode:X}.{Environment.NewLine}");
             }
         }
     }
