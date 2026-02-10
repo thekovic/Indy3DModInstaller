@@ -167,19 +167,34 @@ public partial class ModInstallerGui : Form
         }
     }
 
-    private void Gui_buttonSetDevMode_Click(object sender, EventArgs e)
+    private async void Gui_buttonSetDevMode_Click(object sender, EventArgs e)
     {
+        StartProgressBar();
+        DisableButtons();
+
         try
         {
-            var currentStartMode = App.GameSettings.StartMode;
-            App.GameSettings.StartMode = currentStartMode == IGameSettings.START_MODE_DEV_DIALOG
-                ? IGameSettings.START_MODE_LOAD_DIALOG
-                : IGameSettings.START_MODE_DEV_DIALOG;
-            UpdateDevModeButtonText();
+            
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var currentStartMode = App.GameSettings.StartMode;
+                    App.GameSettings.StartMode = currentStartMode == IGameSettings.START_MODE_DEV_DIALOG
+                        ? IGameSettings.START_MODE_LOAD_DIALOG
+                        : IGameSettings.START_MODE_DEV_DIALOG;
+                    UpdateDevModeButtonText();
+                }
+                catch (Exception ex)
+                {
+                    MessageWriter.WriteLine(ex.Message);
+                }
+            });
         }
-        catch (Exception ex)
+        finally
         {
-            MessageWriter.WriteLine(ex.Message);
+            StopProgressBar();
+            EnableButtons();
         }
     }
 
