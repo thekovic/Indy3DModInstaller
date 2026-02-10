@@ -25,8 +25,9 @@ public class RegistryGameSettings : IGameSettings
     private static IMessageWriter MessageWriter { get => AppState.Instance.MessageWriter; }
 
     private static readonly Indy3DRegistryEntry[] REGISTRY_ENTRIES = [
-        // Entry for Steam version set during installation. Requires admin mode to access which means changes will affect the game only if the game is launched via our launcher.
-        new("Steam", "HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
+        // Steam version doesn't have modern application manifest so ends up getting virtualized to the VirtualStore registry key.
+        new("Steam", "HKEY_CURRENT_USER\\Software\\Classes\\VirtualStore\\MACHINE\\SOFTWARE\\WOW6432Node\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0"),
+        // GOG version is properly registered in the registry without virtualization.
         new("GOG", "HKEY_CURRENT_USER\\SOFTWARE\\LucasArts Entertainment Company LLC\\Indiana Jones and the Infernal Machine\\v1.0")
     ];
 
