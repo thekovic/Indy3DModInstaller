@@ -6,9 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationManifest>Resources\app.manifest</ApplicationManifest>
     <ApplicationIcon>Resources\Indy3DModInstaller.ico</ApplicationIcon>
-    <Version>2.3.1</Version>
+    <Version>2.3.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
