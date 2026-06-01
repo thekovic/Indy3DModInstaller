@@ -5,5 +5,33 @@
     "Patch": 0,
     "Build": null,
     "DownloadUrl": "https://github.com/smlu/OpenJones3D/releases/download/v0.3.0/oj3d-0.3.0.zip"
+  },
+  {
+    "Major": 0,
+    "Minor": 4,
+    "Patch": 0,
+    "Build": "1hp",
+    "DownloadUrl": "https://github.com/thekovic/OpenJones3D/releases/download/v0.4.0-prerelease/0.4.0-1hp.zip"
+  },
+  {
+    "Major": 0,
+    "Minor": 4,
+    "Patch": 0,
+    "Build": "dev",
+    "DownloadUrl": "https://github.com/thekovic/OpenJones3D/releases/download/v0.4.0-prerelease/0.4.0-dev.zip"
+  },
+  {
+    "Major": 0,
+    "Minor": 4,
+    "Patch": 0,
+    "Build": "gl",
+    "DownloadUrl": "https://github.com/thekovic/OpenJones3D/releases/download/v0.4.0-prerelease/0.4.0-gl.zip"
+  },
+  {
+    "Major": 0,
+    "Minor": 4,
+    "Patch": 0,
+    "Build": "mirrored",
+    "DownloadUrl": "https://github.com/thekovic/OpenJones3D/releases/download/v0.4.0-prerelease/0.4.0-mirrored.zip"
   }
 ]
