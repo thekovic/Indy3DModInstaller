@@ -124,23 +124,7 @@ public class OpenJonesGameSettings : IGameSettings
     {
         get
         {
-            string currentSettingsPath = Path.Combine(
-                Config.OpenJonesDirPath!,
-                Config.OpenJonesSelectedVersion!,
-                OPENJONES_SETTINGS_FILE
-            );
-
-            if (_cachedJsonRoot is null || _cachedSettingsPath is null || _cachedSettingsPath != currentSettingsPath)
-            {
-                _cachedSettingsPath = currentSettingsPath;
-                if (!File.Exists(_cachedSettingsPath))
-                {
-                    throw new FileNotFoundException($"ERROR: OpenJones3D settings file {_cachedSettingsPath} not found. Cannot read game settings.");
-                }
-
-                var jsonText = File.ReadAllText(_cachedSettingsPath);
-                _cachedJsonRoot = JsonNode.Parse(jsonText);
-            }
+            Refresh();
 
             if (_cachedJsonRoot is null)
             {
@@ -148,6 +132,28 @@ public class OpenJonesGameSettings : IGameSettings
             }
 
             return _cachedJsonRoot;
+        }
+    }
+
+    public void Refresh()
+    {
+        string currentSettingsPath = Path.Combine(
+                Config.OpenJonesDirPath!,
+                Config.OpenJonesSelectedVersion!,
+                OPENJONES_SETTINGS_FILE
+        );
+
+        if (_cachedJsonRoot is null || _cachedSettingsPath is null || _cachedSettingsPath != currentSettingsPath)
+        {
+            _cachedSettingsPath = currentSettingsPath;
+            if (!File.Exists(_cachedSettingsPath))
+            {
+                throw new FileNotFoundException($"ERROR: OpenJones3D settings file {_cachedSettingsPath} not found. Cannot read game settings.");
+            }
+
+            var jsonText = File.ReadAllText(_cachedSettingsPath);
+            _cachedJsonRoot = JsonNode.Parse(jsonText);
+            MessageWriter.WriteLine($"OpenJones3D settings loaded from {_cachedSettingsPath}.");
         }
     }
 
