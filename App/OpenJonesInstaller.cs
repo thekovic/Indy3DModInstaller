@@ -1,4 +1,4 @@
-﻿using System.IO.Compression;
+using System.IO.Compression;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text.Json;
@@ -72,6 +72,7 @@ public class OpenJonesInstaller
     private const string OPENJONES_VERSION_DB_URL = "https://raw.githubusercontent.com/thekovic/Indy3DModInstaller/refs/heads/main/Data/OpenJonesVersionDatabase.json";
     private const string OPENJONES_STEAM_PATCH_URL = "https://github.com/thekovic/Indy3DModInstaller/raw/refs/heads/main/Data/SteamTo10.patch";
     private const string OPENJONES_GOG_PATCH_URL = "https://github.com/thekovic/Indy3DModInstaller/raw/refs/heads/main/Data/GogTo10.patch";
+    private const string OPENJONES_ORIGINAL_EXE_PATCH_URL = "https://github.com/thekovic/Indy3DModInstaller/raw/refs/heads/main/Data/OriginalExe.patch";
 
     private static JsonSerializerOptions JsonOptions { get; } = new JsonSerializerOptions
     {
@@ -83,8 +84,9 @@ public class OpenJonesInstaller
     private List<OpenJonesVersion>? OpenJonesVersions { get; set; }
     private IndyPatch? SteamPatch { get; set; }
     private IndyPatch? GogPatch { get; set; }
+    private IndyPatch? OriginalExePatch { get; set; }
 
-    public bool IsInitialized => OpenJonesVersions is not null && SteamPatch is not null && GogPatch is not null;
+    public bool IsInitialized => OpenJonesVersions is not null && SteamPatch is not null && GogPatch is not null && OriginalExePatch is not null;
 
     private static IMessageWriter MessageWriter { get => AppState.Instance.MessageWriter; }
 
@@ -100,10 +102,12 @@ public class OpenJonesInstaller
 
         byte[] steamPatch = await httpClient.GetByteArrayAsync(OPENJONES_STEAM_PATCH_URL);
         byte[] gogPatch = await httpClient.GetByteArrayAsync(OPENJONES_GOG_PATCH_URL);
+        byte[] originalExePatch = await httpClient.GetByteArrayAsync(OPENJONES_ORIGINAL_EXE_PATCH_URL);
 
         OpenJonesVersions = openJonesVersions;
         SteamPatch = new IndyPatch(steamPatch);
         GogPatch = new IndyPatch(gogPatch);
+        OriginalExePatch = new IndyPatch(originalExePatch);
     }
 
     public List<string> GetBuildStrings(string? openJonesDir)
@@ -211,26 +215,35 @@ public class OpenJonesInstaller
             throw new InvalidOperationException($"ERROR: Download URL for OpenJones3D version '{versionString}' not found. OpenJones3D installation cannot proceed.");
         }
 
+        // Check if executablePath is already a version 1.0 EXE.
+        bool isOriginalExe = IsHashMatchingPatch(executablePath, OriginalExePatch!);
         // Figure out if executablePath corresponds to Steam or GOG version so that we can patch it.
         bool isSteamVersion = IsHashMatchingPatch(executablePath, SteamPatch!);
         bool isGogVersion = IsHashMatchingPatch(executablePath, GogPatch!);
-        if (!isSteamVersion && !isGogVersion)
+        if (!isOriginalExe && !isSteamVersion && !isGogVersion)
         {
             throw new InvalidOperationException("ERROR: The original game executable does not match known Steam or GOG versions. OpenJones3D installation cannot proceed.");
         }
-
-        var usedPatch = isSteamVersion ? SteamPatch! : GogPatch!;
 
         // Create root OpenJones directory and the directory for the specific OpenJones version.
         string versionPath = Path.Combine(openJonesDir, versionString);
         Directory.CreateDirectory(versionPath);
 
-        // Copy the original executable to the OpenJones version directory and patch it.
         string destExecutablePath = Path.Combine(versionPath, Path.GetFileName(executablePath));
-        string tmpDestExecutablePath = destExecutablePath + ".tmp";
-        File.Copy(executablePath, tmpDestExecutablePath, overwrite: true);
-        ApplyPatch(tmpDestExecutablePath, usedPatch, destExecutablePath);
-        File.Delete(tmpDestExecutablePath);
+        // If the source already is 1.0 version, we can just copy it to the OpenJones version directory.
+        if (isOriginalExe)
+        {
+            File.Copy(executablePath, destExecutablePath, overwrite: true);
+        }
+        // Otherwise, we need to also patch it after copying.
+        else
+        {
+            var usedPatch = isSteamVersion ? SteamPatch! : GogPatch!;
+            string tmpDestExecutablePath = destExecutablePath + ".tmp";
+            File.Copy(executablePath, tmpDestExecutablePath, overwrite: true);
+            ApplyPatch(tmpDestExecutablePath, usedPatch, destExecutablePath);
+            File.Delete(tmpDestExecutablePath);
+        }
 
         using var httpClient = new HttpClient();
 
